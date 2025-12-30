@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tarek Masryo — AI/ML Engineer building decision-ready ML & GenAI systems." />
+  
+<meta name="robots" content="index,follow" />
+<meta name="theme-color" content="#0b1020" />
+
+<link rel="icon" href="assets/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+<link rel="manifest" href="site.webmanifest" />
+
+<!-- Social preview (update  after publish) -->
+<link rel="canonical" href="https://tarekmasryo.github.io/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Tarek Masryo — AI/ML Engineer" />
+<meta property="og:description" content="Decision-ready ML & GenAI systems: dashboards, pipelines, deployable services." />
+<meta property="og:url" content="https://tarekmasryo.github.io/" />
+<meta property="og:image" content="https://tarekmasryo.github.io/assets/icon-512.png" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Tarek Masryo — AI/ML Engineer" />
+<meta name="twitter:description" content="Decision-ready ML & GenAI systems: dashboards, pipelines, deployable services." />
+<meta name="twitter:image" content="https://tarekmasryo.github.io/assets/icon-512.png" />
+<title>Tarek Masryo — AI/ML Engineer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <nav aria-label="Primary">
+    <div class="nav" id="navBar" role="navigation">
+      <div class="brand" title="TM">TM</div>
+      <div class="navlinks" id="navLinks">
+        <a href="#home" class="active">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#tech">Tech</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="home" class="hero">
+    <div class="container hero-inner">
+      <div class="kaggle-badges fade">
+        <span class="pill">🏆 Kaggle Datasets Master</span>
+        <span class="pill">⭐ Kaggle Notebooks Expert</span>
+      </div>
+
+      <h1 class="name fade">Tarek Masryo</h1>
+      <div class="role fade">AI/ML Engineer • MLOps • GenAI / RAG</div>
+
+      <p class="tagline fade">
+        Building decision-ready ML &amp; GenAI systems that improve operations, reduce risk, and accelerate workflows.
+      </p>
+
+      <div class="cta fade">
+        <a class="btn primary" href="#projects">Explore Projects</a>
+        <a class="btn" href="#contact">Get In Touch</a>
+      </div>
+    </div>
+  </main>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="title">About Me</h2>
+        <p class="subtitle">Production-ready ML &amp; GenAI systems, shipped end to end</p>
+      </div>
+
+      <div class="about-wrap">
+        <div class="card about-card fade">
+          <p>Hi, I'm Tarek Masryo — an AI/ML engineer who builds production-ready ML and GenAI systems that improve decisions, reduce operational risk, and accelerate workflows.</p>
+          <p>Python-first with a strong CS foundation (C/C++), I deliver end-to-end products: data pipelines, robust models, and decision-support dashboards/APIs that turn analytics into action, built to be maintainable, reproducible, and easy to run beyond notebooks.</p>
+          <p>My work spans NLP and Computer Vision, alongside grounded LLM applications (retrieval + tool use) designed for real-world constraints and evaluated for quality, latency, and cost.</p>
+          <p>I publish and maintain projects on GitHub, Kaggle, and Hugging Face — showcasing practical systems thinking from data and modeling through deployment and monitoring.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="what">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="title">What I Do</h2>
+        <p class="subtitle">Core work areas with a production mindset</p>
+      </div>
+
+      <div class="grid2">
+        <div class="card feature">
+          <div class="i">🛠️</div>
+          <h3>ML Pipelines</h3>
+          <p>Clean data → features → training → evaluation → inference-ready packaging with reproducibility at the core.</p>
+        </div>
+        <div class="card feature">
+          <div class="i">📊</div>
+          <h3>Decision Dashboards</h3>
+          <p>KPI-first UX, drill-down analytics, and decision-focused insights with Streamlit and interactive visualizations.</p>
+        </div>
+        <div class="card feature">
+          <div class="i">🤖</div>
+          <h3>GenAI / RAG</h3>
+          <p>Structured outputs, validation, lightweight safety, and evaluation-friendly logs for production systems.</p>
+        </div>
+        <div class="card feature">
+          <div class="i">🚀</div>
+          <h3>MLOps</h3>
+          <p>Reproducibility, CI-friendly workflows, artifact management, and deployable services with FastAPI &amp; Docker.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="title">Featured Projects</h2>
+        <p class="subtitle">Selected work across different domains</p>
+      </div>
+
+      <div class="filters" role="tablist" aria-label="Project categories">
+        <button class="fbtn active" data-cat="all" type="button">All</button>
+        <button class="fbtn" data-cat="healthcare" type="button">Healthcare</button>
+        <button class="fbtn" data-cat="finance" type="button">Finance &amp; Risk</button>
+        <button class="fbtn" data-cat="social" type="button">Social</button>
+        <button class="fbtn" data-cat="genai" type="button">GenAI &amp; Tools</button>
+        <button class="fbtn" data-cat="analytics" type="button">Analytics</button>
+      </div>
+
+      <div class="grid3" id="projectsGrid"></div>
+    </div>
+  </section>
+
+  <section id="tech">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="title">Tech Stack</h2>
+        <p class="subtitle">What I use to build, ship, and operate production ML/GenAI systems</p>
+      </div>
+
+      <div class="tech-grid">
+        <div class="card tech fade">
+          <h3>Languages &amp; Core</h3>
+          <div class="stack">
+            <div class="item">Python</div>
+            <div class="item">C/C++</div>
+            <div class="item">SQL</div>
+            <div class="item">JavaScript</div>
+            <div class="item">Linux / Git / Bash</div>
+          </div>
+        </div>
+
+        <div class="card tech fade">
+          <h3>Data &amp; Analytics</h3>
+          <div class="stack">
+            <div class="item">NumPy / Pandas</div>
+            <div class="item">Polars / DuckDB</div>
+            <div class="item">Jupyter</div>
+            <div class="item">Google Colab</div>
+          </div>
+        </div>
+
+        <div class="card tech fade">
+          <h3>ML / Deep Learning</h3>
+          <div class="stack">
+            <div class="item">scikit-learn</div>
+            <div class="item">PyTorch</div>
+            <div class="item">TensorFlow</div>
+            <div class="item">XGBoost</div>
+            <div class="item">LightGBM</div>
+          </div>
+        </div>
+
+        <div class="card tech fade">
+          <h3>GenAI / RAG</h3>
+          <div class="stack">
+            <div class="item">Transformers</div>
+            <div class="item">LangChain</div>
+            <div class="item">LlamaIndex</div>
+            <div class="item">RAG Evaluation (RAGAS / DeepEval)</div>
+            <div class="item">Tool Calling</div>
+          </div>
+        </div>
+
+        <div class="card tech fade">
+          <h3>Vector &amp; Databases</h3>
+          <div class="stack">
+            <div class="item">FAISS / Chroma</div>
+            <div class="item">Pinecone / Weaviate</div>
+            <div class="item">PostgreSQL</div>
+            <div class="item">MongoDB</div>
+            <div class="item">Redis / SQLite</div>
+          </div>
+        </div>
+
+        <div class="card tech fade">
+          <h3>Production APIs</h3>
+          <div class="stack">
+            <div class="item">FastAPI</div>
+            <div class="item">Pydantic</div>
+            <div class="item">Uvicorn</div>
+            <div class="item">Gunicorn</div>
+          </div>
+        </div>
+
+        <div class="card tech fade">
+          <h3>MLOps &amp; CI</h3>
+          <div class="stack">
+            <div class="item">Docker</div>
+            <div class="item">GitHub Actions</div>
+            <div class="item">MLflow</div>
+            <div class="item">Weights &amp; Biases</div>
+          </div>
+        </div>
+
+        <div class="card tech fade">
+          <h3>Quality &amp; Tooling</h3>
+          <div class="stack">
+            <div class="item">pytest</div>
+            <div class="item">Ruff</div>
+            <div class="item">pre-commit</div>
+            <div class="item">mypy / pyright</div>
+          </div>
+        </div>
+
+        <div class="card tech fade">
+          <h3>Observability</h3>
+          <div class="stack">
+            <div class="item">OpenTelemetry</div>
+            <div class="item">Prometheus</div>
+            <div class="item">Grafana</div>
+            <div class="item">Sentry</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="title">Get In Touch</h2>
+        <p class="subtitle">Open to AI/ML Engineer roles focused on production ML, MLOps, and reliable GenAI/RAG.</p>
+      </div>
+
+      <div class="contact-grid">
+        <a class="card contact fade" href="https://www.linkedin.com/in/tarek-masryo/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <h4>LinkedIn</h4>
+          <p>Connect</p>
+        </a>
+        <a class="card contact fade" href="https://github.com/tarekmasryo" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <h4>GitHub</h4>
+          <p>Repositories</p>
+        </a>
+        <a class="card contact fade" href="https://www.kaggle.com/tarekmasryo" target="_blank" rel="noopener noreferrer" aria-label="Kaggle">
+          <h4>Kaggle</h4>
+          <p>Datasets</p>
+        </a>
+        <a class="card contact fade" href="https://huggingface.co/tarekmasryo" target="_blank" rel="noopener noreferrer" aria-label="Hugging Face">
+          <h4>Hugging Face</h4>
+          <p>Models</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <p class="copy">© 2025 Tarek Masryo — AI/ML Engineer</p>
+      <a class="xlink" href="https://x.com/TarekMasryo" target="_blank" rel="noopener noreferrer" aria-label="X">X</a>
+    </div>
+  </footer>
+
+  <button class="topbtn" id="topBtn" type="button" aria-label="Scroll to top" title="Scroll to top">↑</button>
+</body>
+</html>
