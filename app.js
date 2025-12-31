@@ -2,7 +2,8 @@
   const CONFIG = Object.freeze({
     assetsDir: "assets",
     imageExtensions: ["png", "jpg", "jpeg", "webp"],
-    revealThreshold: 0.12
+    revealThreshold: 0.12,
+    projectLimit: 12
   });
 
   const PROJECTS = [
@@ -167,6 +168,12 @@
 
   function PortfolioApp() {
     this.grid = $("projectsGrid");
+    this.projectsMeta = $("projectsMeta");
+    this.projectsToggle = $("projectsToggle");
+
+    this.currentCat = "all";
+    this.showAll = false;
+
     this.scrollProgress = $("scrollProgress");
     this.topBtn = $("topBtn");
     this.navBar = $("navBar");
@@ -177,9 +184,30 @@
 
   PortfolioApp.prototype.renderProjects = function (cat) {
     const items = cat === "all" ? PROJECTS : PROJECTS.filter((p) => p.cat === cat);
+    const total = items.length;
+    const limit = CONFIG.projectLimit || 12;
+    const visible = this.showAll ? items : items.slice(0, limit);
 
     this.grid.innerHTML = "";
-    items.forEach((p) => this.grid.appendChild(createProjectCard(p)));
+    visible.forEach((p) => this.grid.appendChild(createProjectCard(p)));
+
+    if (this.projectsMeta) {
+      if (total <= limit) {
+        this.projectsMeta.textContent = total + " project" + (total === 1 ? "" : "s");
+      } else {
+        this.projectsMeta.textContent = "Showing " + visible.length + " of " + total + " projects";
+      }
+    }
+
+    if (this.projectsToggle) {
+      if (total <= limit) {
+        this.projectsToggle.style.display = "none";
+      } else {
+        this.projectsToggle.style.display = "inline-flex";
+        this.projectsToggle.textContent = this.showAll ? "Show Less" : "View All Projects";
+        this.projectsToggle.setAttribute("aria-expanded", this.showAll ? "true" : "false");
+      }
+    }
 
     observeAllFade(this.revealObserver);
   };
@@ -190,8 +218,19 @@
       b.addEventListener("click", () => {
         btns.forEach((x) => x.classList.remove("active"));
         b.classList.add("active");
-        this.renderProjects(b.dataset.cat || "all");
+
+        this.currentCat = b.dataset.cat || "all";
+        this.showAll = false;
+        this.renderProjects(this.currentCat);
       });
+    });
+  };
+
+  PortfolioApp.prototype.bindProjectsToggle = function () {
+    if (!this.projectsToggle) return;
+    this.projectsToggle.addEventListener("click", () => {
+      this.showAll = !this.showAll;
+      this.renderProjects(this.currentCat);
     });
   };
 
@@ -233,10 +272,14 @@
   };
 
   PortfolioApp.prototype.init = function () {
-    this.renderProjects("all");
+    this.currentCat = "all";
+    this.showAll = false;
+
+    this.renderProjects(this.currentCat);
     observeAllFade(this.revealObserver);
 
     this.bindFilters();
+    this.bindProjectsToggle();
     this.bindScroll();
     this.bindTopButton();
     this.bindSmoothAnchors();

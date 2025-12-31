@@ -17,6 +17,6 @@ pnpm-debug.log*
 .env
 .env.*
 
-# Build artifacts 
+# Build artifacts
 dist/
 .cache/
