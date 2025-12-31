@@ -1,10 +1,10 @@
 :root{
   --bg0:#05060f;
-  --card:rgba(15,15,30,.50);
+  --card:rgba(15,15,30,.58);
   --stroke:rgba(79,140,255,.22);
   --txt:rgba(255,255,255,.92);
   --muted:rgba(255,255,255,.70);
-  --muted2:rgba(255,255,255,.55);
+  --muted2:rgba(255,255,255,.62);
   --primary:#4f8cff;
   --accent:#ff4d8d;
   --cyan:#22d3ee;
@@ -206,6 +206,18 @@ nav{
   transform:translateY(-2px);
   box-shadow:0 14px 32px rgba(79,140,255,.14);
 }
+.hero-avatar{
+  width:160px;
+  height:160px;
+  border-radius:999px;
+  object-fit:cover;
+  display:block;
+  margin:0 auto 14px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(79,140,255,.34);
+  box-shadow:0 18px 44px rgba(0,0,0,.34), 0 0 30px rgba(79,140,255,.16);
+}
+
 .name{
   font-family:"Space Grotesk";
   font-weight:900;
@@ -225,7 +237,7 @@ nav{
   50%{background-position:100% 50%;filter:brightness(1.05)}
 }
 .role{color:rgba(255,255,255,.78);font-size:1.18rem;font-weight:650;margin-bottom:10px;letter-spacing:.4px}
-.tagline{color:rgba(255,255,255,.74);font-size:1.10rem;max-width:900px;margin:0 auto 28px;line-height:1.85}
+.tagline{color:rgba(255,255,255,.80);font-size:1.10rem;max-width:900px;margin:0 auto 28px;line-height:1.85}
 
 .cta{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:16px}
 .btn{
@@ -241,6 +253,7 @@ nav{
   overflow:hidden;
   box-shadow:0 10px 26px rgba(0,0,0,.24);
 }
+button.btn{cursor:pointer;font:inherit;-webkit-appearance:none;appearance:none}
 .btn::before{
   content:"";
   position:absolute;
@@ -284,7 +297,26 @@ nav{
 #about .container{max-width:980px}
 .about-wrap{display:grid;grid-template-columns:1fr;gap:20px;max-width:720px;margin:26px auto 0}
 .about-card{padding:30px}
-.about-card p{margin:0 0 16px;color:rgba(255,255,255,.74);line-height:1.95;font-size:1.08rem}
+.about-lead{
+  margin:0 0 18px;
+  color:rgba(255,255,255,.86);
+  line-height:1.85;
+  font-size:1.08rem;
+  font-weight:650;
+}
+.about-points{
+  margin:0;
+  padding-left:18px;
+  display:grid;
+  gap:10px;
+}
+.about-points li{
+  color:rgba(255,255,255,.78);
+  line-height:1.75;
+  font-size:1.04rem;
+}
+.about-points strong{color:rgba(255,255,255,.94)}
+.about-card p{margin:0 0 16px;color:rgba(255,255,255,.80);line-height:1.95;font-size:1.08rem}
 .about-card p:last-child{margin-bottom:0}
 
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:38px}
@@ -327,6 +359,22 @@ nav{
 }
 
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+
+.projects-meta{
+  margin-top:18px;
+  text-align:center;
+  color:rgba(255,255,255,.66);
+  font-weight:700;
+  letter-spacing:.2px;
+}
+.projects-actions{
+  margin-top:18px;
+  display:flex;
+  justify-content:center;
+}
+.projects-actions .btn{
+  padding:12px 22px;
+}
 .p-card{overflow:hidden;cursor:pointer;position:relative}
 .p-card:hover{
   transform:translateY(-9px);
@@ -513,6 +561,7 @@ footer{
   section{padding:84px 0}
 }
 @media (max-width: 520px){
+  .hero-avatar{width:136px;height:136px;margin-bottom:12px}
   .contact-grid{grid-template-columns:1fr}
   .tech-grid{grid-template-columns:1fr}
   section{padding:82px 0}

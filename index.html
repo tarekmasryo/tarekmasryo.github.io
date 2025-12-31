@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Tarek Masryo — AI/ML Engineer building decision-ready ML & GenAI systems." />
-  
+
 <meta name="robots" content="index,follow" />
 <meta name="theme-color" content="#0b1020" />
 
@@ -14,7 +14,6 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
 <link rel="manifest" href="site.webmanifest" />
 
-<!-- Social preview (update  after publish) -->
 <link rel="canonical" href="https://tarekmasryo.github.io/" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Tarek Masryo — AI/ML Engineer" />
@@ -60,6 +59,8 @@
         <span class="pill">⭐ Kaggle Notebooks Expert</span>
       </div>
 
+      <img class="hero-avatar fade" src="assets/profile-image.png" width="160" height="160" alt="Tarek Masryo — profile photo" decoding="async" fetchpriority="high" />
+
       <h1 class="name fade">Tarek Masryo</h1>
       <div class="role fade">AI/ML Engineer • MLOps • GenAI / RAG</div>
 
@@ -83,10 +84,13 @@
 
       <div class="about-wrap">
         <div class="card about-card fade">
-          <p>Hi, I'm Tarek Masryo — an AI/ML engineer who builds production-ready ML and GenAI systems that improve decisions, reduce operational risk, and accelerate workflows.</p>
-          <p>Python-first with a strong CS foundation (C/C++), I deliver end-to-end products: data pipelines, robust models, and decision-support dashboards/APIs that turn analytics into action, built to be maintainable, reproducible, and easy to run beyond notebooks.</p>
-          <p>My work spans NLP and Computer Vision, alongside grounded LLM applications (retrieval + tool use) designed for real-world constraints and evaluated for quality, latency, and cost.</p>
-          <p>I publish and maintain projects on GitHub, Kaggle, and Hugging Face — showcasing practical systems thinking from data and modeling through deployment and monitoring.</p>
+          <p class="about-lead">AI/ML Engineer building decision-ready ML &amp; GenAI systems — dashboards, pipelines, and deployable services.</p>
+          <ul class="about-points">
+            <li><strong>Production mindset:</strong> evaluation, calibration, thresholding, cost/latency constraints, and monitoring signals.</li>
+            <li><strong>End-to-end delivery:</strong> data validation → modeling → packaging → FastAPI/Docker deployment.</li>
+            <li><strong>GenAI/RAG:</strong> retrieval design, structured outputs, validation, retries/fallbacks, and evaluation logs.</li>
+            <li><strong>Public work:</strong> reproducible projects &amp; datasets across GitHub, Kaggle, and Hugging Face.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -141,6 +145,11 @@
       </div>
 
       <div class="grid3" id="projectsGrid"></div>
+
+      <div class="projects-meta" id="projectsMeta" aria-live="polite"></div>
+      <div class="projects-actions">
+        <button class="btn" id="projectsToggle" type="button" aria-expanded="false">View All Projects</button>
+      </div>
     </div>
   </section>
 
