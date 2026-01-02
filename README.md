@@ -9,30 +9,39 @@ Static portfolio website (HTML/CSS/JS) showcasing production-minded **ML** & **G
 ## Local run
 
 ### Option A (recommended): Python
+
+From the repo root:
+
 ```bash
 python -m http.server 8000
 ```
 
-Then open:
+Open:
+
 - http://localhost:8000
 
 ### Option B: Node tooling (optional)
+
 Install dev tooling:
+
 ```bash
 npm install
 ```
 
 Lint:
+
 ```bash
 npm run lint
 ```
 
 Format:
+
 ```bash
 npm run format
 ```
 
 Serve locally:
+
 ```bash
 npm run start
 ```
@@ -49,6 +58,7 @@ This repository is configured as a **User GitHub Pages site**:
 4. **Folder:** `/(root)`
 
 The site is served at:
+
 - https://tarekmasryo.github.io/
 
 ---
@@ -57,7 +67,7 @@ The site is served at:
 
 - `index.html` — main page
 - `styles.css` — styling
-- `app.js` — client-side logic (use `type="module"` in HTML if using `import/export`)
+- `app.js` — client-side logic
 - `assets/` — images + icons (**must be committed**)
 - `site.webmanifest` — PWA metadata + app icons
 - `robots.txt` — crawler rules
@@ -67,13 +77,19 @@ The site is served at:
 
 ## Notes
 
-- Do **not** add `assets/` to `.gitignore` (otherwise icons/images won’t load on Pages).
-- If you use `import/export` in `app.js`, ensure the script tag is:
+- **GitHub Pages is case-sensitive**: `Image.png` ≠ `image.png` (same for spaces and extensions).
+- Do **not** add `assets/` to `.gitignore` (otherwise images won’t load on Pages).
+- If you use ES modules (`import/export`) in `app.js`, update the script tag to:
+
   ```html
   <script type="module" src="app.js"></script>
   ```
 
+- If updates don’t appear immediately, hard refresh (Ctrl+F5) or bump the `?v=` cache-buster in asset URLs.
+- Optional: add an empty `.nojekyll` file in the repo root to disable Jekyll processing.
+
 ---
 
 ## License
+
 MIT — see `LICENSE`.

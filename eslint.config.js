@@ -11,7 +11,6 @@ export default [
       globals: globals.browser
     },
     rules: {
-      // Keep this repo friendly: warn instead of failing PRs
       'no-unused-vars': 'warn',
       'no-undef': 'error'
     }
