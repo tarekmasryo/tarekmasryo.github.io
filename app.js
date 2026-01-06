@@ -1,498 +1,1116 @@
-(function () {
-  "use strict";
+(() => {
+  'use strict';
 
   const CONFIG = Object.freeze({
-    assetsDir: "assets",
-    imageExtensions: ["png", "jpg", "jpeg", "webp"],
+    assetsDir: 'assets',
+    imageExtensions: ['webp', 'png', 'jpg', 'jpeg'],
     revealThreshold: 0.12,
     projectLimit: 12,
-    themeStorageKey: "tm_theme"
+    themeStorageKey: 'tm_theme',
   });
 
-  const PROJECTS = [
-    { cat: "healthcare", icon: "🏥", type: "Healthcare ML", title: "Hospital Deterioration — Next 12h Early Warning", desc: "Baseline pipeline for early-warning risk scoring and operational evaluation (next 12h).", repo: "hospital-deterioration-next-12h-early-warning-baseline", imageBase: "Hospital Deterioration — Next 12h Early Warning" },
-    { cat: "healthcare", icon: "🧪", type: "Dataset", title: "Hospital Deterioration Dataset", desc: "Clean ML-ready tables for deterioration prediction with reproducible splits and documentation.", repo: "hospital-deterioration-dataset", imageBase: "Hospital Deterioration Dataset" },
-    { cat: "healthcare", icon: "🧠", type: "Dashboard", title: "Health Intelligence Platform", desc: "Dashboard exploring digital lifestyle patterns, wellbeing signals, and decision insights.", repo: "health-intelligence-platform", imageBase: "Health Intelligence Platform" },
-    { cat: "healthcare", icon: "🎗️", type: "Healthcare ML", title: "Cancer Risk Prediction", desc: "End-to-end risk prediction workflow with robust evaluation and model reporting.", repo: "cancer-risk-prediction", imageBase: "Cancer Risk Prediction" },
-    { cat: "healthcare", icon: "🧬", type: "Dataset", title: "Cancer Risk Factors Data", desc: "Clean dataset for cancer risk analysis with documentation and practical baselines.", repo: "cancer-risk-factors-data", imageBase: "Cancer Risk Factors Data" },
-    { cat: "healthcare", icon: "🩸", type: "Dataset", title: "Blood Donation Registry Dataset", desc: "Synthetic ops dataset for donor eligibility, outreach policy modeling, and compatibility lookup.", repo: "blood-donation-registry-dataset", imageBase: "Blood Donation Registry Dataset" },
+  const PROJECTS_RAW = [
+    {
+      cat: 'genai',
+      icon: 'lucide:activity',
+      type: 'Dataset',
+      title: 'LLM Production Telemetry — Decision-Grade Observability',
+      desc: 'Multi-table LLM system telemetry + SFT samples for observability, cost governance, routing backtests, drift watch, and operator triage.',
+      repo: 'llm-system-ops-production-telemetry-sft-data',
+      imageBase: 'llm-system-ops-production-telemetry-sft-data',
+    },
 
-    { cat: "finance", icon: "🛡️", type: "Dashboard", title: "Fraud Detection Dashboard", desc: "Streamlit dashboard with trained artifacts, decision metrics, segments, and operational UX.", repo: "fraud-detection-dashboard", imageBase: "Fraud Detection Dashboard" },
-    { cat: "finance", icon: "💳", type: "ML Pipeline", title: "Credit Card Fraud Detection", desc: "Fraud classification workflow with reproducibility, evaluation, and threshold-aware analysis.", repo: "creditcard-fraud-detection", imageBase: "Credit Card Fraud Detection" },
-    { cat: "finance", icon: "💰", type: "Kaggle PS", title: "Loan Payback Prediction", desc: "Playground Series solution: feature engineering, training, and model selection.", repo: "loan-payback-ps5e11", imageBase: "Loan Payback Prediction" },
-    { cat: "finance", icon: "🚗", type: "Risk Model", title: "Road Accident Risk", desc: "Risk assessment modeling with production-style evaluation and reporting.", repo: "road-accident-risk", imageBase: "Road Accident Risk" },
+    {
+      cat: 'healthcare',
+      icon: 'lucide:building-2',
+      type: 'Healthcare ML',
+      title: 'Hospital Deterioration — Next 12h Early Warning',
+      desc: 'Baseline pipeline for early-warning risk scoring and operational evaluation (next 12h).',
+      repo: 'hospital-deterioration-next-12h-early-warning-baseline',
+      imageBase: 'Hospital Deterioration — Next 12h Early Warning',
+    },
+    {
+      cat: 'healthcare',
+      icon: 'lucide:database',
+      type: 'Dataset',
+      title: 'Hospital Deterioration Dataset',
+      desc: 'Clean ML-ready tables for deterioration prediction with reproducible splits and documentation.',
+      repo: 'hospital-deterioration-dataset',
+      imageBase: 'Hospital Deterioration Dataset',
+    },
+    {
+      cat: 'healthcare',
+      icon: 'lucide:brain',
+      type: 'Dashboard',
+      title: 'Health Intelligence Platform',
+      desc: 'Dashboard exploring digital lifestyle patterns, wellbeing signals, and decision insights.',
+      repo: 'health-intelligence-platform',
+      imageBase: 'Health Intelligence Platform',
+    },
+    {
+      cat: 'healthcare',
+      icon: 'lucide:target',
+      type: 'Healthcare ML',
+      title: 'Cancer Risk Prediction',
+      desc: 'End-to-end risk prediction workflow with robust evaluation and model reporting.',
+      repo: 'cancer-risk-prediction',
+      imageBase: 'Cancer Risk Prediction',
+    },
+    {
+      cat: 'healthcare',
+      icon: 'lucide:database',
+      type: 'Dataset',
+      title: 'Cancer Risk Factors Data',
+      desc: 'Clean dataset for cancer risk analysis with documentation and practical baselines.',
+      repo: 'cancer-risk-factors-data',
+      imageBase: 'Cancer Risk Factors Data',
+    },
+    {
+      cat: 'healthcare',
+      icon: 'lucide:droplet',
+      type: 'Dataset',
+      title: 'Blood Donation Registry Dataset',
+      desc: 'Synthetic ops dataset for donor eligibility, outreach policy modeling, and compatibility lookup.',
+      repo: 'blood-donation-registry-dataset',
+      imageBase: 'Blood Donation Registry Dataset',
+    },
 
-    { cat: "social", icon: "📱", type: "Dashboard", title: "Short Video Intelligence Dashboard", desc: "Virality and engagement analytics for short-form content with decision-ready views.", repo: "Short-video-intelligence-dashboard", imageBase: "Short Video Intelligence Dashboard" },
-    { cat: "social", icon: "🔥", type: "Dataset", title: "YouTubeTikTok Trends Dataset", desc: "Trends dataset to analyze content performance and short-form dynamics (2025 snapshot).", repo: "youtube-tiktok-trends-dataset-2025", imageBase: "YouTubeTikTok Trends Dataset" },
-    { cat: "social", icon: "🎭", type: "NLP", title: "Text Sentiment Analysis", desc: "Sentiment classification with classical baselines and deep learning extensions.", repo: "text-sentiment-analysis", imageBase: "Text Sentiment Analysis" },
-    { cat: "social", icon: "✉️", type: "NLP", title: "SMS Spam Detection", desc: "Spam detection pipeline with feature engineering, validation, and model evaluation.", repo: "sms-spam-detection", imageBase: "SMS Spam Detection" },
+    {
+      cat: 'finance',
+      icon: 'lucide:shield-check',
+      type: 'Dashboard',
+      title: 'Fraud Detection Dashboard',
+      desc: 'Streamlit dashboard with trained artifacts, decision metrics, segments, and operational UX.',
+      repo: 'fraud-detection-dashboard',
+      imageBase: 'Fraud Detection Dashboard',
+    },
+    {
+      cat: 'finance',
+      icon: 'lucide:credit-card',
+      type: 'ML Pipeline',
+      title: 'Credit Card Fraud Detection',
+      desc: 'Fraud classification workflow with reproducibility, evaluation, and threshold-aware analysis.',
+      repo: 'creditcard-fraud-detection',
+      imageBase: 'Credit Card Fraud Detection',
+    },
+    {
+      cat: 'finance',
+      icon: 'lucide:dollar-sign',
+      type: 'Kaggle PS',
+      title: 'Loan Payback Prediction',
+      desc: 'Playground Series solution: feature engineering, training, and model selection.',
+      repo: 'loan-payback-ps5e11',
+      imageBase: 'Loan Payback Prediction',
+    },
+    {
+      cat: 'finance',
+      icon: 'lucide:car',
+      type: 'Risk Model',
+      title: 'Road Accident Risk',
+      desc: 'Risk assessment modeling with production-style evaluation and reporting.',
+      repo: 'road-accident-risk',
+      imageBase: 'Road Accident Risk',
+    },
 
-    { cat: "genai", icon: "🧾", type: "Dataset", title: "RAG QA Logs & Corpus Data", desc: "Multi-table RAG evaluation logs + corpus for retrieval quality and hallucination analysis.", repo: "rag-qa-logs-corpus-data", imageBase: "RAG QA Logs & Corpus Data" },
-    { cat: "genai", icon: "🧰", type: "Tooling", title: "QuickStart", desc: "Generate quick artifacts and scaffolds from Hugging Face URLs (fast reusable workflow).", repo: "QuickStart", imageBase: "QuickStart" },
-    { cat: "genai", icon: "🖼️", type: "App", title: "Old Photo Restorer", desc: "Gradio app for photo restoration with batch export and clean UX.", repo: "Old-Photo-Restorer", imageBase: "Old Photo Restorer" },
-    { cat: "genai", icon: "🧩", type: "Dataset", title: "GenAI Tools & Platforms Data", desc: "Dataset mapping GenAI tools/platforms for comparisons and analysis.", repo: "genai-tools-platforms-data", imageBase: "GenAI Tools & Platforms Data" },
-    { cat: "genai", icon: "🧠", type: "Baseline", title: "GenAI Tools Baseline", desc: "Baseline comparisons and practical notes for GenAI tools, platforms, and model usage patterns.", repo: "genai-tools-baseline", imageBase: "GenAI Tools Baseline" },
+    {
+      cat: 'social',
+      icon: 'lucide:video',
+      type: 'Dashboard',
+      title: 'Short Video Intelligence Dashboard',
+      desc: 'Virality and engagement analytics for short-form content with decision-ready views.',
+      repo: 'Short-video-intelligence-dashboard',
+      imageBase: 'Short Video Intelligence Dashboard',
+    },
+    {
+      cat: 'social',
+      icon: 'lucide:flame',
+      type: 'Dataset',
+      title: 'YouTubeTikTok Trends Dataset',
+      desc: 'Trends dataset to analyze content performance and short-form dynamics (2025 snapshot).',
+      repo: 'youtube-tiktok-trends-dataset-2025',
+      imageBase: 'YouTubeTikTok Trends Dataset',
+    },
+    {
+      cat: 'social',
+      icon: 'lucide:smile',
+      type: 'NLP',
+      title: 'Text Sentiment Analysis',
+      desc: 'Sentiment classification with classical baselines and deep learning extensions.',
+      repo: 'text-sentiment-analysis',
+      imageBase: 'Text Sentiment Analysis',
+    },
+    {
+      cat: 'social',
+      icon: 'lucide:mail',
+      type: 'NLP',
+      title: 'SMS Spam Detection',
+      desc: 'Spam detection pipeline with feature engineering, validation, and model evaluation.',
+      repo: 'sms-spam-detection',
+      imageBase: 'SMS Spam Detection',
+    },
 
-    { cat: "analytics", icon: "🔌", type: "Dashboard", title: "EV Charging Dashboard", desc: "Interactive analytics for global EV charging infrastructure and power classifications.", repo: "ev-charging-dashboard", imageBase: "EV Charging Dashboard" },
-    { cat: "analytics", icon: "🌍", type: "Dataset", title: "EV Infra Dataset", desc: "EV infrastructure dataset: stations, connectors, and derived power categories.", repo: "global-ev-infra-dataset", imageBase: "EV Infra Dataset" },
-    { cat: "analytics", icon: "⚽", type: "Dashboard", title: "Football Matches Dashboard", desc: "Football analytics dashboard for match performance and season-level insights.", repo: "football-matches-dashboard", imageBase: "Football Matches Dashboard" },
-    { cat: "analytics", icon: "📦", type: "Dataset", title: "Football Matches Dataset 2025", desc: "Dataset for football match results/statistics (2025) designed for analysis and dashboards.", repo: "football-matches-2025-dataset", imageBase: "Football Matches Dataset 2025" },
-    { cat: "analytics", icon: "📊", type: "Tutorial", title: "Matplotlib Tutorials", desc: "Production-style plotting patterns and EDA templates for clean data storytelling.", repo: "matplotlib-tutorials", imageBase: "Matplotlib Tutorials" },
-    { cat: "analytics", icon: "🧪", type: "Tutorial", title: "Seaborn Tutorials", desc: "Seaborn recipes and best practices for readable, decision-ready visuals.", repo: "seaborn-tutorials", imageBase: "Seaborn Tutorials" },
-    { cat: "analytics", icon: "🎨", type: "Visual Lab", title: "Seaborn + Matplotlib Visual Lab", desc: "Interactive visual lab to learn plotting patterns, styling, and visual diagnostics.", repo: "seaborn-matplotlib-visual-lab", imageBase: "Seaborn + Matplotlib Visual Lab" }
+    {
+      cat: 'genai',
+      icon: 'lucide:file-text',
+      type: 'Dataset',
+      title: 'RAG QA Logs & Corpus Data',
+      desc: 'Multi-table RAG evaluation logs + corpus for retrieval quality and hallucination analysis.',
+      repo: 'rag-qa-logs-corpus-data',
+      imageBase: 'RAG QA Logs & Corpus Data',
+    },
+    {
+      cat: 'genai',
+      icon: 'lucide:tool',
+      type: 'Tooling',
+      title: 'QuickStart',
+      desc: 'Generate quick artifacts and scaffolds from Hugging Face URLs (fast reusable workflow).',
+      repo: 'QuickStart',
+      imageBase: 'QuickStart',
+    },
+    {
+      cat: 'genai',
+      icon: 'lucide:image',
+      type: 'App',
+      title: 'Old Photo Restorer',
+      desc: 'Gradio app for photo restoration with batch export and clean UX.',
+      repo: 'Old-Photo-Restorer',
+      imageBase: 'Old Photo Restorer',
+    },
+    {
+      cat: 'genai',
+      icon: 'lucide:puzzle',
+      type: 'Dataset',
+      title: 'GenAI Tools & Platforms Data',
+      desc: 'Dataset mapping GenAI tools/platforms for comparisons and analysis.',
+      repo: 'genai-tools-platforms-data',
+      imageBase: 'GenAI Tools & Platforms Data',
+    },
+    {
+      cat: 'genai',
+      icon: 'lucide:brain',
+      type: 'Baseline',
+      title: 'GenAI Tools Baseline',
+      desc: 'Baseline comparisons and practical notes for GenAI tools, platforms, and model usage patterns.',
+      repo: 'genai-tools-baseline',
+      imageBase: 'GenAI Tools Baseline',
+    },
+
+    {
+      cat: 'analytics',
+      icon: 'lucide:plug',
+      type: 'Dashboard',
+      title: 'EV Charging Dashboard',
+      desc: 'Interactive analytics for global EV charging infrastructure and power classifications.',
+      repo: 'ev-charging-dashboard',
+      imageBase: 'EV Charging Dashboard',
+    },
+    {
+      cat: 'analytics',
+      icon: 'lucide:globe',
+      type: 'Dataset',
+      title: 'EV Infra Dataset',
+      desc: 'EV infrastructure dataset: stations, connectors, and derived power categories.',
+      repo: 'global-ev-infra-dataset',
+      imageBase: 'EV Infra Dataset',
+    },
+    {
+      cat: 'analytics',
+      icon: 'lucide:trophy',
+      type: 'Dashboard',
+      title: 'Football Matches Dashboard',
+      desc: 'Football analytics dashboard for match performance and season-level insights.',
+      repo: 'football-matches-dashboard',
+      imageBase: 'Football Matches Dashboard',
+    },
+    {
+      cat: 'analytics',
+      icon: 'lucide:package',
+      type: 'Dataset',
+      title: 'Football Matches Dataset 2025',
+      desc: 'Dataset for football match results/statistics (2025) designed for analysis and dashboards.',
+      repo: 'football-matches-2025-dataset',
+      imageBase: 'Football Matches Dataset 2025',
+    },
+    {
+      cat: 'analytics',
+      icon: 'lucide:line-chart',
+      type: 'Tutorial',
+      title: 'Matplotlib Tutorials',
+      desc: 'Production-style plotting patterns and EDA templates for clean data storytelling.',
+      repo: 'matplotlib-tutorials',
+      imageBase: 'Matplotlib Tutorials',
+    },
+    {
+      cat: 'analytics',
+      icon: 'lucide:database',
+      type: 'Tutorial',
+      title: 'Seaborn Tutorials',
+      desc: 'Seaborn recipes and best practices for readable, decision-ready visuals.',
+      repo: 'seaborn-tutorials',
+      imageBase: 'Seaborn Tutorials',
+    },
+    {
+      cat: 'analytics',
+      icon: 'lucide:palette',
+      type: 'Visual Lab',
+      title: 'Seaborn + Matplotlib Visual Lab',
+      desc: 'Interactive visual lab to learn plotting patterns, styling, and visual diagnostics.',
+      repo: 'seaborn-matplotlib-visual-lab',
+      imageBase: 'Seaborn + Matplotlib Visual Lab',
+    },
   ];
 
-  function $(id) {
-    return document.getElementById(id);
+  class Dom {
+    static id(id) {
+      return document.getElementById(id);
+    }
+
+    static qs(sel, root = document) {
+      return root.querySelector(sel);
+    }
+
+    static qsa(sel, root = document) {
+      return Array.from(root.querySelectorAll(sel));
+    }
+
+    static clear(el) {
+      if (!el) return;
+      el.textContent = '';
+      while (el.firstChild) el.removeChild(el.firstChild);
+    }
   }
 
-  function qs(sel, root) {
-    return (root || document).querySelector(sel);
-  }
-
-  function qsa(sel, root) {
-    return Array.prototype.slice.call((root || document).querySelectorAll(sel));
-  }
-
-  function debounce(fn, ms) {
-    let t;
-    return function () {
-      const args = arguments;
-      clearTimeout(t);
-      t = setTimeout(() => fn.apply(this, args), ms);
-    };
-  }
-
-  function githubUrl(repo) {
-    return "https://github.com/tarekmasryo/" + repo;
-  }
-
-  function normalizeBaseName(s) {
-    if (!s) return "";
-    // keep it conservative: cover common "copy/paste" filename variants
-    return String(s)
-      .trim()
-      .replace(/\s+/g, " ")
-      .replace(/[—–]/g, "-");
-  }
-
-  function slugifyBaseName(s) {
-    if (!s) return "";
-    return normalizeBaseName(s)
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .trim();
-  }
-
-  function buildImageCandidates(imageBase) {
-    const raw = String(imageBase || "").trim();
-    if (!raw) return [];
-
-    const slug = slugifyBaseName(raw);
-    const bases = Array.from(new Set([raw, slug].filter(Boolean)));
-
-    const out = [];
-    for (const b of bases) {
-      const encoded = encodeURIComponent(b);
-      for (const ext of CONFIG.imageExtensions) {
-        out.push(`${CONFIG.assetsDir}/${encoded}.${ext}`);
+  class Storage {
+    static get(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch {
+        return null;
       }
     }
-    return out;
-  }
 
-  function attachProjectMedia(container, p, opts) {
-    const mode = (opts && opts.mode) || "card";
-    const candidates = [
-      ...buildImageCandidates(p.imageBase),
-      ...buildImageCandidates(p.repo),
-      ...buildImageCandidates((p.repo || '').toLowerCase())
-    ];
-
-    container.classList.remove("is-icon");
-    container.textContent = "";
-
-    if (!candidates.length) {
-      container.classList.add("is-icon");
-      container.textContent = p.icon || "•";
-      return;
-    }
-
-    const img = document.createElement("img");
-    img.className = mode === "modal" ? "p-img" : "p-img";
-    img.loading = mode === "modal" ? "eager" : "lazy";
-    img.decoding = "async";
-    img.alt = p.title || "Project";
-    img.referrerPolicy = "no-referrer";
-
-    let i = 0;
-    const tryNext = () => {
-      if (i >= candidates.length) {
-        container.classList.add("is-icon");
-        container.textContent = p.icon || "•";
+    static set(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch {
         return;
       }
-      img.src = candidates[i++];
-    };
-
-    img.addEventListener("error", tryNext);
-    img.addEventListener(
-      "load",
-      () => img.removeEventListener("error", tryNext),
-      { once: true }
-    );
-
-    container.appendChild(img);
-    tryNext();
+    }
   }
 
-  function createRevealObserver() {
-    if (!("IntersectionObserver" in window)) return null;
-    return new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          e.target.classList.add("in");
-          obs.unobserve(e.target);
-        });
-      },
-      { threshold: CONFIG.revealThreshold }
-    );
-  }
-
-  function observeAllFade(observer) {
-    if (!observer) return;
-    qsa(".fade").forEach((el) => observer.observe(el));
-  }
-
-  function primeRevealInViewport() {
-    const h = window.innerHeight || 800;
-    qsa(".fade").forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.top < h * 0.92) el.classList.add("in");
-    });
-  }
-
-  function setActiveNav(sections, navLinks) {
-    const y = window.scrollY;
-    let current = "home";
-
-    for (let i = 0; i < sections.length; i++) {
-      const s = sections[i];
-      const id = s.id || "home";
-      const top = s.getBoundingClientRect().top + window.scrollY;
-      if (y >= top - 220) current = id;
+  class IconRenderer {
+    static isIconifyId(value) {
+      if (!value) return false;
+      const s = String(value).trim();
+      return /^[a-z0-9]+:[a-z0-9-]+$/i.test(s);
     }
 
-    navLinks.forEach((a) => {
-      const href = a.getAttribute("href") || "";
-      const active = href.slice(1) === current;
-      a.classList.toggle("active", active);
-      if (active) a.setAttribute("aria-current", "page");
-      else a.removeAttribute("aria-current");
-    });
-  }
-
-  function safeGet(k) {
-    try { return localStorage.getItem(k); } catch (_) { return null; }
-  }
-
-  function safeSet(k, v) {
-    try { localStorage.setItem(k, v); } catch (_) { /* ignore */ }
-  }
-
-  function getInitialTheme() {
-    const stored = safeGet(CONFIG.themeStorageKey);
-    if (stored === "light" || stored === "dark") return stored;
-
-    const prefersLight =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: light)").matches;
-
-    return prefersLight ? "light" : "dark";
-  }
-
-  function applyTheme(theme) {
-    const root = document.documentElement;
-    if (theme === "light") root.setAttribute("data-theme", "light");
-    else root.removeAttribute("data-theme");
-  }
-
-  function initBgCanvasParticles() {
-    const canvas = $("bgCanvas");
-    if (!canvas) return;
-
-    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-
-    const ctx = canvas.getContext("2d", { alpha: true });
-    let w = 0, h = 0, dpr = 1;
-    let raf = null;
-    let running = true;
-
-    const CFG = {
-      count: 55,
-      maxSpeed: 0.22,
-      linkDist: 140,
-      radiusMin: 0.8,
-      radiusMax: 1.9
-    };
-
-    const particles = [];
-
-    function rand(a, b) { return a + Math.random() * (b - a); }
-
-    function resize() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = window.innerWidth;
-      h = window.innerHeight;
-
-      canvas.width = Math.floor(w * dpr);
-      canvas.height = Math.floor(h * dpr);
-      canvas.style.width = w + "px";
-      canvas.style.height = h + "px";
-
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    static node(icon, { size } = {}) {
+      const px = Number.isFinite(size) ? size : 18;
+      if (this.isIconifyId(icon)) {
+        const span = document.createElement('span');
+        span.className = 'iconify';
+        span.setAttribute('data-icon', String(icon).trim());
+        span.style.fontSize = `${px}px`;
+        return span;
+      }
+      const t = document.createElement('span');
+      t.textContent = icon || '•';
+      t.style.fontSize = `${px}px`;
+      return t;
     }
 
-    function seed() {
-      particles.length = 0;
-      for (let i = 0; i < CFG.count; i++) {
-        particles.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          vx: rand(-CFG.maxSpeed, CFG.maxSpeed),
-          vy: rand(CFG.maxSpeed * -1, CFG.maxSpeed),
-          r: rand(CFG.radiusMin, CFG.radiusMax)
+    static mount(el, icon, opts) {
+      if (!el) return;
+      Dom.clear(el);
+      el.appendChild(this.node(icon, opts));
+    }
+  }
+
+  class ThemeManager {
+    constructor({ storageKey }) {
+      this.storageKey = storageKey;
+      this.root = document.documentElement;
+      this.toggleBtn = Dom.id('themeToggle');
+    }
+
+    getInitialTheme() {
+      const stored = Storage.get(this.storageKey);
+      if (stored === 'light' || stored === 'dark') return stored;
+
+      const prefersLight =
+        window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+
+      return prefersLight ? 'light' : 'dark';
+    }
+
+    apply(theme) {
+      if (theme === 'light') this.root.setAttribute('data-theme', 'light');
+      else this.root.removeAttribute('data-theme');
+    }
+
+    get current() {
+      return this.root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    }
+    syncToggleLabel() {
+      if (!this.toggleBtn) return;
+      const isLight = this.current === 'light';
+      Dom.clear(this.toggleBtn);
+      this.toggleBtn.appendChild(
+        IconRenderer.node(isLight ? 'lucide:sun' : 'lucide:moon', { size: 18 }),
+      );
+      this.toggleBtn.setAttribute(
+        'aria-label',
+        isLight ? 'Switch to dark theme' : 'Switch to light theme',
+      );
+      this.toggleBtn.setAttribute('title', isLight ? 'Light theme' : 'Dark theme');
+    }
+
+    bind() {
+      if (!this.toggleBtn) return;
+      this.syncToggleLabel();
+      this.toggleBtn.addEventListener('click', () => {
+        const next = this.current === 'light' ? 'dark' : 'light';
+        this.apply(next);
+        Storage.set(this.storageKey, next);
+        this.syncToggleLabel();
+      });
+    }
+
+    init() {
+      this.apply(this.getInitialTheme());
+      this.bind();
+    }
+  }
+
+  class Debounce {
+    static wrap(fn, ms) {
+      let t;
+      return function debounced(...args) {
+        clearTimeout(t);
+        t = window.setTimeout(() => fn.apply(this, args), ms);
+      };
+    }
+  }
+
+  class Github {
+    static url(repo) {
+      return `https://github.com/tarekmasryo/${repo}`;
+    }
+  }
+
+  class ImageResolver {
+    static mountFallback(container, project) {
+      if (!container) return;
+      container.classList.add('is-icon');
+      Dom.clear(container);
+      const wrap = document.createElement('div');
+      wrap.className = 'p-fallback';
+      IconRenderer.mount(wrap, (project && project.icon) || '•', { size: 32 });
+      container.appendChild(wrap);
+    }
+
+    static normalizeBaseName(s) {
+      if (!s) return '';
+      return String(s).trim().replace(/\s+/g, ' ').replace(/[—–]/g, '-');
+    }
+
+    static slugify(s) {
+      if (!s) return '';
+      return this.normalizeBaseName(s)
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+    }
+
+    static candidates(base) {
+      const raw = String(base || '').trim();
+      if (!raw) return [];
+
+      const slug = this.slugify(raw);
+      const bases = Array.from(new Set([slug, raw].filter(Boolean)));
+
+      const out = [];
+      for (const b of bases) {
+        const encoded = encodeURIComponent(b);
+        for (const ext of CONFIG.imageExtensions) {
+          out.push(`${CONFIG.assetsDir}/${encoded}.${ext}`);
+        }
+      }
+      return out;
+    }
+
+    static mount(container, project, { mode } = { mode: 'card' }) {
+      if (!container) return;
+      container.classList.remove('is-icon');
+      Dom.clear(container);
+
+      const candidates = [
+        ...this.candidates(project.imageBase),
+        ...this.candidates(project.repo),
+        ...this.candidates(String(project.repo || '').toLowerCase()),
+      ];
+
+      if (!candidates.length) {
+        this.mountFallback(container, project);
+        return;
+      }
+
+      const img = document.createElement('img');
+      img.className = 'p-img';
+      img.loading = mode === 'modal' ? 'eager' : 'lazy';
+      img.decoding = 'async';
+      img.alt = project.title || 'Project';
+      img.referrerPolicy = 'no-referrer';
+
+      let i = 0;
+      const tryNext = () => {
+        if (i >= candidates.length) {
+          this.mountFallback(container, project);
+          return;
+        }
+        img.src = candidates[i++];
+      };
+
+      img.addEventListener('error', tryNext);
+      img.addEventListener(
+        'load',
+        () => {
+          img.removeEventListener('error', tryNext);
+        },
+        { once: true },
+      );
+
+      container.appendChild(img);
+      tryNext();
+    }
+  }
+
+  class Reveal {
+    constructor({ threshold }) {
+      this.threshold = threshold;
+      this.observer = this.create();
+    }
+
+    create() {
+      if (!('IntersectionObserver' in window)) return null;
+      return new IntersectionObserver(
+        (entries, obs) => {
+          for (const e of entries) {
+            if (!e.isIntersecting) continue;
+            e.target.classList.add('in');
+            obs.unobserve(e.target);
+          }
+        },
+        { threshold: this.threshold },
+      );
+    }
+
+    observeAll(selector) {
+      if (!this.observer) return;
+      for (const el of Dom.qsa(selector)) this.observer.observe(el);
+    }
+
+    prime(selector) {
+      const h = window.innerHeight || 800;
+      for (const el of Dom.qsa(selector)) {
+        const r = el.getBoundingClientRect();
+        if (r.top < h * 0.92) el.classList.add('in');
+      }
+    }
+  }
+
+  class NavHighlighter {
+    constructor({ sections, links }) {
+      this.sections = sections;
+      this.links = links;
+    }
+
+    update() {
+      const y = window.scrollY;
+      let current = 'home';
+
+      for (const s of this.sections) {
+        const id = s.id || 'home';
+        const top = s.getBoundingClientRect().top + window.scrollY;
+        if (y >= top - 220) current = id;
+      }
+
+      for (const a of this.links) {
+        const href = a.getAttribute('href') || '';
+        const active = href.slice(1) === current;
+        a.classList.toggle('active', active);
+        if (active) a.setAttribute('aria-current', 'page');
+        else a.removeAttribute('aria-current');
+      }
+    }
+  }
+
+  class Typewriter {
+    constructor({ el, lines }) {
+      this.el = el;
+      this.lines = lines;
+      this.lineIdx = 0;
+      this.charIdx = 0;
+      this.deleting = false;
+      this.TYPE_MS = 78;
+      this.DEL_MS = 46;
+      this.HOLD_MS = 2300;
+    }
+
+    reducedMotion() {
+      return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
+    start() {
+      if (!this.el) return;
+      if (this.reducedMotion()) {
+        this.el.textContent = this.lines[0] || '';
+        return;
+      }
+      this.tick();
+    }
+
+    tick() {
+      const full = this.lines[this.lineIdx] || '';
+
+      if (!this.deleting) {
+        this.charIdx += 1;
+        this.el.textContent = full.slice(0, this.charIdx);
+
+        if (this.charIdx >= full.length) {
+          this.deleting = true;
+          window.setTimeout(() => this.tick(), this.HOLD_MS);
+          return;
+        }
+
+        window.setTimeout(() => this.tick(), this.TYPE_MS);
+        return;
+      }
+
+      this.charIdx -= 1;
+      this.el.textContent = full.slice(0, Math.max(0, this.charIdx));
+
+      if (this.charIdx <= 0) {
+        this.deleting = false;
+        this.lineIdx = (this.lineIdx + 1) % this.lines.length;
+        window.setTimeout(() => this.tick(), 780);
+        return;
+      }
+
+      window.setTimeout(() => this.tick(), this.DEL_MS);
+    }
+  }
+
+  class ParticlesBackground {
+    constructor(canvas) {
+      this.canvas = canvas;
+      this.ctx = null;
+      this.w = 0;
+      this.h = 0;
+      this.dpr = 1;
+      this.raf = null;
+      this.running = true;
+
+      this.CFG = Object.freeze({
+        count: 55,
+        maxSpeed: 0.22,
+        linkDist: 140,
+        radiusMin: 0.8,
+        radiusMax: 1.9,
+      });
+
+      this.particles = [];
+      this.onResize = () => {
+        this.resize();
+        this.seed();
+      };
+      this.onVisibility = () => {
+        this.running = !document.hidden;
+        if (this.running && !this.raf) this.step();
+        if (!this.running && this.raf) {
+          cancelAnimationFrame(this.raf);
+          this.raf = null;
+        }
+      };
+    }
+
+    reducedMotion() {
+      return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
+    init() {
+      if (!this.canvas) return;
+      if (this.reducedMotion()) return;
+
+      this.ctx = this.canvas.getContext('2d', { alpha: true });
+      if (!this.ctx) return;
+
+      this.resize();
+      this.seed();
+      this.step();
+
+      window.addEventListener('resize', this.onResize, { passive: true });
+      document.addEventListener('visibilitychange', this.onVisibility);
+    }
+
+    rand(a, b) {
+      return a + Math.random() * (b - a);
+    }
+
+    resize() {
+      this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+      this.w = window.innerWidth;
+      this.h = window.innerHeight;
+
+      this.canvas.width = Math.floor(this.w * this.dpr);
+      this.canvas.height = Math.floor(this.h * this.dpr);
+      this.canvas.style.width = `${this.w}px`;
+      this.canvas.style.height = `${this.h}px`;
+
+      this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    }
+
+    seed() {
+      this.particles.length = 0;
+      for (let i = 0; i < this.CFG.count; i += 1) {
+        this.particles.push({
+          x: Math.random() * this.w,
+          y: Math.random() * this.h,
+          vx: this.rand(-this.CFG.maxSpeed, this.CFG.maxSpeed),
+          vy: this.rand(-this.CFG.maxSpeed, this.CFG.maxSpeed),
+          r: this.rand(this.CFG.radiusMin, this.CFG.radiusMax),
         });
       }
     }
 
-    function buildGrid(cellSize) {
+    buildGrid(cellSize) {
       const grid = new Map();
       const key = (cx, cy) => (cx << 16) ^ cy;
 
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
+      for (let i = 0; i < this.particles.length; i += 1) {
+        const p = this.particles[i];
         const cx = Math.floor(p.x / cellSize);
         const cy = Math.floor(p.y / cellSize);
         const k = key(cx, cy);
         if (!grid.has(k)) grid.set(k, []);
         grid.get(k).push(i);
       }
+
       return { grid, key };
     }
 
-    function step() {
-      if (!running) return;
-
-      ctx.clearRect(0, 0, w, h);
-
-      for (const p of particles) {
+    integrate() {
+      for (const p of this.particles) {
         p.x += p.vx;
         p.y += p.vy;
 
-        if (p.x < 0) { p.x = 0; p.vx *= -1; }
-        if (p.x > w) { p.x = w; p.vx *= -1; }
-        if (p.y < 0) { p.y = 0; p.vy *= -1; }
-        if (p.y > h) { p.y = h; p.vy *= -1; }
+        if (p.x < 0) {
+          p.x = 0;
+          p.vx *= -1;
+        }
+        if (p.x > this.w) {
+          p.x = this.w;
+          p.vx *= -1;
+        }
+        if (p.y < 0) {
+          p.y = 0;
+          p.vy *= -1;
+        }
+        if (p.y > this.h) {
+          p.y = this.h;
+          p.vy *= -1;
+        }
       }
+    }
 
-      const cell = CFG.linkDist;
-      const { grid, key } = buildGrid(cell);
+    drawLinks() {
+      const cell = this.CFG.linkDist;
+      const { grid, key } = this.buildGrid(cell);
 
-      ctx.lineWidth = 1;
-      for (let i = 0; i < particles.length; i++) {
-        const a = particles[i];
+      this.ctx.lineWidth = 1;
+
+      for (let i = 0; i < this.particles.length; i += 1) {
+        const a = this.particles[i];
         const acx = Math.floor(a.x / cell);
         const acy = Math.floor(a.y / cell);
 
-        for (let dx = -1; dx <= 1; dx++) {
-          for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx += 1) {
+          for (let dy = -1; dy <= 1; dy += 1) {
             const list = grid.get(key(acx + dx, acy + dy));
             if (!list) continue;
 
             for (const j of list) {
               if (j <= i) continue;
-              const b = particles[j];
-
+              const b = this.particles[j];
               const vx = a.x - b.x;
               const vy = a.y - b.y;
               const dist = Math.hypot(vx, vy);
-              if (dist > CFG.linkDist) continue;
+              if (dist > this.CFG.linkDist) continue;
 
-              const alpha = 1 - dist / CFG.linkDist;
-              ctx.strokeStyle = "rgba(79,140,255," + (0.18 * alpha) + ")";
-              ctx.beginPath();
-              ctx.moveTo(a.x, a.y);
-              ctx.lineTo(b.x, b.y);
-              ctx.stroke();
+              const alpha = 1 - dist / this.CFG.linkDist;
+              this.ctx.strokeStyle = `rgba(79,140,255,${0.18 * alpha})`;
+              this.ctx.beginPath();
+              this.ctx.moveTo(a.x, a.y);
+              this.ctx.lineTo(b.x, b.y);
+              this.ctx.stroke();
             }
           }
         }
       }
-
-      ctx.fillStyle = "rgba(79,140,255,.55)";
-      for (const p of particles) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      raf = requestAnimationFrame(step);
     }
 
-    function onVis() {
-      running = !document.hidden;
-      if (running && !raf) step();
-      if (!running && raf) {
-        cancelAnimationFrame(raf);
-        raf = null;
+    drawDots() {
+      this.ctx.fillStyle = 'rgba(79,140,255,.55)';
+      for (const p of this.particles) {
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        this.ctx.fill();
       }
     }
 
-    resize();
-    seed();
-    step();
+    step() {
+      if (!this.running) return;
+      this.ctx.clearRect(0, 0, this.w, this.h);
+      this.integrate();
+      this.drawLinks();
+      this.drawDots();
+      this.raf = requestAnimationFrame(() => this.step());
+    }
+  }
 
-    window.addEventListener("resize", () => { resize(); seed(); }, { passive: true });
-    document.addEventListener("visibilitychange", onVis);
+  class Project {
+    constructor({
+      cat,
+      icon,
+      type,
+      title,
+      desc,
+      repo,
+      imageBase,
+      problem,
+      approach,
+      signals,
+      stack,
+      alt,
+    }) {
+      this.cat = cat;
+      this.icon = icon;
+      this.type = type;
+      this.title = title;
+      this.desc = desc;
+      this.repo = repo;
+      this.imageBase = imageBase;
+      this.problem = problem;
+      this.approach = approach;
+      this.signals = signals;
+      this.stack = stack;
+      this.alt = alt;
+    }
+
+    get githubUrl() {
+      return Github.url(this.repo);
+    }
+
+    matchesQuery(q) {
+      const query = (q || '').trim().toLowerCase();
+      if (!query) return true;
+      const hay = [this.title, this.desc, this.type, this.cat]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      return hay.includes(query);
+    }
+  }
+
+  class ProjectCollection {
+    constructor(projects) {
+      this.projects = projects;
+    }
+
+    byCategory(cat) {
+      if (cat === 'all') return this.projects.slice();
+      return this.projects.filter((p) => p.cat === cat);
+    }
+
+    filter({ cat, query }) {
+      return this.byCategory(cat).filter((p) => p.matchesQuery(query));
+    }
+
+    visible({ items, query, showAll, limit }) {
+      if (query && query.trim()) return items;
+      return showAll ? items : items.slice(0, limit);
+    }
+  }
+
+  class ProjectModal {
+    constructor(root) {
+      this.root = root;
+      this.closeBtn = Dom.id('mClose');
+      this.typeEl = Dom.id('mType');
+      this.titleEl = Dom.id('mTitle');
+      this.mediaEl = Dom.id('mMedia');
+      this.summaryEl = Dom.id('mProblem');
+      this.approachEl = Dom.id('mApproach');
+      this.signalsEl = Dom.id('mSignals');
+      this.stackEl = Dom.id('mStack');
+      this.repoEl = Dom.id('mRepo');
+      this.altEl = Dom.id('mAlt');
+
+      this.lastFocus = null;
+      this.active = null;
+    }
+
+    isOpen() {
+      return !!this.root && this.root.classList.contains('show');
+    }
+
+    open(project) {
+      if (!this.root) return;
+      this.active = project;
+      this.lastFocus = document.activeElement;
+
+      this.root.classList.add('show');
+      this.root.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+
+      if (this.typeEl) this.typeEl.textContent = project.type || 'Project';
+      if (this.titleEl) this.titleEl.textContent = project.title || '—';
+
+      if (this.mediaEl) {
+        Dom.clear(this.mediaEl);
+        ImageResolver.mount(this.mediaEl, project, { mode: 'modal' });
+      }
+
+      if (this.summaryEl) this.summaryEl.textContent = project.problem || project.desc || '—';
+
+      this.setList(this.approachEl, Array.isArray(project.approach) ? project.approach : null);
+      this.setList(this.signalsEl, Array.isArray(project.signals) ? project.signals : null);
+      this.setTags(this.stackEl, Array.isArray(project.stack) ? project.stack : null);
+
+      if (this.repoEl) {
+        this.repoEl.href = project.githubUrl;
+        this.repoEl.style.display = 'inline-flex';
+      }
+
+      if (this.altEl) {
+        if (project.alt && project.alt.href) {
+          this.altEl.href = project.alt.href;
+          this.altEl.textContent = project.alt.label || 'Secondary link';
+          this.altEl.style.display = 'inline-flex';
+        } else {
+          this.altEl.style.display = 'none';
+        }
+      }
+
+      if (this.closeBtn) this.closeBtn.focus();
+    }
+
+    close() {
+      if (!this.root) return;
+      this.root.classList.remove('show');
+      this.root.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+
+      const toFocus = this.lastFocus;
+      this.lastFocus = null;
+      this.active = null;
+
+      if (toFocus && toFocus.focus) toFocus.focus();
+    }
+
+    setList(ul, items) {
+      if (!ul) return;
+      const block = ul.closest('.modal-block');
+
+      if (!items || !items.length) {
+        Dom.clear(ul);
+        if (block) block.style.display = 'none';
+        return;
+      }
+
+      if (block) block.style.display = '';
+      Dom.clear(ul);
+      for (const x of items) {
+        const li = document.createElement('li');
+        li.textContent = x;
+        ul.appendChild(li);
+      }
+    }
+
+    setTags(container, items) {
+      if (!container) return;
+      const block = container.closest('.modal-block');
+
+      if (!items || !items.length) {
+        Dom.clear(container);
+        if (block) block.style.display = 'none';
+        return;
+      }
+
+      if (block) block.style.display = '';
+      Dom.clear(container);
+      for (const x of items) {
+        const s = document.createElement('span');
+        s.className = 'tag';
+        s.textContent = x;
+        container.appendChild(s);
+      }
+    }
+
+    bind() {
+      if (!this.root) return;
+
+      const closers = Dom.qsa('[data-close="1"]', this.root);
+      for (const el of closers) el.addEventListener('click', () => this.close());
+
+      if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.close());
+
+      const backdrop = Dom.qs('.modal-backdrop', this.root);
+      if (backdrop) backdrop.addEventListener('click', () => this.close());
+
+      document.addEventListener('keydown', (e) => {
+        if (!this.isOpen()) return;
+        if (e.key === 'Escape') this.close();
+      });
+    }
   }
 
   class PortfolioApp {
     constructor() {
-      this.grid = $("projectsGrid");
-      this.projectsMeta = $("projectsMeta");
-      this.projectsToggle = $("projectsToggle");
+      this.grid = Dom.id('projectsGrid');
+      this.projectsMeta = Dom.id('projectsMeta');
+      this.projectsToggle = Dom.id('projectsToggle');
 
-      this.searchInput = $("projectSearch");
-      this.clearSearch = $("clearSearch");
-      this.searchQuery = "";
+      this.searchInput = Dom.id('projectSearch');
+      this.clearSearch = Dom.id('clearSearch');
 
-      this.currentCat = "all";
+      this.scrollProgress = Dom.id('scrollProgress');
+      this.topBtn = Dom.id('topBtn');
+      this.navBar = Dom.id('navBar');
+      this.navLinks = Dom.qsa('nav a');
+      this.sections = Dom.qsa('main.hero, section');
+
+      this.brandBtn = Dom.id('brandHome');
+
+      this.currentCat = 'all';
       this.showAll = false;
+      this.searchQuery = '';
 
-      this.scrollProgress = $("scrollProgress");
-      this.topBtn = $("topBtn");
-      this.navBar = $("navBar");
-      this.navLinks = qsa("nav a");
-      this.sections = qsa("main.hero, section");
+      this.theme = new ThemeManager({ storageKey: CONFIG.themeStorageKey });
+      this.reveal = new Reveal({ threshold: CONFIG.revealThreshold });
+      this.nav = new NavHighlighter({ sections: this.sections, links: this.navLinks });
 
-      this.brandBtn = $("brandHome");
-      this.themeToggle = $("themeToggle");
+      this.projects = new ProjectCollection(PROJECTS_RAW.map((p) => new Project(p)));
+      this.modal = new ProjectModal(Dom.id('projectModal'));
 
-      // Modal
-      this.modal = $("projectModal");
-      this.mClose = $("mClose");
-      this.mType = $("mType");
-      this.mTitle = $("mTitle");
-      this.mDesc = $("mDesc");
-      this.mMedia = $("mMedia");
-      this.mSummary = $("mProblem");
-      this.mApproach = $("mApproach");
-      this.mSignals = $("mSignals");
-      this.mStack = $("mStack");
-      this.mRepo = $("mRepo");
-      this.mAlt = $("mAlt");
+      this.typewriter = new Typewriter({
+        el: Dom.id('heroLoop'),
+        lines: [
+          'Kaggle Grandmaster • Datasets & Notebooks',
+          'End-to-end AI systems — data → model → deployment',
+          'Decision-grade dashboards for operational teams',
+          'GenAI • RAG when it adds measurable value',
+          'Evaluation • calibration • monitoring',
+          'Drift • data quality • reliability checks',
+          'Deployable APIs • FastAPI • Docker',
+          'Cost/latency trade-offs — engineered by design',
+        ],
+      });
 
-      this.revealObserver = createRevealObserver();
-
-      this.lastFocus = null;
-      this.activeProject = null;
+      this.bg = new ParticlesBackground(Dom.id('bgCanvas'));
     }
 
-    renderProjects(cat) {
-      const q = (this.searchQuery || "").trim().toLowerCase();
-      let items = cat === "all" ? PROJECTS : PROJECTS.filter((p) => p.cat === cat);
+    setYear() {
+      const y = Dom.id('year');
+      if (y) y.textContent = String(new Date().getFullYear());
+    }
 
-      if (q) {
-        items = items.filter((p) => {
-          const hay = [p.title, p.desc, p.type, p.cat].filter(Boolean).join(" ").toLowerCase();
-          return hay.includes(q);
-        });
-      }
-
+    render() {
+      const query = (this.searchQuery || '').trim();
+      const items = this.projects.filter({ cat: this.currentCat, query });
       const total = items.length;
       const limit = CONFIG.projectLimit || 12;
-      const visible = q ? items : (this.showAll ? items : items.slice(0, limit));
+      const visible = this.projects.visible({ items, query, showAll: this.showAll, limit });
 
       if (this.grid) {
-        this.grid.innerHTML = "";
-        visible.forEach((p) => this.grid.appendChild(this.createProjectCard(p)));
+        this.grid.innerHTML = '';
+        for (const p of visible) this.grid.appendChild(this.createProjectCard(p));
       }
 
       if (this.projectsMeta) {
         if (total === 0) {
-          this.projectsMeta.textContent = q ? "No projects match your search." : "No projects to show.";
-        } else if (q) {
-          this.projectsMeta.textContent = "Found " + total + " project" + (total === 1 ? "" : "s");
+          this.projectsMeta.textContent = query
+            ? 'No projects match your search.'
+            : 'No projects to show.';
+        } else if (query) {
+          this.projectsMeta.textContent = `Found ${total} project${total === 1 ? '' : 's'}`;
         } else if (total <= limit) {
-          this.projectsMeta.textContent = total + " project" + (total === 1 ? "" : "s");
+          this.projectsMeta.textContent = `${total} project${total === 1 ? '' : 's'}`;
         } else {
-          this.projectsMeta.textContent = "Showing " + visible.length + " of " + total + " projects";
+          this.projectsMeta.textContent = `Showing ${visible.length} of ${total} projects`;
         }
       }
 
       if (this.projectsToggle) {
-        if (q || total <= limit) {
-          this.projectsToggle.style.display = "none";
+        if (query || total <= limit) {
+          this.projectsToggle.style.display = 'none';
         } else {
-          this.projectsToggle.style.display = "inline-flex";
-          this.projectsToggle.textContent = this.showAll ? "Show Less" : "View All Projects";
-          this.projectsToggle.setAttribute("aria-expanded", this.showAll ? "true" : "false");
+          this.projectsToggle.style.display = 'inline-flex';
+          this.projectsToggle.textContent = this.showAll ? 'Show Less' : 'View All Projects';
+          this.projectsToggle.setAttribute('aria-expanded', this.showAll ? 'true' : 'false');
         }
       }
 
-      observeAllFade(this.revealObserver);
+      this.reveal.observeAll('.fade');
     }
 
-    createProjectCard(p) {
-      const card = document.createElement("article");
-      card.className = "card p-card fade";
-      card.setAttribute("aria-label", p.title);
-
-      // Accessibility: treat card as an interactive link to details
-      card.setAttribute("role", "button");
+    createProjectCard(project) {
+      const card = document.createElement('article');
+      card.className = 'card p-card fade';
+      card.setAttribute('aria-label', project.title);
+      card.setAttribute('role', 'button');
       card.tabIndex = 0;
 
-      const top = document.createElement("div");
-      top.className = "p-top";
-      attachProjectMedia(top, p, { mode: "card" });
+      const top = document.createElement('div');
+      top.className = 'p-top';
+      ImageResolver.mount(top, project, { mode: 'card' });
 
-      const body = document.createElement("div");
-      body.className = "p-body";
+      const body = document.createElement('div');
+      body.className = 'p-body';
 
-      const type = document.createElement("span");
-      type.className = "ptype";
-      type.textContent = p.type;
+      const type = document.createElement('span');
+      type.className = 'ptype';
+      type.textContent = project.type;
 
-      const h = document.createElement("h3");
-      h.textContent = p.title;
+      const h = document.createElement('h3');
+      h.textContent = project.title;
 
-      const d = document.createElement("p");
-      d.textContent = p.desc;
+      const d = document.createElement('p');
+      d.textContent = project.desc;
 
-      const a = document.createElement("a");
-      a.className = "btn repo";
-      a.href = githubUrl(p.repo);
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      a.textContent = "Open repo";
+      const a = document.createElement('a');
+      a.className = 'btn repo';
+      a.href = project.githubUrl;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = 'Open repo';
 
       body.append(type, h, d, a);
       card.append(top, body);
 
-      const openDetails = () => this.openModal(p);
+      const openDetails = () => this.modal.open(project);
 
-      card.addEventListener("click", (e) => {
-        if (e.target && e.target.closest && e.target.closest("a")) return;
+      card.addEventListener('click', (e) => {
+        const isLink = e.target && e.target.closest && e.target.closest('a');
+        if (isLink) return;
         openDetails();
       });
 
-      card.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           openDetails();
         }
@@ -502,17 +1120,16 @@
     }
 
     bindFilters() {
-      const btns = qsa(".fbtn");
-      btns.forEach((b) => {
-        b.addEventListener("click", () => {
-          btns.forEach((x) => x.classList.remove("active"));
-          b.classList.add("active");
-
-          this.currentCat = b.dataset.cat || "all";
+      const btns = Dom.qsa('.fbtn');
+      for (const b of btns) {
+        b.addEventListener('click', () => {
+          for (const x of btns) x.classList.remove('active');
+          b.classList.add('active');
+          this.currentCat = b.dataset.cat || 'all';
           this.showAll = false;
-          this.renderProjects(this.currentCat);
+          this.render();
         });
-      });
+      }
     }
 
     bindSearch() {
@@ -520,22 +1137,21 @@
 
       const syncClear = () => {
         if (!this.clearSearch) return;
-        this.clearSearch.style.display = this.searchInput.value ? "flex" : "none";
+        this.clearSearch.style.display = this.searchInput.value ? 'flex' : 'none';
       };
 
       const apply = () => {
-        this.searchQuery = this.searchInput.value || "";
+        this.searchQuery = this.searchInput.value || '';
         this.showAll = false;
-        this.renderProjects(this.currentCat);
+        this.render();
         syncClear();
       };
 
-      const onInput = debounce(apply, 80);
-      this.searchInput.addEventListener("input", onInput);
+      this.searchInput.addEventListener('input', Debounce.wrap(apply, 80));
 
       if (this.clearSearch) {
-        this.clearSearch.addEventListener("click", () => {
-          this.searchInput.value = "";
+        this.clearSearch.addEventListener('click', () => {
+          this.searchInput.value = '';
           apply();
           this.searchInput.focus();
         });
@@ -546,9 +1162,9 @@
 
     bindProjectsToggle() {
       if (!this.projectsToggle) return;
-      this.projectsToggle.addEventListener("click", () => {
+      this.projectsToggle.addEventListener('click', () => {
         this.showAll = !this.showAll;
-        this.renderProjects(this.currentCat);
+        this.render();
       });
     }
 
@@ -559,205 +1175,57 @@
         const max = doc.scrollHeight - doc.clientHeight;
 
         if (this.scrollProgress) {
-          this.scrollProgress.style.width = (max ? (st / max) * 100 : 0) + "%";
+          const pct = max ? (st / max) * 100 : 0;
+          this.scrollProgress.style.width = `${pct}%`;
         }
 
-        if (this.topBtn) this.topBtn.classList.toggle("show", st > 800);
-        if (this.navBar) this.navBar.classList.toggle("scrolled", st > 10);
+        if (this.topBtn) this.topBtn.classList.toggle('show', st > 800);
+        if (this.navBar) this.navBar.classList.toggle('scrolled', st > 10);
 
-        setActiveNav(this.sections, this.navLinks);
+        this.nav.update();
       };
 
-      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
     }
 
     bindTopButton() {
       if (!this.topBtn) return;
-      this.topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+      this.topBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     }
 
     bindBrandHome() {
       if (!this.brandBtn) return;
-      this.brandBtn.addEventListener("click", () => {
-        const home = $("home");
-        if (home) home.scrollIntoView({ behavior: "smooth" });
-        else window.scrollTo({ top: 0, behavior: "smooth" });
+      this.brandBtn.addEventListener('click', () => {
+        const home = Dom.id('home');
+        if (home) home.scrollIntoView({ behavior: 'smooth' });
+        else window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
 
     bindSmoothAnchors() {
-      qsa('a[href^="#"]').forEach((a) => {
-        a.addEventListener("click", (e) => {
-          const href = a.getAttribute("href");
+      for (const a of Dom.qsa('a[href^="#"]')) {
+        a.addEventListener('click', (e) => {
+          const href = a.getAttribute('href');
           const target = href ? document.querySelector(href) : null;
           if (!target) return;
           e.preventDefault();
-          target.scrollIntoView({ behavior: "smooth" });
+          target.scrollIntoView({ behavior: 'smooth' });
         });
-      });
-    }
-
-    bindThemeToggle() {
-      if (!this.themeToggle) return;
-
-      const setLabel = () => {
-        const isLight = document.documentElement.getAttribute("data-theme") === "light";
-        this.themeToggle.textContent = isLight ? "☀️" : "🌙";
-        this.themeToggle.setAttribute("aria-label", isLight ? "Switch to dark theme" : "Switch to light theme");
-        this.themeToggle.setAttribute("title", isLight ? "Light theme" : "Dark theme");
-      };
-
-      setLabel();
-
-      this.themeToggle.addEventListener("click", () => {
-        const isLight = document.documentElement.getAttribute("data-theme") === "light";
-        const next = isLight ? "dark" : "light";
-        applyTheme(next);
-        safeSet(CONFIG.themeStorageKey, next);
-        setLabel();
-      });
-    }
-
-    /* ----------------------------
-       Modal
-    ---------------------------- */
-    openModal(p) {
-      if (!this.modal) return;
-
-      this.activeProject = p;
-      this.lastFocus = document.activeElement;
-
-      this.modal.classList.add("show");
-      this.modal.setAttribute("aria-hidden", "false");
-      document.body.classList.add("modal-open");
-
-      if (this.mType) this.mType.textContent = p.type || "Project";
-      if (this.mTitle) this.mTitle.textContent = p.title || "—";
-      if (this.mDesc) this.mDesc.textContent = p.desc || "—";
-
-      if (this.mMedia) {
-        this.mMedia.innerHTML = "";
-        attachProjectMedia(this.mMedia, p, { mode: "modal" });
       }
-
-      if (this.mSummary) {
-        // Use desc as the safest "summary" without inventing content.
-        this.mSummary.textContent = p.problem || p.desc || "—";
-      }
-
-      this.setList(this.mApproach, Array.isArray(p.approach) ? p.approach : null);
-      this.setList(this.mSignals, Array.isArray(p.signals) ? p.signals : null);
-      this.setTags(this.mStack, Array.isArray(p.stack) ? p.stack : null);
-
-      if (this.mRepo) {
-        this.mRepo.href = githubUrl(p.repo);
-        this.mRepo.style.display = "inline-flex";
-      }
-
-      if (this.mAlt) {
-        if (p.alt && p.alt.href) {
-          this.mAlt.href = p.alt.href;
-          this.mAlt.textContent = p.alt.label || "Secondary link";
-          this.mAlt.style.display = "inline-flex";
-        } else {
-          this.mAlt.style.display = "none";
-        }
-      }
-
-      // focus
-      if (this.mClose) this.mClose.focus();
-    }
-
-    closeModal() {
-      if (!this.modal) return;
-
-      this.modal.classList.remove("show");
-      this.modal.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("modal-open");
-
-      const toFocus = this.lastFocus;
-      this.lastFocus = null;
-      this.activeProject = null;
-
-      if (toFocus && toFocus.focus) toFocus.focus();
-    }
-
-    setList(ul, items) {
-      if (!ul) return;
-      const block = ul.closest(".modal-block");
-
-      if (!items || !items.length) {
-        ul.innerHTML = "";
-        if (block) block.style.display = "none";
-        return;
-      }
-
-      if (block) block.style.display = "";
-      ul.innerHTML = "";
-      items.forEach((x) => {
-        const li = document.createElement("li");
-        li.textContent = x;
-        ul.appendChild(li);
-      });
-    }
-
-    setTags(container, items) {
-      if (!container) return;
-      const block = container.closest(".modal-block");
-
-      if (!items || !items.length) {
-        container.innerHTML = "";
-        if (block) block.style.display = "none";
-        return;
-      }
-
-      if (block) block.style.display = "";
-      container.innerHTML = "";
-      items.forEach((x) => {
-        const s = document.createElement("span");
-        s.className = "tag";
-        s.textContent = x;
-        container.appendChild(s);
-      });
-    }
-
-    bindModal() {
-      if (!this.modal) return;
-
-      // Close buttons (any element with data-close="1")
-      qsa('[data-close="1"]', this.modal).forEach((el) => {
-        el.addEventListener("click", () => this.closeModal());
-      });
-
-      if (this.mClose) this.mClose.addEventListener("click", () => this.closeModal());
-
-      // Backdrop click
-      const backdrop = qs(".modal-backdrop", this.modal);
-      if (backdrop) backdrop.addEventListener("click", () => this.closeModal());
-
-      // Escape key
-      document.addEventListener("keydown", (e) => {
-        if (!this.modal.classList.contains("show")) return;
-        if (e.key === "Escape") this.closeModal();
-      });
     }
 
     init() {
-      // Theme
-      const initialTheme = getInitialTheme();
-      applyTheme(initialTheme);
+      this.theme.init();
+      this.setYear();
+      this.typewriter.start();
 
-      // Year
-      const y = $("year");
-      if (y) y.textContent = String(new Date().getFullYear());
+      this.modal.bind();
 
-      this.currentCat = "all";
-      this.showAll = false;
-
-      this.renderProjects(this.currentCat);
-      observeAllFade(this.revealObserver);
-
+      this.render();
+      this.reveal.observeAll('.fade');
       this.bindFilters();
       this.bindProjectsToggle();
       this.bindSearch();
@@ -765,18 +1233,14 @@
       this.bindTopButton();
       this.bindBrandHome();
       this.bindSmoothAnchors();
-      this.bindModal();
-      this.bindThemeToggle();
+
+      this.reveal.prime('.fade');
+      document.documentElement.classList.remove('preload');
+      this.bg.init();
     }
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const app = new PortfolioApp();
-    app.init();
-
-    primeRevealInViewport();
-    document.documentElement.classList.remove("preload");
-
-    initBgCanvasParticles();
+  document.addEventListener('DOMContentLoaded', () => {
+    new PortfolioApp().init();
   });
 })();

@@ -1,339 +1,521 @@
-<!DOCTYPE html>
-<html lang="en" class="preload">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Tarek Masryo — AI/ML Engineer building decision-ready ML &amp; GenAI systems."/>
-  <meta name="robots" content="index,follow"/>
-  <meta name="theme-color" content="#070A12"/>
+<!doctype html>
+<html class="preload" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Tarek Masryo — AI/ML Engineer building decision-ready ML &amp; GenAI systems."
+    />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#070A12" />
 
-  <link rel="icon" sizes="any" href="assets/favicon.ico"/>
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"/>
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png"/>
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png"/>
-  <link rel="manifest" href="site.webmanifest"/>
-  <link rel="canonical" href="https://tarekmasryo.github.io/"/>
+    <link rel="icon" sizes="any" href="assets/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="canonical" href="https://tarekmasryo.github.io/" />
 
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="Tarek Masryo — AI/ML Engineer"/>
-  <meta property="og:description" content="Decision-ready ML &amp; GenAI systems: dashboards, pipelines, deployable services."/>
-  <meta property="og:url" content="https://tarekmasryo.github.io/"/>
-  <meta property="og:image" content="https://tarekmasryo.github.io/assets/icon-512.png"/>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tarek Masryo — AI/ML Engineer" />
+    <meta
+      property="og:description"
+      content="Decision-ready ML &amp; GenAI systems: dashboards, pipelines, deployable services."
+    />
+    <meta property="og:url" content="https://tarekmasryo.github.io/" />
+    <meta property="og:image" content="https://tarekmasryo.github.io/assets/icon-512.png" />
 
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Tarek Masryo — AI/ML Engineer"/>
-  <meta name="twitter:description" content="Decision-ready ML &amp; GenAI systems: dashboards, pipelines, deployable services."/>
-  <meta name="twitter:image" content="https://tarekmasryo.github.io/assets/icon-512.png"/>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tarek Masryo — AI/ML Engineer" />
+    <meta
+      name="twitter:description"
+      content="Decision-ready ML &amp; GenAI systems: dashboards, pipelines, deployable services."
+    />
+    <meta name="twitter:image" content="https://tarekmasryo.github.io/assets/icon-512.png" />
 
-  <title>Tarek Masryo — AI/ML Engineer</title>
+    <title>Tarek Masryo — AI/ML Engineer</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap"
+    />
 
-  <link rel="stylesheet" href="styles.css"/>
-  <script defer src="app.js"></script>
-</head>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <script defer src="app.js"></script>
+  </head>
 
-<body>
-  <div class="bg" aria-hidden="true"></div>
-  <canvas id="bgCanvas" aria-hidden="true"></canvas>
-  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <body>
+    <div class="bg" aria-hidden="true"></div>
+    <canvas id="bgCanvas" aria-hidden="true"></canvas>
+    <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
 
-  <nav aria-label="Primary">
-    <div class="nav" id="navBar" role="navigation">
-      <button class="brand" id="brandHome" type="button" title="Go Home" aria-label="Go Home">TM</button>
+    <nav aria-label="Primary">
+      <div id="navBar" class="nav" role="navigation">
+        <button id="brandHome" class="brand" type="button" aria-label="Go Home" title="Go Home">
+          TM
+        </button>
 
-      <div class="navlinks" id="navLinks">
-        <a href="#home" class="active">Home</a>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#tech">Tech</a>
-        <a href="#contact">Contact</a>
+        <div id="navLinks" class="navlinks">
+          <a class="active" href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#tech">Tech</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <div class="nav-actions">
+          <button
+            id="themeToggle"
+            class="iconbtn mini"
+            type="button"
+            aria-label="Toggle theme"
+            title="Theme"
+          >
+            <span class="iconify" data-icon="lucide:moon"></span>
+          </button>
+        </div>
       </div>
+    </nav>
 
-      <div class="nav-actions">
-        <button class="iconbtn mini" id="themeToggle" type="button" aria-label="Toggle theme" title="Theme">🌙</button>
+    <main id="home" class="hero">
+      <div class="container hero-inner">
+        <img
+          class="hero-avatar fade"
+          src="assets/profile-image.png"
+          alt="Tarek Masryo — profile photo"
+          width="170"
+          height="170"
+          decoding="async"
+          fetchpriority="high"
+        />
+
+        <h1 class="name fade">Tarek Masryo</h1>
+        <div class="role fade">AI/ML Engineer • MLOps • GenAI/RAG</div>
+        <p class="tagline fade">
+          I build decision-ready AI systems that improve operations, reduce risk, and scale
+          reliably.
+        </p>
+
+        <div class="hero-loop fade" aria-label="Highlights">
+          <span id="heroLoop" class="loop-text">End-to-end production AI systems</span>
+          <span class="loop-cursor" aria-hidden="true">▍</span>
+        </div>
+
+        <div class="cta fade">
+          <a class="btn primary" href="#projects">Explore Projects</a>
+          <a class="btn" href="#contact">Get In Touch</a>
+        </div>
       </div>
-    </div>
-  </nav>
+    </main>
 
-  <main id="home" class="hero">
-    <div class="container hero-inner">
-      <div class="badges fade">
-        <span class="pill">🏆 Kaggle Datasets Master</span>
-        <span class="pill">⭐ Kaggle Notebooks Expert</span>
+    <section id="about">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="title">About Me</h2>
+          <p class="subtitle">Production-ready ML &amp; GenAI systems, shipped end to end</p>
+        </div>
+
+        <div class="about-wrap">
+          <div class="card about-card fade">
+            <p class="about-lead">
+              Hi, I’m Tarek — an AI/ML Engineer who ships reliable ML and GenAI systems from data to
+              deployment. I blend research-informed methods with practical engineering to turn ideas
+              into decision-grade, measurable products.
+            </p>
+
+            <ul class="about-points">
+              <li>
+                <strong>End-to-end systems:</strong> data pipelines + modeling → deployable APIs +
+                monitoring
+              </li>
+              <li>
+                <strong>Reliability by design:</strong> schema-validated outputs, typed interfaces,
+                and observability to catch regressions early
+              </li>
+              <li>
+                <strong>GenAI/RAG when it adds measurable value:</strong> hybrid retrieval,
+                reranking, context pruning, and evaluation telemetry to keep outputs grounded
+              </li>
+              <li>
+                <strong>Engineering rigor:</strong> operating thresholds, acceptance criteria, and
+                latency/cost trade-offs that hold up in production
+              </li>
+              <li>
+                <strong>Currently exploring:</strong> orchestration and model routing for high-trust
+                AI workflows.
+              </li>
+              <li>
+                <strong>Public work:</strong> reproducible projects and datasets across GitHub,
+                Kaggle, and Hugging Face.
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <img
-        class="hero-avatar fade"
-        src="assets/profile-image.png"
-        width="170"
-        height="170"
-        alt="Tarek Masryo — profile photo"
-        decoding="async"
-        fetchpriority="high"
-      />
+    <section id="projects">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="title">Featured Projects</h2>
+          <p class="subtitle">Selected work across different domains</p>
+        </div>
 
-      <h1 class="name fade">Tarek Masryo</h1>
-      <div class="role fade">AI/ML Engineer • MLOps • GenAI / RAG</div>
+        <div class="filters" role="tablist" aria-label="Project categories">
+          <button class="fbtn active" type="button" data-cat="all">All</button>
+          <button class="fbtn" type="button" data-cat="healthcare">Healthcare</button>
+          <button class="fbtn" type="button" data-cat="finance">Finance &amp; Risk</button>
+          <button class="fbtn" type="button" data-cat="social">Social</button>
+          <button class="fbtn" type="button" data-cat="genai">GenAI &amp; Tools</button>
+          <button class="fbtn" type="button" data-cat="analytics">Analytics</button>
+        </div>
 
-      <p class="tagline fade">
-        Building decision-ready ML &amp; GenAI systems that improve operations, reduce risk, and accelerate workflows.
-      </p>
+        <div class="project-tools" aria-label="Project search">
+          <div class="search-wrap">
+            <input
+              id="projectSearch"
+              class="search"
+              type="search"
+              placeholder="Search projects…"
+              autocomplete="off"
+            />
+            <button id="clearSearch" class="search-clear" type="button" aria-label="Clear search">
+              ×
+            </button>
+          </div>
+        </div>
 
-      <div class="cta fade">
-        <a class="btn primary" href="#projects">Explore Projects</a>
-        <a class="btn" href="#contact">Get In Touch</a>
+        <div id="projectsGrid" class="grid3"></div>
+        <div id="projectsMeta" class="projects-meta" aria-live="polite"></div>
+
+        <div class="projects-actions">
+          <button id="projectsToggle" class="btn" type="button" aria-expanded="false">
+            View All Projects
+          </button>
+        </div>
       </div>
-    </div>
-  </main>
+    </section>
 
-  <section id="about">
-    <div class="container">
-      <div class="section-head">
-        <h2 class="title">About Me</h2>
-        <p class="subtitle">Production-ready ML &amp; GenAI systems, shipped end to end</p>
+    <section id="tech">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="title">Tech Stack</h2>
+          <p class="subtitle">What I use to build, ship, and operate production ML/GenAI systems</p>
+        </div>
+
+        <div class="tech-grid v2">
+          <article class="card tech-card fade">
+            <header class="tech-head">
+              <div class="tech-ico" aria-hidden="true">
+                <span class="iconify" data-icon="lucide:code-2"></span>
+              </div>
+              <div>
+                <h3>Languages &amp; Core</h3>
+                <p>Systems + scripting</p>
+              </div>
+            </header>
+            <ul class="tech-list" role="list">
+              <li><span class="dot" aria-hidden="true"></span><span>Python</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>C/C++</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>SQL</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>JavaScript</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Linux / Git / Bash</span></li>
+            </ul>
+          </article>
+
+          <article class="card tech-card fade">
+            <header class="tech-head">
+              <div class="tech-ico" aria-hidden="true">
+                <span class="iconify" data-icon="lucide:bar-chart-3"></span>
+              </div>
+              <div>
+                <h3>Data &amp; Analytics</h3>
+                <p>Data wrangling + notebooks</p>
+              </div>
+            </header>
+            <ul class="tech-list" role="list">
+              <li><span class="dot" aria-hidden="true"></span><span>NumPy / Pandas</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Matplotlib / Seaborn</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Polars / DuckDB</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Jupyter</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Google Colab</span></li>
+            </ul>
+          </article>
+
+          <article class="card tech-card fade">
+            <header class="tech-head">
+              <div class="tech-ico" aria-hidden="true">
+                <span class="iconify" data-icon="lucide:brain"></span>
+              </div>
+              <div>
+                <h3>ML / Deep Learning</h3>
+                <p>Modeling + training</p>
+              </div>
+            </header>
+            <ul class="tech-list" role="list">
+              <li><span class="dot" aria-hidden="true"></span><span>scikit-learn</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>PyTorch</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>TensorFlow</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>XGBoost</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>LightGBM</span></li>
+            </ul>
+          </article>
+
+          <article class="card tech-card fade">
+            <header class="tech-head">
+              <div class="tech-ico" aria-hidden="true">
+                <span class="iconify" data-icon="lucide:sparkles"></span>
+              </div>
+              <div>
+                <h3>GenAI / RAG</h3>
+                <p>Retrieval + tool use</p>
+              </div>
+            </header>
+            <ul class="tech-list" role="list">
+              <li><span class="dot" aria-hidden="true"></span><span>Transformers</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>LangChain</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>LlamaIndex</span></li>
+              <li>
+                <span class="dot" aria-hidden="true"></span
+                ><span>RAG Evaluation (RAGAS / DeepEval)</span>
+              </li>
+              <li><span class="dot" aria-hidden="true"></span><span>Tool Calling</span></li>
+            </ul>
+          </article>
+
+          <article class="card tech-card fade">
+            <header class="tech-head">
+              <div class="tech-ico" aria-hidden="true">
+                <span class="iconify" data-icon="lucide:database"></span>
+              </div>
+              <div>
+                <h3>Vector &amp; Databases</h3>
+                <p>Storage + retrieval</p>
+              </div>
+            </header>
+            <ul class="tech-list" role="list">
+              <li><span class="dot" aria-hidden="true"></span><span>FAISS / Chroma</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Pinecone / Weaviate</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>PostgreSQL</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>MongoDB</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Redis / SQLite</span></li>
+            </ul>
+          </article>
+
+          <article class="card tech-card fade">
+            <header class="tech-head">
+              <div class="tech-ico" aria-hidden="true">
+                <span class="iconify" data-icon="lucide:server"></span>
+              </div>
+              <div>
+                <h3>Production APIs</h3>
+                <p>Serving + validation</p>
+              </div>
+            </header>
+            <ul class="tech-list" role="list">
+              <li><span class="dot" aria-hidden="true"></span><span>FastAPI</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Pydantic</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Uvicorn</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Gunicorn</span></li>
+            </ul>
+          </article>
+
+          <article class="card tech-card fade">
+            <header class="tech-head">
+              <div class="tech-ico" aria-hidden="true">
+                <span class="iconify" data-icon="lucide:layout-dashboard"></span>
+              </div>
+              <div>
+                <h3>Dashboards &amp; Apps</h3>
+                <p>Interactive delivery</p>
+              </div>
+            </header>
+            <ul class="tech-list" role="list">
+              <li><span class="dot" aria-hidden="true"></span><span>Streamlit</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Plotly</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Gradio</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Hugging Face Spaces</span></li>
+              <li><span class="dot" aria-hidden="true"></span><span>Streamlit Cloud</span></li>
+            </ul>
+          </article>
+
+          <article class="card tech-card fade">
+            <header class="tech-head">
+              <div class="tech-ico" aria-hidden="true">
+                <span class="iconify" data-icon="lucide:package"></span>
+              </div>
+              <div>
+                <h3>MLOps &amp; Deployment</h3>
+                <p>Packaging + release</p>
+              </div>
+            </header>
+            <ul class="tech-list" role="list">
+              <li><span class="dot" aria-hidden="true"></span><span>Docker</span></li>
+              <li>
+                <span class="dot" aria-hidden="true"></span><span>GitHub Actions (CI/CD)</span>
+              </li>
+              <li><span class="dot" aria-hidden="true"></span><span>Model packaging</span></li>
+              <li>
+                <span class="dot" aria-hidden="true"></span><span>Versioning &amp; releases</span>
+              </li>
+              <li>
+                <span class="dot" aria-hidden="true"></span><span>Telemetry &amp; dashboards</span>
+              </li>
+            </ul>
+          </article>
+        </div>
       </div>
+    </section>
 
-      <div class="about-wrap">
-        <div class="card about-card fade">
-          <p class="about-lead">
-            AI/ML Engineer building decision-ready ML &amp; GenAI systems — dashboards, pipelines, and deployable services.
+    <section id="contact">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="title">Contact</h2>
+          <p class="subtitle">
+            Connect via any platform below — open to production AI roles, high-impact builds, and
+            decision-grade ML/GenAI work.
           </p>
+        </div>
 
-          <ul class="about-points">
-            <li><strong>Production mindset:</strong> evaluation, calibration, thresholding, cost/latency constraints, and monitoring signals.</li>
-            <li><strong>End-to-end delivery:</strong> data validation → modeling → packaging → FastAPI/Docker deployment.</li>
-            <li><strong>GenAI/RAG:</strong> retrieval design, structured outputs, validation, retries/fallbacks, and evaluation logs.</li>
-            <li><strong>Public work:</strong> reproducible projects &amp; datasets across GitHub, Kaggle, and Hugging Face.</li>
-          </ul>
+        <div class="social-row">
+          <a
+            class="social-link fade"
+            href="https://www.linkedin.com/in/tarek-masryo/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            style="--brand: #0a66c2"
+          >
+            <span class="social-ico" aria-hidden="true">
+              <span class="iconify" data-icon="simple-icons:linkedin"></span>
+            </span>
+            <span class="social-label">LinkedIn</span>
+          </a>
+
+          <a
+            class="social-link fade"
+            href="https://www.kaggle.com/tarekmasryo"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Kaggle"
+            style="--brand: #20beff"
+          >
+            <span class="social-ico" aria-hidden="true"><span class="txt-ico">K</span></span>
+            <span class="social-label">Kaggle</span>
+          </a>
+
+          <a
+            class="social-link fade"
+            href="https://github.com/tarekmasryo"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            style="--brand: #ffffff"
+          >
+            <span class="social-ico" aria-hidden="true">
+              <span class="iconify" data-icon="simple-icons:github"></span>
+            </span>
+            <span class="social-label">GitHub</span>
+          </a>
+
+          <a
+            class="social-link fade"
+            href="https://huggingface.co/tarekmasryo"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Hugging Face"
+            style="--brand: #ffd21e"
+          >
+            <span class="social-ico" aria-hidden="true">
+              <span class="iconify" data-icon="simple-icons:huggingface"></span>
+            </span>
+            <span class="social-label">Hugging Face</span>
+          </a>
+
+          <a
+            class="social-link fade icon-only"
+            href="https://x.com/TarekMasryo"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="X"
+            style="--brand: #ffffff"
+          >
+            <span class="social-ico" aria-hidden="true">
+              <span class="iconify" data-icon="simple-icons:x"></span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container foot">
+        <p class="copy">© <span id="year">2026</span> Tarek Masryo — AI/ML Engineer.</p>
+      </div>
+    </footer>
+
+    <button
+      id="topBtn"
+      class="topbtn"
+      type="button"
+      aria-label="Scroll to top"
+      title="Scroll to top"
+    >
+      ↑
+    </button>
+
+    <div id="projectModal" class="modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close="1"></div>
+
+      <div class="modal-card" role="dialog" aria-label="Project details" aria-modal="true">
+        <div class="modal-head">
+          <div>
+            <div id="mType" class="modal-type">—</div>
+            <div id="mTitle" class="modal-title">—</div>
+          </div>
+          <button id="mClose" class="iconbtn" type="button" aria-label="Close">×</button>
+        </div>
+
+        <div class="modal-body">
+          <div id="mMedia" class="modal-media" aria-label="Project media"></div>
+
+          <div class="modal-grid">
+            <div class="modal-block">
+              <h4>Summary</h4>
+              <p id="mProblem">—</p>
+            </div>
+
+            <div class="modal-block">
+              <h4>Approach</h4>
+              <ul id="mApproach"></ul>
+            </div>
+
+            <div class="modal-block">
+              <h4>Decision signals</h4>
+              <ul id="mSignals"></ul>
+            </div>
+
+            <div class="modal-block">
+              <h4>Stack</h4>
+              <div id="mStack" class="taggrid"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-foot">
+          <a id="mRepo" class="btn small repo" href="#" target="_blank" rel="noopener noreferrer"
+            >Open repo</a
+          >
+          <a id="mAlt" class="btn small" href="#" target="_blank" rel="noopener noreferrer"
+            >Secondary link</a
+          >
+          <button class="btn small ghost" type="button" data-close="1">Close</button>
         </div>
       </div>
     </div>
-  </section>
-
-  <section id="projects">
-    <div class="container">
-      <div class="section-head">
-        <h2 class="title">Featured Projects</h2>
-        <p class="subtitle">Selected work across different domains</p>
-      </div>
-
-      <div class="filters" role="tablist" aria-label="Project categories">
-        <button class="fbtn active" data-cat="all" type="button">All</button>
-        <button class="fbtn" data-cat="healthcare" type="button">Healthcare</button>
-        <button class="fbtn" data-cat="finance" type="button">Finance &amp; Risk</button>
-        <button class="fbtn" data-cat="social" type="button">Social</button>
-        <button class="fbtn" data-cat="genai" type="button">GenAI &amp; Tools</button>
-        <button class="fbtn" data-cat="analytics" type="button">Analytics</button>
-      </div>
-
-      <div class="project-tools" aria-label="Project search">
-        <div class="search-wrap">
-          <input class="search" id="projectSearch" type="search" placeholder="Search projects…" autocomplete="off"/>
-          <button class="search-clear" id="clearSearch" type="button" aria-label="Clear search">×</button>
-        </div>
-      </div>
-
-      <div class="grid3" id="projectsGrid"></div>
-
-      <div class="projects-meta" id="projectsMeta" aria-live="polite"></div>
-      <div class="projects-actions">
-        <button class="btn" id="projectsToggle" type="button" aria-expanded="false">View All Projects</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="tech">
-    <div class="container">
-      <div class="section-head">
-        <h2 class="title">Tech Stack</h2>
-        <p class="subtitle">What I use to build, ship, and operate production ML/GenAI systems</p>
-      </div>
-
-      <div class="tech-grid v2">
-        <article class="card tech-card fade">
-          <header class="tech-head">
-            <div class="tech-ico" aria-hidden="true">🧱</div>
-            <div>
-              <h3>Languages &amp; Core</h3>
-              <p>Systems + scripting</p>
-            </div>
-          </header>
-          <ul class="tech-list" role="list">
-            <li><span class="dot" aria-hidden="true"></span><span>Python</span></li>
-            <li><span class="dot" aria-hidden="true"></span><span>C/C++</span></li>
-            <li><span class="dot" aria-hidden="true"></span><span>SQL</span></li>
-            <li><span class="dot" aria-hidden="true"></span><span>JavaScript</span></li>
-            <li><span class="dot" aria-hidden="true"></span><span>Linux / Git / Bash</span></li>
-          </ul>
-        </article>
-
-        <article class="card tech-card fade">
-          <header class="tech-head">
-            <div class="tech-ico" aria-hidden="true">📊</div>
-            <div>
-              <h3>Data &amp; Analytics</h3>
-              <p>Data wrangling + notebooks</p>
-            </div>
-          </header>
-          <ul class="tech-list" role="list">
-            <li><span class="dot"></span><span>NumPy / Pandas</span></li>
-            <li><span class="dot"></span><span>Matplotlib / Seaborn</span></li>
-            <li><span class="dot"></span><span>Polars / DuckDB</span></li>
-            <li><span class="dot"></span><span>Jupyter</span></li>
-            <li><span class="dot"></span><span>Google Colab</span></li>
-          </ul>
-        </article>
-
-        <article class="card tech-card fade">
-          <header class="tech-head">
-            <div class="tech-ico" aria-hidden="true">🧠</div>
-            <div>
-              <h3>ML / Deep Learning</h3>
-              <p>Modeling + training</p>
-            </div>
-          </header>
-          <ul class="tech-list" role="list">
-            <li><span class="dot"></span><span>scikit-learn</span></li>
-            <li><span class="dot"></span><span>PyTorch</span></li>
-            <li><span class="dot"></span><span>TensorFlow</span></li>
-            <li><span class="dot"></span><span>XGBoost</span></li>
-            <li><span class="dot"></span><span>LightGBM</span></li>
-          </ul>
-        </article>
-
-        <article class="card tech-card fade">
-          <header class="tech-head">
-            <div class="tech-ico" aria-hidden="true">🤖</div>
-            <div>
-              <h3>GenAI / RAG</h3>
-              <p>Retrieval + tool use</p>
-            </div>
-          </header>
-          <ul class="tech-list" role="list">
-            <li><span class="dot"></span><span>Transformers</span></li>
-            <li><span class="dot"></span><span>LangChain</span></li>
-            <li><span class="dot"></span><span>LlamaIndex</span></li>
-            <li><span class="dot"></span><span>RAG Evaluation (RAGAS / DeepEval)</span></li>
-            <li><span class="dot"></span><span>Tool Calling</span></li>
-          </ul>
-        </article>
-
-        <article class="card tech-card fade">
-          <header class="tech-head">
-            <div class="tech-ico" aria-hidden="true">🗄️</div>
-            <div>
-              <h3>Vector &amp; Databases</h3>
-              <p>Storage + retrieval</p>
-            </div>
-          </header>
-          <ul class="tech-list" role="list">
-            <li><span class="dot"></span><span>FAISS / Chroma</span></li>
-            <li><span class="dot"></span><span>Pinecone / Weaviate</span></li>
-            <li><span class="dot"></span><span>PostgreSQL</span></li>
-            <li><span class="dot"></span><span>MongoDB</span></li>
-            <li><span class="dot"></span><span>Redis / SQLite</span></li>
-          </ul>
-        </article>
-
-        <article class="card tech-card fade">
-          <header class="tech-head">
-            <div class="tech-ico" aria-hidden="true">⚙️</div>
-            <div>
-              <h3>Production APIs</h3>
-              <p>Serving + validation</p>
-            </div>
-          </header>
-          <ul class="tech-list" role="list">
-            <li><span class="dot"></span><span>FastAPI</span></li>
-            <li><span class="dot"></span><span>Pydantic</span></li>
-            <li><span class="dot"></span><span>Uvicorn</span></li>
-            <li><span class="dot"></span><span>Gunicorn</span></li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="container">
-      <div class="section-head">
-        <h2 class="title">Contact</h2>
-        <p class="subtitle">For production ML/GenAI roles, collaborations, or decision-grade dashboards.</p>
-      </div>
-
-      <div class="contact-grid">
-        <a class="card contact fade" aria-label="LinkedIn" href="https://www.linkedin.com/in/tarek-masryo/" target="_blank" rel="noopener noreferrer">
-          <h4>LinkedIn</h4>
-          <p>Connect</p>
-        </a>
-        <a class="card contact fade" aria-label="GitHub" href="https://github.com/tarekmasryo" target="_blank" rel="noopener noreferrer">
-          <h4>GitHub</h4>
-          <p>Repos</p>
-        </a>
-        <a class="card contact fade" aria-label="Kaggle" href="https://www.kaggle.com/tarekmasryo" target="_blank" rel="noopener noreferrer">
-          <h4>Kaggle</h4>
-          <p>Datasets</p>
-        </a>
-        <a class="card contact fade" aria-label="Hugging Face" href="https://huggingface.co/tarekmasryo" target="_blank" rel="noopener noreferrer">
-          <h4>Hugging Face</h4>
-          <p>Models</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="container foot">
-      <p class="copy">© <span id="year">2026</span> Tarek Masryo — AI/ML Engineer</p>
-      <a class="xlink" aria-label="X" href="https://x.com/TarekMasryo" target="_blank" rel="noopener noreferrer">X</a>
-    </div>
-  </footer>
-
-  <button class="topbtn" id="topBtn" type="button" title="Scroll to top" aria-label="Scroll to top">↑</button>
-
-  <div class="modal" id="projectModal" aria-hidden="true">
-    <div class="modal-backdrop" data-close="1"></div>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Project details">
-      <div class="modal-head">
-        <div>
-          <div class="modal-type" id="mType">—</div>
-          <div class="modal-title" id="mTitle">—</div>
-          <div class="modal-desc" id="mDesc">—</div>
-        </div>
-        <button class="iconbtn" id="mClose" type="button" aria-label="Close">×</button>
-      </div>
-
-      <div class="modal-body">
-        <div class="modal-media" id="mMedia" aria-label="Project media"></div>
-        <div class="modal-grid">
-          <div class="modal-block">
-            <h4>Summary</h4>
-            <p id="mProblem">—</p>
-          </div>
-          <div class="modal-block">
-            <h4>Approach</h4>
-            <ul id="mApproach"></ul>
-          </div>
-          <div class="modal-block">
-            <h4>Decision signals</h4>
-            <ul id="mSignals"></ul>
-          </div>
-          <div class="modal-block">
-            <h4>Stack</h4>
-            <div class="taggrid" id="mStack"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-foot">
-        <a class="btn small repo" id="mRepo" href="#" target="_blank" rel="noopener noreferrer">Open repo</a>
-        <a class="btn small" id="mAlt" href="#" target="_blank" rel="noopener noreferrer">Secondary link</a>
-        <button class="btn small ghost" type="button" data-close="1">Close</button>
-      </div>
-    </div>
-  </div>
-</body>
+  </body>
 </html>
