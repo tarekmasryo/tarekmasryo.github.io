@@ -86,17 +86,23 @@ body {
     Roboto,
     Arial,
     sans-serif;
-  font-size: 17.5px;
+  font-size: 18px;
   background: var(--bg0);
   color: var(--txt);
   overflow-x: hidden;
-  line-height: 1.6;
+  line-height: 1.65;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 body.modal-open {
   overflow: hidden;
+}
+body.modal-open #topBtn {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(12px) !important;
 }
 
 :where(a, button, input, textarea, select, [tabindex]) {
@@ -125,7 +131,6 @@ body.modal-open {
     radial-gradient(950px 720px at 25% 85%, rgba(32, 227, 178, 0.2), transparent 58%);
   filter: blur(90px);
   animation: floaty 34s ease-in-out infinite;
-  will-change: transform;
 }
 .bg::after {
   content: '';
@@ -350,8 +355,8 @@ nav {
 }
 
 .hero-avatar {
-  width:clamp(162px, 18vw, 240px);
-  height:clamp(162px, 18vw, 240px);
+  width: clamp(162px, 18vw, 240px);
+  height: clamp(162px, 18vw, 240px);
   border-radius: 999px;
   object-fit: cover;
   border: 1px solid var(--stroke2);
@@ -442,6 +447,7 @@ nav {
   flex-wrap: wrap;
   margin-top: 18px;
 }
+
 .btn {
   text-decoration: none;
   display: inline-flex;
@@ -690,13 +696,29 @@ nav {
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  will-change: transform;
-  transform: translateZ(0);
   display: flex;
   flex-direction: column;
 }
+
+.p-typebar {
+  margin: 14px 14px 12px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+  color: color-mix(in srgb, var(--txt) 92%, transparent);
+  font-weight: 950;
+  font-size: 0.86rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .p-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-4px) scale(1.02);
   box-shadow:
     var(--shadow2),
     0 0 0 1px rgba(79, 140, 255, 0.1);
@@ -801,7 +823,37 @@ nav {
   margin-top: 0;
   color: var(--muted);
   line-height: 1.75;
+  font-size: 1.02rem;
 }
+
+.p-impact {
+  margin: 10px 0 10px;
+  color: color-mix(in srgb, var(--txt) 86%, transparent);
+  font-weight: 650;
+  line-height: 1.5;
+  font-size: 0.98rem;
+}
+
+.p-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.p-tags .tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted2);
+  font-size: 0.88rem;
+  line-height: 1.1;
+  user-select: none;
+}
+
 .p-body .btn {
   margin-top: auto;
   align-self: flex-start;
@@ -1115,12 +1167,16 @@ footer {
 .modal-card {
   position: relative;
   width: min(980px, calc(100% - 24px));
-  margin: 90px auto 24px;
+  margin: 72px auto 24px;
   background: color-mix(in srgb, var(--card2) 84%, transparent);
   border: 1px solid var(--stroke2);
   border-radius: 24px;
   box-shadow: var(--shadow2);
   padding: 16px;
+  max-height: calc(100vh - 96px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 .modal-head {
   display: flex;
@@ -1153,10 +1209,14 @@ footer {
   margin-top: 14px;
   display: grid;
   gap: 14px;
+  flex: 1;
+  overflow: auto;
+  padding-right: 2px;
+  padding-bottom: 6px;
 }
 .modal-media {
   width: 100%;
-  aspect-ratio: 16/9;
+  height: clamp(180px, 34vh, 420px);
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--txt) 10%, transparent);
@@ -1231,14 +1291,17 @@ footer {
   flex-wrap: wrap;
   justify-content: flex-end;
   margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid color-mix(in srgb, var(--txt) 10%, transparent);
+  background: color-mix(in srgb, var(--card2) 92%, transparent);
 }
 
 .fade {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(20px);
   transition:
-    opacity 0.75s var(--ease),
-    transform 0.75s var(--ease);
+    opacity 0.6s var(--ease),
+    transform 0.6s var(--ease);
   transition-delay: var(--d, 0ms);
 }
 .fade.in {
@@ -1269,6 +1332,14 @@ footer {
   section {
     padding: 86px 0;
   }
+
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
+  .p-typebar {
+    font-size: 0.82rem;
+  }
+
   .contact-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

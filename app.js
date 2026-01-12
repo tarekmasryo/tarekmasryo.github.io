@@ -16,6 +16,7 @@
       type: 'Dataset',
       title: 'LLM Production Telemetry — Decision-Grade Observability',
       desc: 'Multi-table LLM system telemetry + SFT samples for observability, cost governance, routing backtests, drift watch, and operator triage.',
+      tags: [ 'LLMOps', 'Observability', 'Cost Analytics' ],
       repo: 'llm-system-ops-production-telemetry-sft-data',
       imageBase: 'llm-system-ops-production-telemetry-sft-data',
     },
@@ -26,6 +27,7 @@
       type: 'Healthcare ML',
       title: 'Hospital Deterioration — Next 12h Early Warning',
       desc: 'Baseline pipeline for early-warning risk scoring and operational evaluation (next 12h).',
+      tags: [ 'Clinical ML', 'Early Warning', 'Time Series' ],
       repo: 'hospital-deterioration-next-12h-early-warning-baseline',
       imageBase: 'Hospital Deterioration — Next 12h Early Warning',
     },
@@ -35,6 +37,7 @@
       type: 'Dataset',
       title: 'Hospital Deterioration Dataset',
       desc: 'Clean ML-ready tables for deterioration prediction with reproducible splits and documentation.',
+      tags: [ 'Clinical Dataset', 'Time Series', 'Label Quality' ],
       repo: 'hospital-deterioration-dataset',
       imageBase: 'Hospital Deterioration Dataset',
     },
@@ -44,6 +47,7 @@
       type: 'Dashboard',
       title: 'Health Intelligence Platform',
       desc: 'Dashboard exploring digital lifestyle patterns, wellbeing signals, and decision insights.',
+      tags: [ 'Health Analytics', 'KPI Dashboard', 'Decision Insights' ],
       repo: 'health-intelligence-platform',
       imageBase: 'Health Intelligence Platform',
     },
@@ -53,6 +57,7 @@
       type: 'Healthcare ML',
       title: 'Cancer Risk Prediction',
       desc: 'End-to-end risk prediction workflow with robust evaluation and model reporting.',
+      tags: [ 'Cancer Risk', 'Tabular ML', 'Model Evaluation' ],
       repo: 'cancer-risk-prediction',
       imageBase: 'Cancer Risk Prediction',
     },
@@ -62,6 +67,7 @@
       type: 'Dataset',
       title: 'Cancer Risk Factors Data',
       desc: 'Clean dataset for cancer risk analysis with documentation and practical baselines.',
+      tags: [ 'Medical Dataset', 'Feature Engineering', 'Data Dictionary' ],
       repo: 'cancer-risk-factors-data',
       imageBase: 'Cancer Risk Factors Data',
     },
@@ -71,6 +77,7 @@
       type: 'Dataset',
       title: 'Blood Donation Registry Dataset',
       desc: 'Synthetic ops dataset for donor eligibility, outreach policy modeling, and compatibility lookup.',
+      tags: [ 'Synthetic Dataset', 'Healthcare Ops', 'Predictive Modeling' ],
       repo: 'blood-donation-registry-dataset',
       imageBase: 'Blood Donation Registry Dataset',
     },
@@ -81,6 +88,7 @@
       type: 'Dashboard',
       title: 'Fraud Detection Dashboard',
       desc: 'Streamlit dashboard with trained artifacts, decision metrics, segments, and operational UX.',
+      tags: [ 'Fraud Detection', 'Streamlit Dashboard', 'Threshold Tuning' ],
       repo: 'fraud-detection-dashboard',
       imageBase: 'Fraud Detection Dashboard',
     },
@@ -90,6 +98,7 @@
       type: 'ML Pipeline',
       title: 'Credit Card Fraud Detection',
       desc: 'Fraud classification workflow with reproducibility, evaluation, and threshold-aware analysis.',
+      tags: [ 'Imbalanced Learning', 'XGBoost', 'PR-AUC' ],
       repo: 'creditcard-fraud-detection',
       imageBase: 'Credit Card Fraud Detection',
     },
@@ -99,6 +108,7 @@
       type: 'Kaggle PS',
       title: 'Loan Payback Prediction',
       desc: 'Playground Series solution: feature engineering, training, and model selection.',
+      tags: [ 'Credit Scoring', 'Cross-Validation', 'Kaggle' ],
       repo: 'loan-payback-ps5e11',
       imageBase: 'Loan Payback Prediction',
     },
@@ -108,6 +118,7 @@
       type: 'Risk Model',
       title: 'Road Accident Risk',
       desc: 'Risk assessment modeling with production-style evaluation and reporting.',
+      tags: [ 'Road Safety', 'Risk Modeling', 'Explainability' ],
       repo: 'road-accident-risk',
       imageBase: 'Road Accident Risk',
     },
@@ -118,6 +129,7 @@
       type: 'Dashboard',
       title: 'Short Video Intelligence Dashboard',
       desc: 'Virality and engagement analytics for short-form content with decision-ready views.',
+      tags: [ 'Social Analytics', 'Trend Forecasting', 'KPI Dashboard' ],
       repo: 'Short-video-intelligence-dashboard',
       imageBase: 'Short Video Intelligence Dashboard',
     },
@@ -127,6 +139,7 @@
       type: 'Dataset',
       title: 'YouTubeTikTok Trends Dataset',
       desc: 'Trends dataset to analyze content performance and short-form dynamics (2025 snapshot).',
+      tags: [ 'Engagement Metrics', 'Trend Mining', 'Social Dataset' ],
       repo: 'youtube-tiktok-trends-dataset-2025',
       imageBase: 'YouTubeTikTok Trends Dataset',
     },
@@ -136,6 +149,7 @@
       type: 'NLP',
       title: 'Text Sentiment Analysis',
       desc: 'Sentiment classification with classical baselines and deep learning extensions.',
+      tags: [ 'Sentiment Analysis', 'Transformers', 'NLP' ],
       repo: 'text-sentiment-analysis',
       imageBase: 'Text Sentiment Analysis',
     },
@@ -145,6 +159,7 @@
       type: 'NLP',
       title: 'SMS Spam Detection',
       desc: 'Spam detection pipeline with feature engineering, validation, and model evaluation.',
+      tags: [ 'Spam Filtering', 'Text Classification', 'Precision/Recall' ],
       repo: 'sms-spam-detection',
       imageBase: 'SMS Spam Detection',
     },
@@ -155,6 +170,7 @@
       type: 'Dataset',
       title: 'RAG QA Logs & Corpus Data',
       desc: 'Multi-table RAG evaluation logs + corpus for retrieval quality and hallucination analysis.',
+      tags: [ 'RAG Evaluation', 'Retrieval Quality', 'QA Dataset' ],
       repo: 'rag-qa-logs-corpus-data',
       imageBase: 'RAG QA Logs & Corpus Data',
     },
@@ -164,6 +180,7 @@
       type: 'Tooling',
       title: 'QuickStart',
       desc: 'Generate quick artifacts and scaffolds from Hugging Face URLs (fast reusable workflow).',
+      tags: [ 'Starter Template', 'Python', 'Developer Tooling' ],
       repo: 'QuickStart',
       imageBase: 'QuickStart',
     },
@@ -173,6 +190,7 @@
       type: 'App',
       title: 'Old Photo Restorer',
       desc: 'Gradio app for photo restoration with batch export and clean UX.',
+      tags: [ 'Image Restoration', 'Gradio App', 'Computer Vision' ],
       repo: 'Old-Photo-Restorer',
       imageBase: 'Old Photo Restorer',
     },
@@ -182,6 +200,7 @@
       type: 'Dataset',
       title: 'GenAI Tools & Platforms Data',
       desc: 'Dataset mapping GenAI tools/platforms for comparisons and analysis.',
+      tags: [ 'GenAI Landscape', 'Tools Dataset', 'Market Research' ],
       repo: 'genai-tools-platforms-data',
       imageBase: 'GenAI Tools & Platforms Data',
     },
@@ -191,6 +210,7 @@
       type: 'Baseline',
       title: 'GenAI Tools Baseline',
       desc: 'Baseline comparisons and practical notes for GenAI tools, platforms, and model usage patterns.',
+      tags: [ 'Model Benchmark', 'GenAI Comparison', 'Scoring' ],
       repo: 'genai-tools-baseline',
       imageBase: 'GenAI Tools Baseline',
     },
@@ -201,6 +221,7 @@
       type: 'Dashboard',
       title: 'EV Charging Dashboard',
       desc: 'Interactive analytics for global EV charging infrastructure and power classifications.',
+      tags: [ 'EV Charging', 'Geo Analytics', 'KPI Dashboard' ],
       repo: 'ev-charging-dashboard',
       imageBase: 'EV Charging Dashboard',
     },
@@ -210,6 +231,7 @@
       type: 'Dataset',
       title: 'EV Infra Dataset',
       desc: 'EV infrastructure dataset: stations, connectors, and derived power categories.',
+      tags: [ 'EV Infrastructure', 'Stations Dataset', 'Data Cleaning' ],
       repo: 'global-ev-infra-dataset',
       imageBase: 'EV Infra Dataset',
     },
@@ -219,6 +241,7 @@
       type: 'Dashboard',
       title: 'Football Matches Dashboard',
       desc: 'Football analytics dashboard for match performance and season-level insights.',
+      tags: [ 'Football Analytics', 'Interactive Dashboard', 'Season Trends' ],
       repo: 'football-matches-dashboard',
       imageBase: 'Football Matches Dashboard',
     },
@@ -228,6 +251,7 @@
       type: 'Dataset',
       title: 'Football Matches Dataset 2025',
       desc: 'Dataset for football match results/statistics (2025) designed for analysis and dashboards.',
+      tags: [ 'Football Dataset', 'Match Results', 'Feature Set' ],
       repo: 'football-matches-2025-dataset',
       imageBase: 'Football Matches Dataset 2025',
     },
@@ -237,6 +261,7 @@
       type: 'Tutorial',
       title: 'Matplotlib Tutorials',
       desc: 'Production-style plotting patterns and EDA templates for clean data storytelling.',
+      tags: [ 'Matplotlib', 'Data Visualization', 'Python' ],
       repo: 'matplotlib-tutorials',
       imageBase: 'Matplotlib Tutorials',
     },
@@ -246,6 +271,7 @@
       type: 'Tutorial',
       title: 'Seaborn Tutorials',
       desc: 'Seaborn recipes and best practices for readable, decision-ready visuals.',
+      tags: [ 'Seaborn', 'Statistical Plots', 'Python' ],
       repo: 'seaborn-tutorials',
       imageBase: 'Seaborn Tutorials',
     },
@@ -255,6 +281,7 @@
       type: 'Visual Lab',
       title: 'Seaborn + Matplotlib Visual Lab',
       desc: 'Interactive visual lab to learn plotting patterns, styling, and visual diagnostics.',
+      tags: [ 'Visualization Practice', 'Chart Recipes', 'Python' ],
       repo: 'seaborn-matplotlib-visual-lab',
       imageBase: 'Seaborn + Matplotlib Visual Lab',
     },
@@ -276,7 +303,6 @@
     static clear(el) {
       if (!el) return;
       el.textContent = '';
-      while (el.firstChild) el.removeChild(el.firstChild);
     }
   }
 
@@ -795,6 +821,8 @@
       signals,
       stack,
       alt,
+      tags,
+      impact,
     }) {
       this.cat = cat;
       this.icon = icon;
@@ -808,8 +836,95 @@
       this.signals = signals;
       this.stack = stack;
       this.alt = alt;
+
+      this.tags = Array.isArray(tags) ? tags : Project.buildTags({ cat, type, title, desc });
+      this.impact =
+        typeof impact === 'string' ? impact : Project.buildImpact({ cat, type, title, desc });
     }
 
+    static categoryLabel(cat) {
+      const map = {
+        healthcare: 'Healthcare',
+        finance: 'Finance & Risk',
+        social: 'Social',
+        genai: 'GenAI & Tools',
+        analytics: 'Analytics',
+      };
+      return map[cat] || 'Project';
+    }
+
+    static buildTags({ cat, type, title, desc }) {
+      const text = `${title || ''} ${desc || ''} ${type || ''}`.toLowerCase();
+
+      const out = [];
+      const push = (t) => {
+        if (!t) return;
+        const v = String(t).trim();
+        if (!v) return;
+        if (out.includes(v)) return;
+        out.push(v);
+      };
+
+      const rules = [
+        ['rag', 'RAG'],
+        ['retrieval', 'Retrieval'],
+        ['hallucination', 'Hallucination'],
+        ['llm', 'LLMOps'],
+        ['genai', 'GenAI'],
+        ['telemetry', 'Telemetry'],
+        ['observability', 'Observability'],
+        ['routing', 'Routing'],
+        ['cost', 'Cost Governance'],
+        ['dashboard', 'Dashboard'],
+        ['streamlit', 'Streamlit'],
+        ['gradio', 'Gradio'],
+        ['time series', 'Time Series'],
+        ['early warning', 'Early Warning'],
+        ['risk', 'Risk Modeling'],
+        ['fraud', 'Fraud'],
+        ['calibration', 'Calibration'],
+        ['threshold', 'Thresholding'],
+        ['sentiment', 'Sentiment'],
+        ['spam', 'Spam Detection'],
+        ['transformer', 'Transformers'],
+        ['feature engineering', 'Feature Engineering'],
+        ['geo', 'Geo Analytics'],
+        ['ev', 'EV Analytics'],
+        ['football', 'Sports Analytics'],
+        ['visual', 'Visualization'],
+        ['matplotlib', 'Matplotlib'],
+        ['seaborn', 'Seaborn'],
+      ];
+
+      for (const [needle, tag] of rules) {
+        if (out.length >= 3) break;
+        if (text.includes(needle)) push(tag);
+      }
+
+      if (out.length < 2) push(Project.categoryLabel(cat));
+      if (out.length < 3 && type) push(type);
+
+      return out.slice(0, 3);
+    }
+
+    static buildImpact({ cat, type, title, desc }) {
+      const t = (type || '').toLowerCase();
+      const text = `${title || ''} ${desc || ''}`.toLowerCase();
+
+      if (text.includes('dashboard')) {
+        return 'Outcome: decision-ready dashboard for monitoring and triage.';
+      }
+      if (t.includes('dataset') || text.includes('dataset')) {
+        return 'Outcome: ML-ready dataset package with schema and reproducible baselines.';
+      }
+      if (text.includes('rag') || text.includes('llm') || cat === 'genai') {
+        return 'Outcome: production-oriented GenAI workflow with reliability guardrails.';
+      }
+      if (text.includes('risk') || cat === 'finance') {
+        return 'Outcome: risk-focused ML pipeline with evaluation for real decisions.';
+      }
+      return 'Outcome: end-to-end project with clear evaluation and deployable artifacts.';
+    }
     get githubUrl() {
       return Github.url(this.repo);
     }
@@ -968,9 +1083,6 @@
 
       if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.close());
 
-      const backdrop = Dom.qs('.modal-backdrop', this.root);
-      if (backdrop) backdrop.addEventListener('click', () => this.close());
-
       document.addEventListener('keydown', (e) => {
         if (!this.isOpen()) return;
         if (e.key === 'Escape') this.close();
@@ -1072,6 +1184,7 @@
       card.className = 'card p-card fade';
       card.setAttribute('aria-label', project.title);
       card.setAttribute('role', 'button');
+      card.setAttribute('aria-haspopup', 'dialog');
       card.tabIndex = 0;
 
       const top = document.createElement('div');
@@ -1081,15 +1194,28 @@
       const body = document.createElement('div');
       body.className = 'p-body';
 
-      const type = document.createElement('span');
-      type.className = 'ptype';
-      type.textContent = project.type;
+      const typeBar = document.createElement('div');
+      typeBar.className = 'p-typebar';
+      typeBar.textContent = project.type;
 
       const h = document.createElement('h3');
       h.textContent = project.title;
 
+      const impact = document.createElement('p');
+      impact.className = 'p-impact';
+      impact.textContent = project.impact;
+
       const d = document.createElement('p');
       d.textContent = project.desc;
+
+      const tags = document.createElement('div');
+      tags.className = 'p-tags';
+      (Array.isArray(project.tags) ? project.tags : []).forEach((t) => {
+        const chip = document.createElement('span');
+        chip.className = 'tag';
+        chip.textContent = t;
+        tags.appendChild(chip);
+      });
 
       const a = document.createElement('a');
       a.className = 'btn repo';
@@ -1098,8 +1224,8 @@
       a.rel = 'noopener noreferrer';
       a.textContent = 'Open repo';
 
-      body.append(type, h, d, a);
-      card.append(top, body);
+      body.append(h, impact, d, tags, a);
+      card.append(typeBar, top, body);
 
       const openDetails = () => this.modal.open(project);
 
