@@ -1,0 +1,46 @@
+<!doctype html>
+<html class="preload" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="noindex,follow" name="robots" />
+    <meta content="#070A12" name="theme-color" />
+    <script>
+      (() => {
+        try {
+          const k = 'tm_theme';
+          const stored = localStorage.getItem(k);
+          const mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
+          const theme =
+            stored === 'light' || stored === 'dark' ? stored : mq && mq.matches ? 'light' : 'dark';
+          if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+          else document.documentElement.removeAttribute('data-theme');
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f7f9ff' : '#070a12');
+        } catch {
+          return;
+        }
+      })();
+    </script>
+    <link href="styles.css?v=20260202_8" rel="stylesheet" />
+    <title>Page Not Found — Tarek Masryo</title>
+  </head>
+  <body>
+    <main class="section">
+      <div class="container">
+        <div class="card" style="max-width: 720px; margin: 0 auto; padding: 28px">
+          <h1 style="margin: 0 0 10px; font-size: 34px">404</h1>
+          <p style="margin: 0 0 18px; opacity: 0.9; line-height: 1.6">
+            This page does not exist. The site is a single-page portfolio, so the best move is to go
+            back home.
+          </p>
+          <div class="cta" style="justify-content: flex-start">
+            <a class="btn primary" href="/">Back Home</a>
+            <a class="btn" href="/#projects">Projects</a>
+            <a class="btn" href="/#contact">Contact</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
