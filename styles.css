@@ -512,11 +512,11 @@ nav {
   gap: 6px;
   max-width: 920px;
   margin: -10px auto 14px;
-  font-size: 1rem;
+  font-size: 1.25rem;
   color: color-mix(in srgb, var(--txt) 78%, transparent);
 }
 .hero-loop .loop-text {
-  font-weight: 800;
+  font-weight: 870;
   letter-spacing: 0.2px;
 }
 .hero-loop .loop-cursor {

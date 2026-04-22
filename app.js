@@ -4,7 +4,7 @@ const PROJECTS_RAW = [
     icon: 'lucide:activity',
     type: 'Workflow',
     title: 'LLM Production Telemetry Workflow',
-    desc: 'LLM observability workflow over 9,000 interactions, 1,595 sessions, and 438 users to review quality, latency, failures, and cost.',
+    desc: 'LLM observability workflow over 9,000 interactions, 1,595 sessions, and 438 users to review quality, latency, failures, routing, and cost in production GenAI systems.',
     priority: 92,
     problem:
       'How do you measure and improve LLM/RAG reliability in production (quality, latency, failures, and cost) with evidence and repeatable evaluation?',
@@ -24,7 +24,7 @@ const PROJECTS_RAW = [
     tags: ['LLMOps', 'Observability', 'Telemetry'],
     repo: 'llm-system-ops-production-telemetry-sft-data',
     imageBase: 'llm-system-ops-production-telemetry-sft-data',
-    impact: 'Outcome: ML-ready dataset package with schema and reproducible baselines.',
+    impact: 'Outcome: decision-ready observability workflow for reviewing quality, latency, failures, routing, and cost in production LLM systems.',
   },
 
   {
@@ -280,9 +280,9 @@ const PROJECTS_RAW = [
   {
     cat: 'genai',
     icon: 'lucide:file-text',
-    type: 'Dataset',
-    title: 'RAG QA Logs & Corpus Data',
-    desc: 'Multi-table RAG evaluation benchmark: 3,824 QA eval runs + 93,375 retrieval events for retrieval quality, answer quality, and grounded outputs.',
+    type: 'Workflow',
+    title: 'RAG Evaluation Workflow',
+    desc: 'Multi-table RAG evaluation workflow for retrieval quality, answer quality, groundedness, and failure analysis across 3,824 QA runs and 93,375 retrieval events.',
     priority: 90,
     problem:
       'How do you evaluate RAG beyond a single score—separating retrieval failure from generation failure while tracking operational cost and latency?',
@@ -302,6 +302,7 @@ const PROJECTS_RAW = [
     tags: ['RAG Evaluation', 'Citations', 'Retrieval/Reranking'],
     repo: 'rag-qa-logs-corpus-data',
     imageBase: 'RAG QA Logs & Corpus Data',
+    impact: 'Outcome: decision-ready RAG evaluation workflow for groundedness review, retrieval analysis, and rollout decisions.',
   },
   {
     cat: 'genai',
