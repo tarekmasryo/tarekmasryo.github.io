@@ -1,7 +1,8 @@
 {
   "name": "Tarek Masryo \u2014 AI/ML Engineer",
   "short_name": "Tarek Masryo",
-  "start_url": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#070A12",
   "theme_color": "#070A12",

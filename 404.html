@@ -5,6 +5,11 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="noindex,follow" name="robots" />
     <meta content="#070A12" name="theme-color" />
+    <meta content="strict-origin-when-cross-origin" name="referrer" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' 'sha256-OgUh3YouHqSqwluBZ8Bu4TCs9v/H1oay5zbavr85faE='; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; form-action 'self'; upgrade-insecure-requests"
+    />
     <script>
       (() => {
         try {
@@ -22,24 +27,25 @@
         }
       })();
     </script>
-    <link href="styles.css?v=20260202_8" rel="stylesheet" />
+    <link href="styles.css?v=20260422_5" rel="stylesheet" />
     <title>Page Not Found — Tarek Masryo</title>
   </head>
   <body>
-    <main class="section">
+    <main class="section error-shell">
       <div class="container">
-        <div class="card" style="max-width: 720px; margin: 0 auto; padding: 28px">
-          <h1 style="margin: 0 0 10px; font-size: 34px">404</h1>
-          <p style="margin: 0 0 18px; opacity: 0.9; line-height: 1.6">
-            This page does not exist. The site is a single-page portfolio, so the best move is to go
-            back home.
+        <section class="card error-card" aria-labelledby="errorTitle">
+          <p class="error-code">404</p>
+          <h1 id="errorTitle">Page Not Found</h1>
+          <p class="error-copy">
+            This route does not exist. The portfolio is a single-page site, so the best path is to
+            return home or jump to the main sections below.
           </p>
-          <div class="cta" style="justify-content: flex-start">
+          <div class="cta error-actions">
             <a class="btn primary" href="/">Back Home</a>
             <a class="btn" href="/#projects">Projects</a>
             <a class="btn" href="/#contact">Contact</a>
           </div>
-        </div>
+        </section>
       </div>
     </main>
   </body>
