@@ -24,7 +24,8 @@ const PROJECTS_RAW = [
     tags: ['LLMOps', 'Observability', 'Telemetry'],
     repo: 'llm-system-ops-production-telemetry-sft-data',
     imageBase: 'llm-system-ops-production-telemetry-sft-data',
-    impact: 'Outcome: decision-ready observability workflow for reviewing quality, latency, failures, routing, and cost in production LLM systems.',
+    impact:
+      'Outcome: decision-ready observability workflow for reviewing quality, latency, failures, routing, and cost in production LLM systems.',
   },
 
   {
@@ -302,7 +303,8 @@ const PROJECTS_RAW = [
     tags: ['RAG Evaluation', 'Citations', 'Retrieval/Reranking'],
     repo: 'rag-qa-logs-corpus-data',
     imageBase: 'RAG QA Logs & Corpus Data',
-    impact: 'Outcome: decision-ready RAG evaluation workflow for groundedness review, retrieval analysis, and rollout decisions.',
+    impact:
+      'Outcome: decision-ready RAG evaluation workflow for groundedness review, retrieval analysis, and rollout decisions.',
   },
   {
     cat: 'genai',
