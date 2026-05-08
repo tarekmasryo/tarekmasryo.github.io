@@ -1,437 +1,4 @@
-const PROJECTS_RAW = [
-  {
-    cat: 'genai',
-    icon: 'lucide:activity',
-    type: 'Workflow',
-    title: 'LLM Production Telemetry Workflow',
-    desc: 'LLM observability workflow over 9,000 interactions, 1,595 sessions, and 438 users to review quality, latency, failures, routing, and cost in production GenAI systems.',
-    priority: 92,
-    problem:
-      'How do you measure and improve LLM/RAG reliability in production (quality, latency, failures, and cost) with evidence and repeatable evaluation?',
-    approach: [
-      'Define a strict, schema-friendly log format for requests, retrieval, responses, and tool calls.',
-      'Model evaluation as a regression problem: compare runs, detect regressions, and gate rollout.',
-      'Track cost/latency budgets and failure modes (timeouts, retries, fallbacks) to inform routing decisions.',
-    ],
-    signals: [
-      '9,000 interactions · 1,595 sessions · 438 users',
-      'Quality metrics + human review flags (where available)',
-      'Latency, error rates, and failure categories',
-      'Cost per request / per conversation, budget burn',
-      'Drift / distribution shifts on inputs and retrieval behavior',
-    ],
-    stack: ['Python', 'Pandas', 'FastAPI', 'Plotly', 'MLflow', 'Jupyter'],
-    tags: ['LLMOps', 'Observability', 'Telemetry'],
-    repo: 'llm-system-ops-production-telemetry-sft-data',
-    imageBase: 'llm-system-ops-production-telemetry-sft-data',
-    impact:
-      'Outcome: decision-ready observability workflow for reviewing quality, latency, failures, routing, and cost in production LLM systems.',
-  },
-
-  {
-    cat: 'healthcare',
-    icon: 'lucide:building-2',
-    type: 'Healthcare ML',
-    title: 'Hospital Deterioration — Next 12h Early Warning',
-    desc: 'Early-warning risk scoring baseline with leak-safe evaluation and decision-oriented reporting (next 12h). XGBoost: ROC-AUC 0.9519 / PR-AUC 0.6909 on held-out data.',
-    priority: 95,
-    problem:
-      'How can clinicians and operators identify patients at risk of deterioration within the next 12 hours while avoiding leakage and producing decision-ready outputs?',
-    approach: [
-      'Leak-safe splits and evaluation aligned with time-dependent clinical workflows.',
-      'Calibrated risk scores and threshold candidates for different review capacities.',
-      'A dashboard-style review view to support triage and auditability.',
-    ],
-    signals: [
-      'XGBoost held-out: ROC-AUC 0.9519 / PR-AUC 0.6909',
-      'Logistic Regression + HistGradientBoosting baselines for comparison',
-      'Threshold policy tables: balanced, high-recall, and low-alert regimes',
-      'Error slices by cohort/segment (when applicable)',
-    ],
-    stack: ['Python', 'scikit-learn', 'XGBoost', 'Streamlit', 'Plotly', 'Pandas'],
-    tags: ['Clinical ML', 'Early Warning', 'Time Series'],
-    repo: 'hospital-deterioration-next-12h-early-warning-baseline',
-    imageBase: 'hospital-deterioration-next-12h-early-warning',
-  },
-  {
-    cat: 'healthcare',
-    icon: 'lucide:database',
-    type: 'Dataset',
-    title: 'Hospital Deterioration Dataset',
-    desc: 'Clean ML-ready tables for deterioration prediction with reproducible splits and documentation.',
-    tags: ['Clinical Dataset', 'Time Series', 'Label Quality'],
-    repo: 'hospital-deterioration-dataset',
-    imageBase: 'Hospital Deterioration Dataset',
-  },
-  {
-    cat: 'healthcare',
-    icon: 'lucide:brain',
-    type: 'Dashboard',
-    title: 'Health Intelligence Platform',
-    desc: 'Dashboard exploring digital lifestyle patterns, wellbeing signals, and decision insights.',
-    priority: 78,
-    problem:
-      'How can wellness and behavior data be translated into a decision-ready view that surfaces the most important lifestyle signals without overwhelming the user?',
-    approach: [
-      'Model the experience around core health KPIs, segment views, and trend summaries rather than raw charts alone.',
-      'Combine behavioral features, wellbeing indicators, and clean drill-downs to support quick interpretation.',
-      'Use dashboard-style storytelling so insights are scan-friendly for product, ops, and end-user review.',
-    ],
-    signals: [
-      'Lifestyle and wellbeing KPI summaries across key segments',
-      'Trend and distribution views for habit patterns and health indicators',
-      'Decision-friendly layouts that reduce scan time and improve interpretability',
-    ],
-    stack: ['Python', 'Pandas', 'Plotly', 'Streamlit', 'Dashboard Design'],
-    tags: ['Health Analytics', 'KPI Dashboard', 'Decision Insights'],
-    repo: 'health-intelligence-platform',
-    imageBase: 'Health Intelligence Platform',
-  },
-  {
-    cat: 'healthcare',
-    icon: 'lucide:target',
-    type: 'Healthcare ML',
-    title: 'Cancer Risk Prediction',
-    desc: 'End-to-end risk prediction workflow with robust evaluation and model reporting.',
-    tags: ['Cancer Risk', 'Tabular ML', 'Model Evaluation'],
-    repo: 'cancer-risk-prediction',
-    imageBase: 'Cancer Risk Prediction',
-  },
-  {
-    cat: 'healthcare',
-    icon: 'lucide:database',
-    type: 'Dataset',
-    title: 'Cancer Risk Factors Data',
-    desc: 'Clean dataset for cancer risk analysis with documentation and practical baselines.',
-    tags: ['Medical Dataset', 'Feature Engineering', 'Data Dictionary'],
-    repo: 'cancer-risk-factors-data',
-    imageBase: 'Cancer Risk Factors Data',
-  },
-  {
-    cat: 'healthcare',
-    icon: 'lucide:droplet',
-    type: 'Dataset',
-    title: 'Blood Donation Registry Dataset',
-    desc: 'Synthetic ops dataset for donor eligibility, outreach policy modeling, and compatibility lookup.',
-    tags: ['Synthetic Dataset', 'Healthcare Ops', 'Predictive Modeling'],
-    repo: 'blood-donation-registry-dataset',
-    imageBase: 'Blood Donation Registry Dataset',
-  },
-
-  {
-    cat: 'healthcare',
-    icon: 'lucide:stethoscope',
-    type: 'ML Pipeline',
-    title: 'Pima Diabetes Pipeline',
-    desc: 'End-to-end diabetes risk prediction pipeline with validation, reproducible training, and decision-ready reporting.',
-    priority: 88,
-    problem:
-      'How can we ship a small, reliable tabular ML pipeline for diabetes risk prediction with clean data contracts and leak-safe evaluation?',
-    approach: [
-      'Validate inputs with a strict schema (types, ranges, missingness guards).',
-      'Train a baseline + tuned model with leak-safe splits and calibrated probabilities.',
-      'Package artifacts for repeatable inference and regression checks.',
-    ],
-    signals: [
-      'ROC-AUC / PR-AUC + calibration (Brier / reliability)',
-      'Threshold trade-offs for sensitivity vs false positives',
-      'Data quality checks: missingness, outliers, schema drift',
-    ],
-    stack: ['Python', 'scikit-learn', 'Pandas', 'Pydantic', 'pytest', 'GitHub Actions'],
-    tags: ['ML Pipeline', 'Clinical Risk', 'Reproducible'],
-    repo: 'pima-diabetes-pipeline',
-    imageBase: 'pima-diabetes-pipeline',
-  },
-
-  {
-    cat: 'finance',
-    icon: 'lucide:shield-check',
-    type: 'Dashboard',
-    title: 'Fraud Detection Dashboard',
-    desc: 'Calibrated fraud risk scoring + threshold policies, KPI monitoring, and SHAP explainability. RF F1 0.882 · XGBoost F1 0.876 on validation.',
-    priority: 100,
-    problem:
-      'How can a fraud model be operated as a decision system (not just a classifier) with thresholds tuned to cost and review capacity?',
-    approach: [
-      'Train baseline models, then calibrate probabilities for reliable risk scores.',
-      'Define threshold policies that balance cost, recall, and reviewer workload.',
-      'Expose decision KPIs, segment cuts, and explanations to guide triage and audits.',
-    ],
-    signals: [
-      'Random Forest validation F1: 0.882 · XGBoost: 0.876',
-      'PR-AUC / ROC-AUC + calibration metrics',
-      'KPI monitoring for review volume, approvals/declines, and drift cues',
-      'SHAP-driven explanations for reviewer trust and faster triage',
-    ],
-    stack: [
-      'Python',
-      'scikit-learn',
-      'XGBoost',
-      'Streamlit',
-      'FastAPI',
-      'Docker',
-      'MLflow',
-      'SHAP',
-    ],
-    tags: ['Fraud Detection', 'Threshold Policies', 'Monitoring'],
-    repo: 'fraud-detection-dashboard',
-    imageBase: 'Fraud Detection Dashboard',
-  },
-  {
-    cat: 'finance',
-    icon: 'lucide:credit-card',
-    type: 'ML Pipeline',
-    title: 'Credit Card Fraud Detection',
-    desc: 'Fraud classification workflow with reproducibility, evaluation, and threshold-aware analysis.',
-    tags: ['Imbalanced Learning', 'XGBoost', 'PR-AUC'],
-    repo: 'creditcard-fraud-detection',
-    imageBase: 'Credit Card Fraud Detection',
-  },
-  {
-    cat: 'finance',
-    icon: 'lucide:dollar-sign',
-    type: 'Kaggle PS',
-    title: 'Loan Payback Prediction',
-    desc: 'Playground Series solution: feature engineering, training, and model selection.',
-    tags: ['Credit Scoring', 'Cross-Validation', 'Kaggle'],
-    repo: 'loan-payback-ps5e11',
-    imageBase: 'Loan Payback Prediction',
-  },
-  {
-    cat: 'finance',
-    icon: 'lucide:car',
-    type: 'Risk Model',
-    title: 'Road Accident Risk',
-    desc: 'Risk assessment modeling with production-style evaluation and reporting.',
-    priority: 84,
-    problem:
-      'How can accident likelihood be scored in a way that supports prevention decisions, not just offline model evaluation?',
-    approach: [
-      'Build a leak-safe tabular risk workflow with feature preparation, validation, and interpretable outputs.',
-      'Evaluate threshold trade-offs so the model can support intervention capacity and alert policy design.',
-      'Frame outputs as operational risk slices for reviewers, planners, and safety stakeholders.',
-    ],
-    signals: [
-      'Classification quality with threshold-aware reporting',
-      'Segment-level risk views to identify higher-risk scenarios',
-      'Explainability-ready outputs for safer decision review',
-    ],
-    stack: ['Python', 'scikit-learn', 'Pandas', 'Matplotlib', 'Risk Modeling'],
-    tags: ['Road Safety', 'Risk Modeling', 'Explainability'],
-    repo: 'road-accident-risk-ps5e10',
-    repoUrl: 'https://github.com/tarekmasryo/road-accident-risk-ps5e10',
-    imageBase: 'Road Accident Risk',
-  },
-
-  {
-    cat: 'social',
-    icon: 'lucide:video',
-    type: 'Dashboard',
-    title: 'Short Video Intelligence Dashboard',
-    desc: 'Virality and engagement analytics for short-form content with decision-ready views.',
-    priority: 80,
-    problem:
-      'How can short-form content performance be monitored in a way that helps creators or operators spot momentum, engagement quality, and likely breakout content early?',
-    approach: [
-      'Surface engagement, reach, and virality indicators in a compact dashboard with fast comparison views.',
-      'Highlight trend signals and content-level cuts so users can identify what is working without manual spreadsheet review.',
-      'Design the UI around actionability: scan, compare, and prioritize the next content decisions quickly.',
-    ],
-    signals: [
-      'Virality, engagement, and trend-oriented KPI panels',
-      'Content comparison views for standout and underperforming posts',
-      'Decision-ready summaries for prioritization and iteration',
-    ],
-    stack: ['Python', 'Pandas', 'Plotly', 'Streamlit', 'Analytics Design'],
-    tags: ['Social Analytics', 'Trend Forecasting', 'KPI Dashboard'],
-    repo: 'Short-video-intelligence-dashboard',
-    imageBase: 'Short Video Intelligence Dashboard',
-  },
-  {
-    cat: 'social',
-    icon: 'lucide:flame',
-    type: 'Dataset',
-    title: 'YouTubeTikTok Trends Dataset',
-    desc: 'Trends dataset to analyze content performance and short-form dynamics (2025 snapshot).',
-    tags: ['Engagement Metrics', 'Trend Mining', 'Social Dataset'],
-    repo: 'youtube-tiktok-trends-dataset-2025',
-    imageBase: 'YouTubeTikTok Trends Dataset',
-  },
-  {
-    cat: 'social',
-    icon: 'lucide:smile',
-    type: 'NLP',
-    title: 'Text Sentiment Analysis',
-    desc: 'Sentiment classification with classical baselines and deep learning extensions.',
-    tags: ['Sentiment Analysis', 'Transformers', 'NLP'],
-    repo: 'text-sentiment-analysis',
-    imageBase: 'Text Sentiment Analysis',
-  },
-  {
-    cat: 'social',
-    icon: 'lucide:mail',
-    type: 'NLP',
-    title: 'SMS Spam Detection',
-    desc: 'Spam detection pipeline with feature engineering, validation, and model evaluation.',
-    tags: ['Spam Filtering', 'Text Classification', 'Precision/Recall'],
-    repo: 'sms-spam-detection',
-    imageBase: 'SMS Spam Detection',
-  },
-
-  {
-    cat: 'genai',
-    icon: 'lucide:file-text',
-    type: 'Workflow',
-    title: 'RAG Evaluation Workflow',
-    desc: 'Multi-table RAG evaluation workflow for retrieval quality, answer quality, groundedness, and failure analysis across 3,824 QA runs and 93,375 retrieval events.',
-    priority: 90,
-    problem:
-      'How do you evaluate RAG beyond a single score—separating retrieval failure from generation failure while tracking operational cost and latency?',
-    approach: [
-      'Provide realistic QA logs + corpus with retrieval traces to benchmark retrieval/reranking.',
-      'Score answer quality and groundedness with citations + targeted error slices.',
-      'Track latency/cost signals to iterate under budget constraints.',
-    ],
-    signals: [
-      '3,824 QA eval runs · 93,375 retrieval events',
-      'Correctness-risk baseline: Logistic Regression ROC-AUC 0.755',
-      'Retrieval metrics (recall@k, MRR / nDCG when applicable)',
-      'Answer quality + groundedness / citation coverage',
-      'Operational telemetry: latency, token/cost budgets',
-    ],
-    stack: ['Python', 'Pandas', 'FAISS', 'pgvector', 'Jupyter'],
-    tags: ['RAG Evaluation', 'Citations', 'Retrieval/Reranking'],
-    repo: 'rag-qa-logs-corpus-data',
-    imageBase: 'RAG QA Logs & Corpus Data',
-    impact:
-      'Outcome: decision-ready RAG evaluation workflow for groundedness review, retrieval analysis, and rollout decisions.',
-  },
-  {
-    cat: 'genai',
-    icon: 'lucide:tool',
-    type: 'Tooling',
-    title: 'QuickStart',
-    desc: 'Generate quick artifacts and scaffolds from Hugging Face URLs (fast reusable workflow).',
-    tags: ['Starter Template', 'Python', 'Developer Tooling'],
-    repo: 'QuickStart',
-    imageBase: 'QuickStart',
-  },
-  {
-    cat: 'genai',
-    icon: 'lucide:image',
-    type: 'App',
-    title: 'Old Photo Restorer',
-    desc: 'Gradio app for photo restoration with batch export and clean UX.',
-    tags: ['Image Restoration', 'Gradio App', 'Computer Vision'],
-    repo: 'Old-Photo-Restorer',
-    imageBase: 'Old Photo Restorer',
-  },
-  {
-    cat: 'genai',
-    icon: 'lucide:puzzle',
-    type: 'Dataset',
-    title: 'GenAI Tools & Platforms Data',
-    desc: 'Dataset mapping GenAI tools/platforms for comparisons and analysis.',
-    tags: ['GenAI Landscape', 'Tools Dataset', 'Market Research'],
-    repo: 'genai-tools-platforms-data',
-    imageBase: 'GenAI Tools & Platforms Data',
-  },
-  {
-    cat: 'genai',
-    icon: 'lucide:brain',
-    type: 'Baseline',
-    title: 'GenAI Tools Baseline',
-    desc: 'Baseline comparisons and practical notes for GenAI tools, platforms, and model usage patterns.',
-    tags: ['Model Benchmark', 'GenAI Comparison', 'Scoring'],
-    repo: 'genai-tools-baseline',
-    imageBase: 'GenAI Tools Baseline',
-  },
-
-  {
-    cat: 'analytics',
-    icon: 'lucide:plug',
-    type: 'Dashboard',
-    title: 'EV Charging Dashboard',
-    desc: 'Interactive analytics for global EV charging infrastructure and power classifications.',
-    priority: 82,
-    problem:
-      'How can EV charging infrastructure data be turned into a practical dashboard for comparing station coverage, connector mix, and power availability?',
-    approach: [
-      'Clean and normalize infrastructure attributes such as connector types, power tiers, and location signals.',
-      'Expose map-oriented and KPI-oriented views to compare regions, station density, and charging capability.',
-      'Structure the dashboard for quick scanability so infrastructure patterns are visible without deep manual filtering.',
-    ],
-    signals: [
-      'Regional station coverage and connector distribution',
-      'Power-class breakdowns and availability comparisons',
-      'Interactive views built for exploration and operational interpretation',
-    ],
-    stack: ['Python', 'Pandas', 'Plotly', 'Geo Analytics', 'Dashboard Design'],
-    tags: ['EV Charging', 'Geo Analytics', 'KPI Dashboard'],
-    repo: 'ev-charging-dashboard',
-    imageBase: 'EV Charging Dashboard',
-  },
-  {
-    cat: 'analytics',
-    icon: 'lucide:globe',
-    type: 'Dataset',
-    title: 'EV Infra Dataset',
-    desc: 'EV infrastructure dataset: stations, connectors, and derived power categories.',
-    tags: ['EV Infrastructure', 'Stations Dataset', 'Data Cleaning'],
-    repo: 'global-ev-infra-dataset',
-    imageBase: 'EV Infra Dataset',
-  },
-  {
-    cat: 'analytics',
-    icon: 'lucide:trophy',
-    type: 'Dashboard',
-    title: 'Football Matches Dashboard',
-    desc: 'Football analytics dashboard for match performance and season-level insights.',
-    tags: ['Football Analytics', 'Interactive Dashboard', 'Season Trends'],
-    repo: 'football-matches-dashboard',
-    imageBase: 'Football Matches Dashboard',
-  },
-  {
-    cat: 'analytics',
-    icon: 'lucide:package',
-    type: 'Dataset',
-    title: 'Football Matches Dataset 2025',
-    desc: 'Dataset for football match results/statistics (2025) designed for analysis and dashboards.',
-    tags: ['Football Dataset', 'Match Results', 'Feature Set'],
-    repo: 'football-matches-2025-dataset',
-    imageBase: 'Football Matches Dataset 2025',
-  },
-  {
-    cat: 'analytics',
-    icon: 'lucide:line-chart',
-    type: 'Tutorial',
-    title: 'Matplotlib Tutorials',
-    desc: 'Production-style plotting patterns and EDA templates for clean data storytelling.',
-    tags: ['Matplotlib', 'Data Visualization', 'Python'],
-    repo: 'matplotlib-tutorials',
-    imageBase: 'Matplotlib Tutorials',
-  },
-  {
-    cat: 'analytics',
-    icon: 'lucide:database',
-    type: 'Tutorial',
-    title: 'Seaborn Tutorials',
-    desc: 'Seaborn recipes and best practices for readable, decision-ready visuals.',
-    tags: ['Seaborn', 'Statistical Plots', 'Python'],
-    repo: 'seaborn-tutorials',
-    imageBase: 'Seaborn Tutorials',
-  },
-  {
-    cat: 'analytics',
-    icon: 'lucide:palette',
-    type: 'Visual Lab',
-    title: 'Seaborn + Matplotlib Visual Lab',
-    desc: 'Interactive visual lab to learn plotting patterns, styling, and visual diagnostics.',
-    tags: ['Visualization Practice', 'Chart Recipes', 'Python'],
-    repo: 'seaborn-matplotlib-visual-lab',
-    imageBase: 'Seaborn + Matplotlib Visual Lab',
-  },
-];
+import { PROJECTS_RAW } from './projects.js';
 
 (() => {
   'use strict';
@@ -440,6 +7,7 @@ const PROJECTS_RAW = [
     assetsDir: 'assets',
     githubProfile: 'https://github.com/tarekmasryo',
     imageExtensions: ['webp'],
+    assetsVersion: '20260507_final_release',
     revealThreshold: 0.12,
     projectLimit: 6,
     themeStorageKey: 'tm_theme',
@@ -478,47 +46,6 @@ const PROJECTS_RAW = [
     }
   }
 
-  class Clipboard {
-    static async writeText(text) {
-      const value = String(text || '');
-      if (!value) return false;
-      const canUse =
-        typeof navigator !== 'undefined' &&
-        navigator.clipboard &&
-        typeof navigator.clipboard.writeText === 'function' &&
-        window.isSecureContext;
-      if (canUse) {
-        try {
-          await navigator.clipboard.writeText(value);
-          return true;
-        } catch {
-          return this.fallback(value);
-        }
-      }
-      return this.fallback(value);
-    }
-    static fallback(value) {
-      try {
-        const ta = document.createElement('textarea');
-        const active = document.activeElement;
-        ta.value = value;
-        ta.setAttribute('readonly', '');
-        ta.style.position = 'absolute';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        ta.setSelectionRange(0, ta.value.length);
-        const ok = document.execCommand('copy');
-        document.body.removeChild(ta);
-        if (active && typeof active.focus === 'function') active.focus();
-        return Boolean(ok);
-      } catch {
-        return false;
-      }
-    }
-  }
-
   class Toast {
     constructor(el) {
       this.el = el;
@@ -540,32 +67,6 @@ const PROJECTS_RAW = [
     }
   }
 
-  class EmailCopy {
-    constructor({ selector, toast }) {
-      this.selector = selector;
-      this.toast = toast;
-    }
-    buildEmail(el) {
-      const user = (el.getAttribute('data-email-user') || '').trim();
-      const domain = (el.getAttribute('data-email-domain') || '').trim();
-      if (!user || !domain) return '';
-      return `${user}@${domain}`;
-    }
-    bind(el) {
-      el.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const email = this.buildEmail(el);
-        if (!email) return;
-        const ok = await Clipboard.writeText(email);
-        if (ok) this.toast?.show('Copied');
-      });
-    }
-    init() {
-      const nodes = Dom.qsa(this.selector);
-      for (const el of nodes) this.bind(el);
-    }
-  }
-
   class IconRenderer {
     static NS = 'http://www.w3.org/2000/svg';
 
@@ -582,8 +83,7 @@ const PROJECTS_RAW = [
       svg.setAttribute('viewBox', '0 0 24 24');
       svg.setAttribute('aria-hidden', 'true');
       svg.setAttribute('focusable', 'false');
-      svg.style.display = 'block';
-      svg.style.flex = '0 0 auto';
+      svg.classList.add('inline-icon');
       return svg;
     }
     static make(tag, attrs = {}) {
@@ -852,6 +352,63 @@ const PROJECTS_RAW = [
         case 'lucide:terminal':
           this.appendStroke(svg, 'path', { d: 'm4 6 4 4-4 4M11 18h9' });
           return svg;
+
+        case 'lucide:banknote':
+          this.appendStroke(svg, 'rect', { x: '3', y: '6', width: '18', height: '12', rx: '2' });
+          this.appendStroke(svg, 'circle', { cx: '12', cy: '12', r: '2.5' });
+          this.appendStroke(svg, 'path', { d: 'M6 9h.01M18 15h.01' });
+          return svg;
+        case 'lucide:chart-line':
+          this.appendStroke(svg, 'path', { d: 'M3 3v18h18' });
+          this.appendStroke(svg, 'path', { d: 'm6 16 4-5 3 3 5-7' });
+          return svg;
+        case 'lucide:heart':
+          this.appendStroke(svg, 'path', {
+            d: 'M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z',
+          });
+          return svg;
+        case 'lucide:heart-pulse':
+          this.appendStroke(svg, 'path', {
+            d: 'M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8L12 21l3-2.9',
+          });
+          this.appendStroke(svg, 'path', { d: 'M3 13h4l2-4 4 8 2-4h6' });
+          return svg;
+        case 'lucide:hospital':
+          this.appendStroke(svg, 'path', { d: 'M4 21V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16' });
+          this.appendStroke(svg, 'path', { d: 'M9 21v-5h6v5M9 8h6M12 5v6M6 21h12' });
+          return svg;
+        case 'lucide:message-square-text':
+          this.appendStroke(svg, 'path', {
+            d: 'M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z',
+          });
+          this.appendStroke(svg, 'path', { d: 'M8 8h8M8 12h6' });
+          return svg;
+        case 'lucide:message-square-warning':
+          this.appendStroke(svg, 'path', {
+            d: 'M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z',
+          });
+          this.appendStroke(svg, 'path', { d: 'M12 7v5M12 15h.01' });
+          return svg;
+        case 'lucide:microscope':
+          this.appendStroke(svg, 'path', {
+            d: 'M6 18h8M3 22h18M14 22a7 7 0 0 0 7-7M9 14l6-6M8 12 4 8l4-4 4 4-4 4Z',
+          });
+          this.appendStroke(svg, 'path', { d: 'M14 6 16 4l4 4-2 2' });
+          return svg;
+        case 'lucide:network':
+          this.appendStroke(svg, 'rect', { x: '9', y: '2', width: '6', height: '6', rx: '1' });
+          this.appendStroke(svg, 'rect', { x: '3', y: '16', width: '6', height: '6', rx: '1' });
+          this.appendStroke(svg, 'rect', { x: '15', y: '16', width: '6', height: '6', rx: '1' });
+          this.appendStroke(svg, 'path', { d: 'M12 8v4M6 16v-2h12v2' });
+          return svg;
+        case 'lucide:search-check':
+          this.appendStroke(svg, 'circle', { cx: '10', cy: '10', r: '6' });
+          this.appendStroke(svg, 'path', { d: 'm14.5 14.5 5 5M7.5 10l1.7 1.7L13 8' });
+          return svg;
+        case 'lucide:trending-up':
+          this.appendStroke(svg, 'path', { d: 'M3 17 9 11l4 4 7-7' });
+          this.appendStroke(svg, 'path', { d: 'M14 8h6v6' });
+          return svg;
         case 'simple-icons:linkedin':
           this.appendText(svg, 'in', { 'font-size': '10', 'font-weight': '800', y: '15' });
           return svg;
@@ -875,37 +432,19 @@ const PROJECTS_RAW = [
     static node(icon, { size } = {}) {
       const px = Number.isFinite(size) ? size : 18;
       if (this.isIconifyId(icon)) {
-        const id = String(icon).trim();
-        const localInline = new Set([
-          'lucide:menu',
-          'lucide:chevron-up',
-          'lucide:moon',
-          'lucide:sun',
-        ]);
-        if (localInline.has(id)) {
-          const svg = this.inlineSvg(id, px);
-          if (svg) return svg;
-        }
-        const span = document.createElement('span');
-        span.className = 'iconify';
-        span.setAttribute('data-icon', id);
-        span.setAttribute('aria-hidden', 'true');
-        span.style.fontSize = `${px}px`;
-        span.style.display = 'inline-flex';
-        span.style.lineHeight = '1';
-        return span;
+        const svg = this.inlineSvg(String(icon).trim(), px);
+        if (svg) return svg;
       }
-      const t = document.createElement('span');
-      t.textContent = icon || '•';
-      t.style.fontSize = `${px}px`;
-      return t;
+      const fallback = document.createElement('span');
+      fallback.textContent = icon || '•';
+      fallback.className = `icon-fallback icon-fallback--${px}`;
+      return fallback;
     }
     static mount(el, icon, opts) {
       if (!el) return;
       Dom.clear(el);
       el.appendChild(this.node(icon, opts));
     }
-    static hydrate() {}
   }
 
   class ThemeManager {
@@ -1106,14 +645,17 @@ const PROJECTS_RAW = [
       const slug = this.slugify(raw);
       const out = [];
       const encodedRaw = encodeURIComponent(raw);
+
       for (const ext of CONFIG.imageExtensions) {
-        out.push(`${CONFIG.assetsDir}/${encodedRaw}.${ext}`);
+        out.push(`${CONFIG.assetsDir}/${slug}.${ext}`);
       }
+
       if (slug !== raw && slug !== raw.toLowerCase()) {
         for (const ext of CONFIG.imageExtensions) {
-          out.push(`${CONFIG.assetsDir}/${slug}.${ext}`);
+          out.push(`${CONFIG.assetsDir}/${encodedRaw}.${ext}`);
         }
       }
+
       return out;
     }
     static mount(container, project, { mode } = { mode: 'card' }) {
@@ -1136,6 +678,8 @@ const PROJECTS_RAW = [
 
       const img = document.createElement('img');
       img.className = 'p-img';
+      img.width = 1280;
+      img.height = 720;
       img.loading = mode === 'modal' ? 'eager' : 'lazy';
       img.decoding = 'async';
       img.alt = project.title || 'Project';
@@ -1147,7 +691,8 @@ const PROJECTS_RAW = [
           this.mountFallback(container, project);
           return;
         }
-        img.src = candidates[i++];
+        const candidate = candidates[i++];
+        img.src = `${candidate}?v=${CONFIG.assetsVersion}`;
       };
 
       img.addEventListener('error', tryNext);
@@ -1233,9 +778,18 @@ const PROJECTS_RAW = [
       this.lineIdx = 0;
       this.charIdx = 0;
       this.deleting = false;
-      this.TYPE_MS = 78;
-      this.DEL_MS = 46;
-      this.HOLD_MS = 2300;
+      this.timer = null;
+      this.running = false;
+      this.TYPE_MS = 45;
+      this.DEL_MS = 25;
+      this.HOLD_MS = 1300;
+      this.onVisibility = () => {
+        if (document.hidden) {
+          this.pause();
+          return;
+        }
+        this.resume();
+      };
     }
     reducedMotion() {
       return Motion.prefersReduced();
@@ -1246,19 +800,43 @@ const PROJECTS_RAW = [
         this.el.textContent = this.lines[0] || '';
         return;
       }
-      this.tick();
+      this.running = true;
+      document.addEventListener('visibilitychange', this.onVisibility);
+      this.schedule(0);
+    }
+    pause() {
+      if (this.timer) {
+        window.clearTimeout(this.timer);
+        this.timer = null;
+      }
+    }
+    resume() {
+      if (!this.running || this.timer || document.hidden) return;
+      this.schedule(0);
+    }
+    schedule(ms) {
+      if (!this.running || document.hidden) return;
+      if (this.timer) window.clearTimeout(this.timer);
+      this.timer = window.setTimeout(
+        () => {
+          this.timer = null;
+          this.tick();
+        },
+        Number(ms) || 0,
+      );
     }
     tick() {
+      if (!this.running || document.hidden) return;
       const full = this.lines[this.lineIdx] || '';
       if (!this.deleting) {
         this.charIdx += 1;
         this.el.textContent = full.slice(0, this.charIdx);
         if (this.charIdx >= full.length) {
           this.deleting = true;
-          window.setTimeout(() => this.tick(), this.HOLD_MS);
+          this.schedule(this.HOLD_MS);
           return;
         }
-        window.setTimeout(() => this.tick(), this.TYPE_MS);
+        this.schedule(this.TYPE_MS);
         return;
       }
       this.charIdx -= 1;
@@ -1266,10 +844,10 @@ const PROJECTS_RAW = [
       if (this.charIdx <= 0) {
         this.deleting = false;
         this.lineIdx = (this.lineIdx + 1) % this.lines.length;
-        window.setTimeout(() => this.tick(), 780);
+        this.schedule(350);
         return;
       }
-      window.setTimeout(() => this.tick(), this.DEL_MS);
+      this.schedule(this.DEL_MS);
     }
   }
 
@@ -1306,9 +884,14 @@ const PROJECTS_RAW = [
     reducedMotion() {
       return Motion.prefersReduced();
     }
+    shouldDisableCanvas() {
+      if (this.reducedMotion()) return true;
+      if (!window.matchMedia) return false;
+      return window.matchMedia('(max-width: 720px), (pointer: coarse)').matches;
+    }
     init() {
       if (!this.canvas) return;
-      if (this.reducedMotion()) return;
+      if (this.shouldDisableCanvas()) return;
       this.ctx = this.canvas.getContext('2d', { alpha: true });
       if (!this.ctx) return;
       this.resize();
@@ -1326,8 +909,6 @@ const PROJECTS_RAW = [
       this.h = window.innerHeight;
       this.canvas.width = Math.floor(this.w * this.dpr);
       this.canvas.height = Math.floor(this.h * this.dpr);
-      this.canvas.style.width = `${this.w}px`;
-      this.canvas.style.height = `${this.h}px`;
       this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     }
     seed() {
@@ -1344,7 +925,7 @@ const PROJECTS_RAW = [
     }
     buildGrid(cellSize) {
       const grid = new Map();
-      const key = (cx, cy) => (cx << 16) ^ cy;
+      const key = (cx, cy) => `${cx},${cy}`;
       for (let i = 0; i < this.particles.length; i += 1) {
         const p = this.particles[i];
         const cx = Math.floor(p.x / cellSize);
@@ -1380,7 +961,9 @@ const PROJECTS_RAW = [
     drawLinks() {
       const cell = this.CFG.linkDist;
       const { grid, key } = this.buildGrid(cell);
-      this.ctx.lineWidth = 1;
+      const bucketCount = 10;
+      const buckets = Array.from({ length: bucketCount }, () => []);
+
       for (let i = 0; i < this.particles.length; i += 1) {
         const a = this.particles[i];
         const acx = Math.floor(a.x / cell);
@@ -1397,23 +980,35 @@ const PROJECTS_RAW = [
               const dist = Math.hypot(vx, vy);
               if (dist > this.CFG.linkDist) continue;
               const alpha = 1 - dist / this.CFG.linkDist;
-              this.ctx.strokeStyle = `rgba(79,140,255,${0.18 * alpha})`;
-              this.ctx.beginPath();
-              this.ctx.moveTo(a.x, a.y);
-              this.ctx.lineTo(b.x, b.y);
-              this.ctx.stroke();
+              const bucket = Math.min(bucketCount - 1, Math.floor(alpha * bucketCount));
+              buckets[bucket].push(a.x, a.y, b.x, b.y);
             }
           }
         }
       }
+
+      this.ctx.lineWidth = 1;
+      for (let i = 0; i < buckets.length; i += 1) {
+        const segments = buckets[i];
+        if (!segments.length) continue;
+        const midAlpha = (i + 0.5) / bucketCount;
+        this.ctx.strokeStyle = `rgba(79,140,255,${(0.18 * midAlpha).toFixed(3)})`;
+        this.ctx.beginPath();
+        for (let j = 0; j < segments.length; j += 4) {
+          this.ctx.moveTo(segments[j], segments[j + 1]);
+          this.ctx.lineTo(segments[j + 2], segments[j + 3]);
+        }
+        this.ctx.stroke();
+      }
     }
     drawDots() {
       this.ctx.fillStyle = 'rgba(79,140,255,.55)';
+      this.ctx.beginPath();
       for (const p of this.particles) {
-        this.ctx.beginPath();
+        this.ctx.moveTo(p.x + p.r, p.y);
         this.ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        this.ctx.fill();
       }
+      this.ctx.fill();
     }
     step() {
       if (!this.running) return;
@@ -1434,6 +1029,7 @@ const PROJECTS_RAW = [
       desc,
       repo,
       repoUrl,
+      linkLabel,
       imageBase,
       priority,
       problem,
@@ -1451,6 +1047,7 @@ const PROJECTS_RAW = [
       this.desc = Project.cleanText(desc);
       this.repo = Project.cleanText(repo);
       this.repoUrl = UrlUtils.normalizeExternalUrl(repoUrl);
+      this.linkLabel = Project.cleanText(linkLabel) || 'View Repo';
       this.imageBase = Project.cleanText(imageBase);
       const pr = Number(priority);
       this.priority = Number.isFinite(pr) ? pr : 0;
@@ -1774,7 +1371,7 @@ const PROJECTS_RAW = [
       this.setTags(this.stackEl, Array.isArray(project.stack) ? project.stack : null);
       this.setLink(this.repoEl, {
         href: project.hasRepoLink ? project.githubUrl : '',
-        label: 'View Repo',
+        label: project.linkLabel || 'View Repo',
       });
       this.setLink(this.altEl, project.alt);
       if (this.trap) this.trap.activate();
@@ -1817,10 +1414,10 @@ const PROJECTS_RAW = [
       const block = ul.closest('.modal-block');
       if (!items || !items.length) {
         Dom.clear(ul);
-        if (block) block.style.display = 'none';
+        if (block) block.hidden = true;
         return;
       }
-      if (block) block.style.display = '';
+      if (block) block.hidden = false;
       Dom.clear(ul);
       for (const x of items) {
         const li = document.createElement('li');
@@ -1833,10 +1430,10 @@ const PROJECTS_RAW = [
       const block = container.closest('.modal-block');
       if (!items || !items.length) {
         Dom.clear(container);
-        if (block) block.style.display = 'none';
+        if (block) block.hidden = true;
         return;
       }
-      if (block) block.style.display = '';
+      if (block) block.hidden = false;
       Dom.clear(container);
       for (const x of items) {
         const s = document.createElement('span');
@@ -1880,18 +1477,17 @@ const PROJECTS_RAW = [
       this.reveal = new Reveal({ threshold: CONFIG.revealThreshold });
       this.nav = new NavHighlighter({ sections: this.sections, links: this.navLinks });
       this.toast = new Toast(Dom.id('toast'));
-      this.emailCopy = new EmailCopy({ selector: '[data-copy-email="1"]', toast: this.toast });
       this.projects = new ProjectCollection(PROJECTS_RAW.map((p) => new Project(p)));
       this.modal = new ProjectModal(Dom.id('projectModal'));
       this.typewriter = new Typewriter({
         el: Dom.id('heroLoop'),
         lines: [
-          'Production AI, from data to deployment.',
-          'Deployable APIs with FastAPI and Docker.',
-          'Dashboards that drive operational decisions.',
-          'RAG and LLM workflows built for real-world use.',
-          'Evaluation, monitoring, and model health checks.',
-          'Cost and latency trade-offs engineered by design.',
+          'Production ML and GenAI systems.',
+          'APIs with strict contracts and versioned artifacts.',
+          'RAG evaluation and trace review.',
+          'LLMOps telemetry and triage workflows.',
+          'Decision-support systems for real operations.',
+          'Monitoring, thresholds, and reliable handoff.',
         ],
       });
       this.bg = new ParticlesBackground(Dom.id('bgCanvas'));
@@ -1922,7 +1518,7 @@ const PROJECTS_RAW = [
       const limit = CONFIG.projectLimit || 12;
       const visible = this.projects.visible({ items, query, showAll: this.showAll, limit });
       if (this.grid) {
-        this.grid.innerHTML = '';
+        Dom.clear(this.grid);
         for (const p of visible) this.grid.appendChild(this.createProjectCard(p));
       }
       if (this.projectsMeta) {
@@ -1991,7 +1587,7 @@ const PROJECTS_RAW = [
         a.href = project.githubUrl;
         a.target = '_blank';
         a.rel = 'noopener noreferrer';
-        a.textContent = 'View Repo';
+        a.textContent = project.linkLabel || 'View Repo';
         actions.append(a);
       }
       body.append(h, impact, d, tags, actions);
@@ -2064,7 +1660,7 @@ const PROJECTS_RAW = [
         const max = doc.scrollHeight - doc.clientHeight;
         if (this.scrollProgress) {
           const pct = max ? (st / max) * 100 : 0;
-          this.scrollProgress.style.width = `${pct}%`;
+          this.scrollProgress.value = pct;
         }
         if (this.topBtn) this.topBtn.classList.toggle('show', st > 800);
         if (this.navBar) this.navBar.classList.toggle('scrolled', st > 10);
@@ -2145,10 +1741,8 @@ const PROJECTS_RAW = [
     }
     init() {
       this.theme.init();
-      IconRenderer.hydrate(document);
       this.setYear();
       this.typewriter.start();
-      this.emailCopy.init();
       this.modal.bind();
       this.render();
       this.openProjectFromHash();

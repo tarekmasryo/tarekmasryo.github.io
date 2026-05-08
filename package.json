@@ -7,12 +7,16 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "audit:prod": "npm audit --omit=dev",
     "validate:static": "node scripts/validate-static.mjs",
-    "check": "npm run lint && npm run format:check && npm run validate:static && npm run audit:prod"
+    "security:audit": "node scripts/security-audit.mjs",
+    "audit:prod": "npm audit --omit=dev --registry=https://registry.npmjs.org/",
+    "check": "npm run lint && npm run format:check && npm run validate:static && npm run security:audit && npm run audit:prod",
+    "test:e2e": "playwright test",
+    "check:full": "npm run check && npm run test:e2e"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
+    "@playwright/test": "^1.59.1",
     "eslint": "^9.0.0",
     "globals": "^15.0.0",
     "prettier": "^3.0.0"
