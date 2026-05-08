@@ -242,6 +242,7 @@ test-results/
 - The site intentionally avoids a frontend framework to keep deployment and maintenance simple.
 - The public CV link is managed externally and should remain viewable without access requests.
 
+
 ## License
 
 The source code in this repository is released under the **MIT License**. See [`LICENSE`](LICENSE) for details.
