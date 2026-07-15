@@ -4,6 +4,9 @@ import path from 'node:path';
 import process from 'node:process';
 import vm from 'node:vm';
 
+import { listRelativeFiles } from './lib/file-system.mjs';
+import { joinRelativePath, resolveRelativeImport } from './lib/path-utils.mjs';
+
 const ROOT = process.cwd();
 const IMAGE_EXTENSIONS = ['webp'];
 const REQUIRED_FILES = [
@@ -11,7 +14,15 @@ const REQUIRED_FILES = [
   '404.html',
   'styles.css',
   'app.js',
+  'app.bundle.js',
   'projects.js',
+  'src/portfolio-app.js',
+  'src/core/collections.js',
+  'src/core/dom.js',
+  'src/domain/project.js',
+  'src/controllers/project-catalog-controller.js',
+  'src/controllers/page-navigation-controller.js',
+  'src/ui/project-modal.js',
   'site.webmanifest',
   'robots.txt',
   'sitemap.xml',
@@ -22,11 +33,22 @@ const REQUIRED_FILES = [
   '.npmrc',
   'package.json',
   'package-lock.json',
+  'scripts/build.mjs',
+  'scripts/run-unit-tests.mjs',
+  'scripts/lib/file-system.mjs',
+  'scripts/lib/path-utils.mjs',
+  'tests/unit/project.test.js',
+  'tests/unit/file-system.test.js',
+  'tests/unit/path-utils.test.js',
+  'tests/e2e/smoke.spec.js',
+  'tests/e2e/bundle-runtime.spec.js',
   '.github/workflows/ci.yml',
 ];
 
 const errors = [];
 const warnings = [];
+
+const SOURCE_JS_FILES = ['app.js', 'projects.js', ...listRelativeFiles(ROOT, 'src', ['.js'])];
 
 function readFile(relativePath) {
   return fs.readFileSync(path.join(ROOT, relativePath), 'utf8');
@@ -78,8 +100,8 @@ function imageCandidates(baseName) {
   if (!raw) return [];
   const slug = slugify(raw);
   const candidates = IMAGE_EXTENSIONS.flatMap((extension) => [
-    path.join('assets', `${slug}.${extension}`),
-    path.join('assets', `${raw}.${extension}`),
+    joinRelativePath('assets', `${slug}.${extension}`),
+    joinRelativePath('assets', `${raw}.${extension}`),
   ]);
   return [...new Set(candidates)];
 }
@@ -258,12 +280,17 @@ function validateHtmlReferences() {
 
   ensure(/rel=['"]canonical['"]/i.test(html), 'Canonical link is missing from index.html');
   ensure(/property=['"]og:image['"]/i.test(html), 'Open Graph image is missing from index.html');
-  ensure(/src=['"][^'"]*app\.js/i.test(html), 'index.html should reference app.js');
+  ensure(/src=['"][^'"]*app\.bundle\.js/i.test(html), 'index.html should reference app.bundle.js');
   ensure(!/viewbox=/.test(html), 'index.html contains invalid SVG attribute casing: viewbox');
   ensure(
-    /type=['"]module['"][^>]+src=['"][^'"]*app\.js/i.test(html) ||
-      /src=['"][^'"]*app\.js[^>]+type=['"]module['"]/i.test(html),
-    'index.html should load app.js as a JavaScript module',
+    /<script[^>]+defer[^>]+src=['"][^'"]*app\.bundle\.js/i.test(html) ||
+      /<script[^>]+src=['"][^'"]*app\.bundle\.js[^>]+defer/i.test(html),
+    'index.html should load the generated classic bundle with defer',
+  );
+  ensure(
+    /<main[^>]+id=['"]main-content['"][^>]+tabindex=['"]-1['"]/i.test(html) ||
+      /<main[^>]+tabindex=['"]-1['"][^>]+id=['"]main-content['"]/i.test(html),
+    'index.html main landmark should be focusable for the skip link',
   );
 }
 
@@ -337,6 +364,10 @@ function validateHtmlSecurity(relativePath, options = {}) {
   ensure(csp, `${relativePath} is missing a Content-Security-Policy meta tag`);
   ensure(scriptSrc, `${relativePath} CSP is missing script-src`);
   ensure(styleSrc, `${relativePath} CSP is missing style-src`);
+  ensure(
+    !/(?:^|;)\s*frame-ancestors\b/i.test(csp),
+    `${relativePath} CSP meta must not include frame-ancestors; browsers only honor it as an HTTP response header`,
+  );
   ensure(/(^|\s)'self'(\s|$)/.test(scriptSrc), `${relativePath} CSP script-src must allow 'self'`);
   ensure(
     !/unsafe-inline/i.test(scriptSrc),
@@ -425,32 +456,20 @@ function extractSupportedIcons(appJs) {
 }
 
 function validateIconCoverage(projectsRaw) {
-  const appJs = readFile('app.js');
+  const iconRenderer = readFile('src/ui/icon-renderer.js');
   const indexHtml = readFile('index.html');
-  const used = collectIconIds(projectsRaw);
+  const supported = extractSupportedIcons(iconRenderer);
+  const projectIcons = collectIconIds(projectsRaw);
 
-  for (const source of [indexHtml, appJs]) {
-    for (const match of source.matchAll(/data-icon=["']([^"']+)["']/g)) {
-      const id = String(match[1] || '').trim();
-      if (id) used.add(id);
-    }
+  for (const id of [...projectIcons].sort()) {
+    ensure(supported.has(id), `Inline icon renderer is missing support for project icon: ${id}`);
   }
 
-  const usesIconifyCdn = /https:\/\/code\.iconify\.design/i.test(indexHtml);
-  if (usesIconifyCdn) {
-    for (const id of [...used].sort()) {
-      ensure(/^[a-z0-9-]+:[a-z0-9-]+$/i.test(id), `Invalid icon identifier: ${id}`);
-    }
-    return;
-  }
-
-  const supported = extractSupportedIcons(appJs);
-
-  for (const id of [...used].sort()) {
-    ensure(supported.has(id), `Inline icon renderer is missing support for: ${id}`);
+  for (const match of indexHtml.matchAll(/data-icon=["']([^"']+)["']/g)) {
+    const id = String(match[1] || '').trim();
+    ensure(/^[a-z0-9-]+:[a-z0-9-]+$/i.test(id), `Invalid Iconify identifier: ${id}`);
   }
 }
-
 function validateProjects(projectsRaw) {
   const titles = new Set();
   const repos = new Set();
@@ -504,21 +523,31 @@ function validateProjects(projectsRaw) {
 }
 
 function validateImplementationPolish() {
+  const sourceJs = SOURCE_JS_FILES.map(readFile).join('\n');
+  const mediaJs = readFile('src/ui/media.js');
   const appJs = readFile('app.js');
 
   ensure(
-    !/\.innerHTML\s*=\s*['"]['"]/i.test(appJs),
-    'app.js should use Dom.clear(...) instead of direct innerHTML clearing',
+    !/\.innerHTML\s*=/.test(sourceJs),
+    'Source code should use safe DOM construction instead of innerHTML assignment',
   );
   ensure(
-    /const\s+key\s*=\s*\(cx,\s*cy\)\s*=>\s*`\$\{cx\},\$\{cy\}`;/.test(appJs),
+    /const\s+key\s*=\s*\(cx,\s*cy\)\s*=>\s*`\$\{cx\},\$\{cy\}`;/.test(mediaJs),
     'ParticlesBackground.buildGrid should use collision-safe string keys',
+  );
+  ensure(
+    appJs.split(/\r?\n/).length <= 20,
+    'app.js should remain a small composition/bootstrap entry point',
+  );
+  ensure(
+    /class ProjectCardFactory/.test(readFile('src/ui/project-card-factory.js')),
+    'Project card creation should remain encapsulated behind a factory',
   );
 }
 
 function validateResponsiveHardening() {
   const css = readFile('styles.css');
-  const appJs = readFile('app.js');
+  const appJs = SOURCE_JS_FILES.map(readFile).join('\n');
   const indexHtml = readFile('index.html');
 
   ensure(!/var\(--bg\)/.test(css), 'styles.css references undefined CSS variable: --bg');
@@ -536,7 +565,7 @@ function validateResponsiveHardening() {
     'app.js should avoid starting the animated canvas on mobile/coarse-pointer devices',
   );
   ensure(
-    /class=["']noscript-projects["']/.test(indexHtml),
+    /class=["'][^"']*noscript-projects[^"']*["']/.test(indexHtml),
     'index.html should include a no-JavaScript featured projects fallback',
   );
 }
@@ -559,6 +588,82 @@ function validatePinnedExternalLinks() {
   );
 }
 
+function validateModuleGraph() {
+  const visited = new Set();
+  const importPattern = /(?:import|export)\s+(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/g;
+
+  function visit(relativePath) {
+    if (visited.has(relativePath)) return;
+    visited.add(relativePath);
+    const source = readFile(relativePath);
+    for (const match of source.matchAll(importPattern)) {
+      const specifier = cleanPath(match[1]);
+      if (!specifier.startsWith('.')) continue;
+      const resolved = resolveRelativeImport(relativePath, specifier);
+      ensure(fileExists(resolved), `${relativePath} imports a missing module: ${specifier}`);
+      if (fileExists(resolved) && resolved.endsWith('.js')) visit(resolved);
+    }
+  }
+
+  visit('app.js');
+  ensure(visited.has('projects.js'), 'The module graph should include projects.js');
+  ensure(
+    visited.has('src/portfolio-app.js'),
+    'The module graph should include src/portfolio-app.js',
+  );
+}
+
+function validatePortfolioCopy() {
+  const html = readFile('index.html');
+  const requiredCopy = [
+    'Tarek Masryo',
+    'AI/ML Engineer',
+    'I build ML and GenAI systems that ship, hold up in production, and give operators',
+    'Get In Touch',
+    'Explore Projects',
+    'View CV',
+    'Datasets Grandmaster',
+    'Notebooks Master',
+    'Practical GenAI, RAG, and agentic workflows',
+  ];
+
+  for (const text of requiredCopy) {
+    ensure(html.includes(text), `Required portfolio copy is missing: ${text}`);
+  }
+
+  const gracefulFallbackCount = (html.match(/failure modes, and graceful fallbacks/g) || []).length;
+  ensure(
+    gracefulFallbackCount === 1,
+    `Expected one graceful-fallback sentence, found ${gracefulFallbackCount}`,
+  );
+  ensure(!html.includes('Tarek Elmasry'), 'The portfolio branding should remain Tarek Masryo');
+}
+
+function validateGeneratedBundle(projectsRaw) {
+  const bundle = readFile('app.bundle.js');
+  const indexHtml = readFile('index.html');
+
+  ensure(bundle.includes("'use strict'"), 'app.bundle.js should run in strict mode');
+  try {
+    new vm.Script(bundle, { filename: 'app.bundle.js' });
+  } catch (error) {
+    ensure(false, `app.bundle.js has invalid JavaScript syntax: ${error.message}`);
+  }
+  ensure(!/^import\s/m.test(bundle), 'app.bundle.js must not contain ESM imports');
+  ensure(!/^export\s/m.test(bundle), 'app.bundle.js must not contain ESM exports');
+  ensure(
+    indexHtml.includes('app.bundle.js?v=20260715_portfolio_locked'),
+    'index.html should reference the current generated bundle version',
+  );
+  ensure(projectsRaw.length === 30, `Expected 30 portfolio projects, found ${projectsRaw.length}`);
+  for (const project of projectsRaw) {
+    ensure(
+      bundle.includes(String(project.title || '')),
+      `Generated bundle is missing project data for: ${project.title || 'untitled'}`,
+    );
+  }
+}
+
 function main() {
   validateRequiredFiles();
   validateHtmlReferences();
@@ -568,10 +673,13 @@ function main() {
   validateSecurityHardening();
   validateResponsiveHardening();
   validateImplementationPolish();
+  validatePortfolioCopy();
+  validateModuleGraph();
   validatePinnedExternalLinks();
   const projectsRaw = extractProjectsRaw();
   validateIconCoverage(projectsRaw);
   validateProjects(projectsRaw);
+  validateGeneratedBundle(projectsRaw);
 
   if (warnings.length) {
     console.warn(`Warnings (${warnings.length}):`);

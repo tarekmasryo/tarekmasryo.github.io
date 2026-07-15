@@ -41,6 +41,7 @@
   --radius: 28px;
   --radius2: 18px;
   --maxw: 1240px;
+  --section-scroll-offset: 120px;
 
   --t: 0.26s;
   --t2: 0.48s;
@@ -96,10 +97,32 @@
 html {
   scroll-behavior: smooth;
 }
-main.hero,
 section {
-  scroll-margin-top: 120px;
+  scroll-margin-top: var(--section-scroll-offset);
 }
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 10000;
+  padding: 10px 15px;
+  border: 1px solid color-mix(in srgb, var(--primary) 48%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg1) 94%, transparent);
+  color: var(--txt);
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+  transform: translateY(-180%);
+  transition: transform var(--t) var(--ease);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: none;
+  box-shadow: var(--ring), var(--shadow);
+}
+
 html.preload .fade {
   opacity: 1 !important;
   transform: none !important;
@@ -653,6 +676,35 @@ nav {
   border-color: rgba(0, 0, 0, 0.12);
 }
 
+.hero-cv-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 13px;
+  padding: 4px 8px;
+  color: color-mix(in srgb, var(--txt) 72%, transparent);
+  font-size: 0.98rem;
+  font-weight: 850;
+  text-decoration: none;
+  border-radius: 10px;
+  transition:
+    color var(--t) var(--ease),
+    background var(--t) var(--ease),
+    transform var(--t) var(--ease);
+}
+.hero-cv-link:hover {
+  color: var(--txt);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  transform: translateY(-1px);
+}
+.hero-cv-link:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+.hero-cv-link span {
+  color: var(--primary);
+}
+
 .brand-linkedin {
   --brand: #0a66c2;
 }
@@ -889,6 +941,78 @@ nav {
   line-height: 1.78;
   font-size: 1.08rem;
   font-weight: 600;
+}
+
+.about-recognition {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 22px;
+  padding: 9px 13px;
+  border: 1px solid color-mix(in srgb, #1698d3 30%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card2) 58%, transparent);
+  color: color-mix(in srgb, var(--txt) 78%, transparent);
+  font-size: 0.92rem;
+  line-height: 1.35;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition:
+    transform var(--t) var(--ease),
+    border-color var(--t) var(--ease),
+    background-color var(--t) var(--ease),
+    box-shadow var(--t) var(--ease);
+}
+.about-recognition:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, #1698d3 54%, transparent);
+  background: color-mix(in srgb, #1698d3 7%, var(--card2));
+  box-shadow: 0 12px 30px rgba(22, 152, 211, 0.1);
+}
+.about-recognition:focus-visible {
+  outline: none;
+  box-shadow:
+    var(--ring),
+    0 12px 30px rgba(22, 152, 211, 0.1);
+}
+.about-recognition img {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+.about-recognition-brand {
+  color: color-mix(in srgb, #1698d3 86%, var(--txt));
+  font-weight: 900;
+}
+.about-recognition-separator {
+  color: color-mix(in srgb, var(--txt) 38%, transparent);
+  font-weight: 800;
+}
+.about-recognition strong {
+  color: color-mix(in srgb, var(--txt) 82%, transparent);
+  font-size: inherit;
+  font-weight: 760;
+}
+.about-recognition-arrow {
+  margin-left: 1px;
+  color: color-mix(in srgb, #1698d3 84%, var(--txt));
+  font-size: 0.95rem;
+  font-weight: 950;
+}
+
+@media (max-width: 520px) {
+  .about-recognition {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 7px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+  }
 }
 
 .about-kicker {
@@ -2226,31 +2350,6 @@ nav {
   text-align: center;
 }
 
-.toast {
-  position: fixed;
-  left: 50%;
-  bottom: 22px;
-  transform: translateX(-50%) translateY(8px);
-  background: color-mix(in srgb, var(--card) 92%, transparent);
-  border: 1px solid color-mix(in srgb, var(--txt) 14%, transparent);
-  color: var(--txt);
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-weight: 900;
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    opacity var(--t) var(--ease),
-    transform var(--t) var(--ease);
-  z-index: 90;
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
 @media (max-width: 1100px) {
   .footer-inner {
     grid-template-columns: 1.7fr 1fr 1.2fr;
@@ -2525,7 +2624,6 @@ nav {
   .p-card,
   .filter-panel,
   .metric,
-  .toast,
   .noscript-projects {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -2552,7 +2650,6 @@ nav {
   .p-card,
   .filter-panel,
   .metric,
-  .toast,
   .noscript-projects {
     background-color: color-mix(in srgb, var(--card2) 96%, var(--bg0));
   }

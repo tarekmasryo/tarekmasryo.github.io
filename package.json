@@ -2,6 +2,7 @@
   "name": "tarekmasryo.github.io",
   "type": "module",
   "scripts": {
+    "build": "node scripts/build.mjs",
     "start": "python -m http.server 8000",
     "serve": "python -m http.server 8000",
     "lint": "eslint .",
@@ -10,9 +11,10 @@
     "validate:static": "node scripts/validate-static.mjs",
     "security:audit": "node scripts/security-audit.mjs",
     "audit:prod": "npm audit --omit=dev --registry=https://registry.npmjs.org/",
-    "check": "npm run lint && npm run format:check && npm run validate:static && npm run security:audit && npm run audit:prod",
+    "check": "npm run build && npm run lint && npm run format:check && npm run validate:static && npm run security:audit && npm run test:unit && npm run audit:prod",
     "test:e2e": "playwright test",
-    "check:full": "npm run check && npm run test:e2e"
+    "check:full": "npm run check && npm run test:e2e",
+    "test:unit": "node scripts/run-unit-tests.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",

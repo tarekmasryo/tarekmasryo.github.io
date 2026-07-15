@@ -27,7 +27,6 @@ export const PROJECTS_RAW = [
       'Docker',
       'Redis',
       'SQLite',
-      'MLflow',
       'Prometheus',
       'Grafana',
       'pytest',
@@ -60,10 +59,10 @@ export const PROJECTS_RAW = [
     ],
     signals: [
       'Evaluation asset: 3,824 QA eval runs · 93,375 retrieval events.',
-      'Correctness-risk baseline: Logistic Regression ROC-AUC 0.755.',
+      'Companion evaluation baseline: Logistic Regression ROC-AUC 0.755.',
       'Review signals: retrieval metrics · groundedness review · citation coverage · trace inspection · latency signals · token/cost budgets.',
     ],
-    stack: ['Python', 'Streamlit', 'Plotly', 'Pandas', 'FAISS', 'pgvector', 'Docker', 'pytest'],
+    stack: ['Python', 'Streamlit', 'Plotly', 'Pandas', 'NumPy', 'Docker', 'pytest'],
     tags: [
       'RAG Evaluation',
       'Retrieval Diagnostics',
@@ -99,7 +98,7 @@ export const PROJECTS_RAW = [
       'Telemetry asset: 9,000 interactions · 1,595 sessions · 438 users.',
       'Operational signals: quality metrics · human review flags · latency · error rates · failure categories · cost burn · drift signals · routing behavior · triage thresholds.',
     ],
-    stack: ['Python', 'Streamlit', 'Plotly', 'Pandas', 'MLflow', 'Docker', 'pytest'],
+    stack: ['Python', 'Streamlit', 'Plotly', 'Pandas', 'NumPy', 'Docker', 'pytest'],
     tags: ['LLMOps', 'Telemetry', 'Observability', 'Drift Signals', 'Routing Review', 'Triage'],
     repo: 'llmops-telemetry-command-center',
     imageBase: 'LLMOps Telemetry Command Center',
@@ -115,7 +114,7 @@ export const PROJECTS_RAW = [
     icon: 'lucide:message-square-text',
     type: 'NLP Workspace',
     title: 'Advanced ML Sentiment Lab',
-    desc: 'Interactive ML review lab for sentiment classification with TF-IDF word/char features, multi-model training, ROC/PR-AUC evaluation, threshold tuning, error analysis, and live prediction.',
+    desc: 'Interactive ML review lab for sentiment classification with TF-IDF word/char features, multi-model training, ROC-AUC/PR-AUC evaluation, threshold tuning, error analysis, and live prediction.',
     priority: 97,
     problem:
       'A sentiment classifier is difficult to trust when model comparison, threshold tuning, error review, and live prediction are scattered across notebook cells.',
@@ -125,7 +124,7 @@ export const PROJECTS_RAW = [
       'Adds threshold-aware prediction and error review so users can inspect false positives and false negatives rather than relying on a fixed 0.5 cutoff.',
     ],
     signals: [
-      'Evaluation signals: ROC/PR evaluation · model comparison · threshold tuning · confusion matrices · error analysis · live inference checks.',
+      'Evaluation signals: ROC-AUC/PR-AUC evaluation · model comparison · threshold tuning · confusion matrices · error analysis · live inference checks.',
       'Modeling coverage: Logistic Regression · Naive Bayes · Random Forest · tree-based classifiers where supported.',
     ],
     stack: ['Python', 'Streamlit', 'Plotly', 'scikit-learn', 'TF-IDF', 'Docker', 'pytest'],
@@ -139,7 +138,7 @@ export const PROJECTS_RAW = [
     repo: 'advanced-ml-sentiment-lab',
     imageBase: 'Advanced ML Sentiment Lab',
     impact:
-      'Text classification · model comparison · ROC/PR evaluation · threshold tuning · error analysis.',
+      'Text classification · model comparison · ROC-AUC/PR-AUC evaluation · threshold tuning · error analysis.',
   },
   {
     cat: 'healthcare',
@@ -158,7 +157,7 @@ export const PROJECTS_RAW = [
       'Operational signals: wellbeing KPI summaries · segment views · trend patterns · risk scoring · threshold diagnostics · scenario simulation.',
       'Review focus: digital wellbeing · cohort analysis · risk prioritization · decision-oriented dashboarding.',
     ],
-    stack: ['Python', 'Streamlit', 'Plotly', 'Pandas', 'XGBoost'],
+    stack: ['Python', 'Streamlit', 'Plotly', 'Pandas', 'scikit-learn'],
     tags: ['Health Analytics', 'Wellbeing Risk', 'KPI Dashboard', 'Scenario Simulator'],
     repo: 'health-intelligence-platform',
     imageBase: 'Health Intelligence Platform',
@@ -194,20 +193,20 @@ export const PROJECTS_RAW = [
     icon: 'lucide:building-2',
     type: 'Healthcare ML',
     title: 'Hospital Deterioration — Next 12h Early Warning',
-    desc: 'Clinical deterioration early-warning baseline for next-12h patient risk with leak-safe evaluation, model comparison, and threshold/policy tables.',
+    desc: 'Decision-ready hospital-deterioration early-warning workflow for next-12h risk analysis, with patient-level leakage controls, reproducible modeling, and threshold-policy trade-offs. Evaluated on simulated data.',
     priority: 90,
     problem:
-      'Clinical early-warning models need leakage-safe time-aware evaluation and threshold regimes that match different alerting policies.',
+      'Hospital-deterioration early-warning workflows need patient-level evaluation, explicit leakage controls, and alert thresholds that expose the trade-off between missed events and review burden.',
     approach: [
-      'Uses time-aware validation to keep next-12h deterioration prediction aligned with realistic clinical review settings.',
-      'Compares baseline and boosted models before selecting operating thresholds for balanced, high-recall, and low-alert regimes.',
-      'Frames output as triage-oriented risk scores and threshold tables rather than a single model score.',
+      'Validates patient, vitals, labs, hourly-panel, and label integrity before modeling.',
+      'Uses patient-level train, validation, and test separation with preprocessing inside a reproducible scikit-learn pipeline.',
+      'Converts model scores into decision-oriented threshold tables covering precision, recall, alert rate, false positives, and false negatives.',
     ],
     signals: [
-      'Held-out performance: XGBoost ROC-AUC 0.9519 · PR-AUC 0.6909.',
-      'Operational signals: Logistic Regression and HistGradientBoosting baselines · threshold policy tables · balanced / high-recall / low-alert regimes · cohort/error slices.',
+      'Evaluation signals: Average Precision · ROC-AUC · precision/recall trade-offs · alert rate · false positives/negatives.',
+      'Operational signals: patient-level splitting · leakage-aware feature exclusion · threshold-policy tables · interpretable Logistic Regression baseline.',
     ],
-    stack: ['Python', 'scikit-learn', 'XGBoost', 'Pandas', 'Jupyter'],
+    stack: ['Python', 'scikit-learn', 'Pandas', 'NumPy', 'Jupyter'],
     tags: ['Healthcare ML', 'Early Warning', 'Patient Deterioration', 'Threshold Tuning'],
     repo: 'hospital-deterioration-next-12h-early-warning-baseline',
     imageBase: 'hospital-deterioration-next-12h-early-warning',
@@ -215,7 +214,8 @@ export const PROJECTS_RAW = [
       href: 'https://github.com/tarekmasryo/hospital-deterioration-dataset',
       label: 'Dataset',
     },
-    impact: 'ROC-AUC 0.9519 · PR-AUC 0.6909.',
+    impact:
+      'Patient-level leakage controls · Average Precision and ROC-AUC · alert-policy trade-offs.',
   },
   {
     cat: 'healthcare',
@@ -323,18 +323,19 @@ export const PROJECTS_RAW = [
     icon: 'lucide:microscope',
     type: 'ML Pipeline',
     title: 'Cancer Risk Prediction',
-    desc: 'Cancer risk classification pipeline with leakage detection, stratified CV, model benchmarking, and interpretability.',
+    desc: 'Cancer-risk classification pipeline with leakage checks, stratified cross-validation, multi-model benchmarking, calibration diagnostics, permutation importance, subgroup analysis, and exported model artifacts.',
     priority: 78,
     problem:
       'Healthcare-style risk modeling must separate usable predictive inputs from leakage-prone derived fields before any model comparison is credible.',
     approach: [
-      'Identifies leakage risk in derived fields and excludes risk-derived features from training.',
-      'Uses stratified cross-validation to compare models across cancer-type and risk-level prediction tasks.',
-      'Adds interpretability views so feature behavior and model errors can be reviewed instead of only reporting scores.',
+      'Excludes derived risk fields and analysis-only columns before training to protect both cancer-type and risk-level tasks from target leakage.',
+      'Benchmarks Logistic Regression, Random Forest, calibrated Linear SVM, Gradient Boosting, and XGBoost with stratified cross-validation and macro-F1 evaluation.',
+      'Adds calibration curves, confusion matrices, permutation importance, subgroup F1 analysis, and exportable trained pipelines for structured review.',
     ],
     signals: [
-      'Evaluation signals: leakage checks · stratified CV · macro-F1 evaluation · model benchmarking · permutation importance.',
-      'Review focus: healthcare-style classification · interpretable modeling · realistic feature separation.',
+      'Holdout results: Cancer_Type XGBoost accuracy 0.783 · macro-F1 0.764; Risk_Level balanced Logistic Regression accuracy 0.830 · macro-F1 0.727.',
+      'Evaluation signals: leakage checks · stratified CV · calibration diagnostics · permutation importance · subgroup F1.',
+      'Scope: dataset-specific evaluation for portfolio and analytical review; not intended for clinical use.',
     ],
     stack: ['Python', 'scikit-learn', 'XGBoost', 'Pandas', 'Jupyter'],
     tags: ['Cancer Risk', 'Healthcare ML', 'Data Leakage', 'Interpretability'],
@@ -345,7 +346,7 @@ export const PROJECTS_RAW = [
       label: 'Data Repo',
     },
     impact:
-      'Leakage-aware cancer risk classification with model benchmarking and interpretability.',
+      'Leakage-aware multi-model classification · calibrated diagnostics · exported model artifacts.',
   },
   {
     cat: 'analytics',
@@ -545,27 +546,27 @@ export const PROJECTS_RAW = [
     icon: 'lucide:heart',
     type: 'Dataset',
     title: 'Digital Lifestyle Benchmark Dataset',
-    desc: 'Synthetic digital lifestyle benchmark dataset for wellbeing-risk modeling and reproducible notebooks.',
+    desc: 'Synthetic, ML-ready digital lifestyle benchmark dataset for wellbeing-risk modeling and reproducible notebooks.',
     priority: 62,
     problem:
       'Wellbeing-risk experiments need a compact benchmark dataset with behavioral signals and clear target structure for reproducible modeling workflows.',
     approach: [
-      'Provides synthetic digital lifestyle records with documented feature structure for wellbeing-risk modeling.',
-      'Keeps the dataset small and reproducible so notebooks can run quickly while still supporting cohort and risk-signal analysis.',
+      'Provides documented behavioral and wellbeing signals with a clear high-risk target for reproducible modeling.',
+      'Includes schema validation, checksums, and a data dictionary so notebooks can run quickly while supporting cohort and risk-signal analysis.',
     ],
     signals: [
-      'Data scale: 3,500 synthetic records · 24 features.',
-      'Review focus: digital wellbeing · screen time · synthetic data · high-risk flag · risk prediction.',
+      'Data scale: 3,500 records · 24 features · high_risk_flag target.',
+      'Review focus: digital wellbeing · screen time · risk signals · reproducible benchmark workflows.',
     ],
-    stack: ['Python', 'Pandas', 'Synthetic Data', 'Dataset'],
-    tags: ['Synthetic Data', 'Mental Health', 'Digital Wellbeing', 'Risk Modeling'],
+    stack: ['Python', 'Pandas', 'Data Validation', 'Dataset'],
+    tags: ['Benchmark Dataset', 'Mental Health', 'Digital Wellbeing', 'Risk Modeling'],
     repo: 'digital-lifestyle-benchmark-dataset',
     imageBase: 'Digital Lifestyle Benchmark Dataset',
     alt: {
       href: 'https://www.kaggle.com/datasets/tarekmasryo/digital-health-and-mental-wellness',
       label: 'Kaggle Dataset',
     },
-    impact: '3,500 synthetic records · 24 features.',
+    impact: '3,500 records · 24 features · documented high-risk target.',
   },
   {
     cat: 'healthcare',
@@ -577,7 +578,7 @@ export const PROJECTS_RAW = [
     problem:
       'Early-warning modeling needs patient-level temporal data with hourly vitals/labs and a next-12h target to test leakage-safe deterioration workflows.',
     approach: [
-      'Simulates admissions with hourly clinical signals across a 72h cohort for early-warning experiments.',
+      'Provides 10,000 admissions with hourly clinical signals across a 72h cohort for early-warning experiments.',
       'Structures labels and splits to support reproducible baseline modeling and dashboard workflows.',
     ],
     signals: [
@@ -685,23 +686,22 @@ export const PROJECTS_RAW = [
     problem:
       'Donor outreach and compatibility analysis need structured donor eligibility, deferral, prevalence, and RBC compatibility fields in one ML-ready asset.',
     approach: [
-      'Builds a synthetic donor registry around eligibility status, deferrals, country prevalence, RBC compatibility, and outreach analysis.',
-      'Supports both healthcare analytics and decision-policy notebooks without exposing real donor data.',
+      'Packages donor eligibility, deferrals, country prevalence, RBC compatibility, and outreach fields into a documented registry.',
+      'Includes deterministic validation and checksum tooling while avoiding exposure of real donor records.',
     ],
     signals: [
-      'Operational signals: donor eligibility · deferrals · RBC compatibility · country prevalence · outreach modeling · healthcare operations.',
-      'Review focus: blood donation · synthetic healthcare data · donor registry analysis.',
+      'Data scale: 30,000 donor records · 27 columns · 39 countries · 8 blood types · 64 compatibility pairs.',
+      'Operational signals: eligibility · deferrals · RBC compatibility · country prevalence · outreach modeling.',
     ],
-    stack: ['Python', 'Pandas', 'Healthcare Dataset', 'Synthetic Data'],
-    tags: ['Blood Donation', 'Synthetic Data', 'Healthcare Analytics', 'Donor Registry'],
+    stack: ['Python', 'Pandas', 'Data Validation', 'Dataset'],
+    tags: ['Blood Donation', 'RBC Compatibility', 'Healthcare Analytics', 'Donor Registry'],
     repo: 'blood-donation-registry-dataset',
     imageBase: 'Blood Donation Registry Dataset',
     alt: {
       href: 'https://github.com/tarekmasryo/global-blood-donation-registry',
       label: 'Policy Project',
     },
-    impact:
-      'Donor eligibility, deferrals, RBC compatibility, country prevalence, and outreach modeling.',
+    impact: '30,000 donor records · eligibility and deferrals · 8×8 RBC compatibility matrix.',
   },
   {
     cat: 'genai',

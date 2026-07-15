@@ -2,18 +2,27 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
+import { listRelativeFiles } from './lib/file-system.mjs';
+import { isSameRelativePath } from './lib/path-utils.mjs';
+
 const ROOT = process.cwd();
+
+const SECURITY_AUDIT_PATH = 'scripts/security-audit.mjs';
+
 const CHECKED_FILES = [
   'index.html',
   '404.html',
   'app.js',
   'projects.js',
   'styles.css',
-  'scripts/validate-static.mjs',
-  'tests/e2e/smoke.spec.js',
   'package.json',
   'playwright.config.js',
   'eslint.config.js',
+  ...listRelativeFiles(ROOT, 'src', ['.js']),
+  ...listRelativeFiles(ROOT, 'scripts', ['.mjs']).filter(
+    (file) => !isSameRelativePath(file, SECURITY_AUDIT_PATH),
+  ),
+  ...listRelativeFiles(ROOT, 'tests', ['.js']),
 ];
 
 const errors = [];
@@ -82,11 +91,11 @@ function validateNoWorkInProgressMarkers(relativePath, source) {
   }
 }
 
-function validateCsp(source) {
+function validateCsp(relativePath, source) {
   const cspMatch = source.match(
     /http-equiv=["']Content-Security-Policy["'][^>]+content="([^"]+)"/i,
   );
-  fail(Boolean(cspMatch), 'index.html is missing a CSP meta tag');
+  fail(Boolean(cspMatch), `${relativePath} is missing a CSP meta tag`);
   if (!cspMatch) return;
   const csp = cspMatch[1];
   const required = [
@@ -98,10 +107,23 @@ function validateCsp(source) {
     "form-action 'self'",
   ];
   for (const directive of required) {
-    fail(csp.includes(directive), `CSP is missing required directive: ${directive}`);
+    fail(
+      csp.includes(directive),
+      `${relativePath} CSP is missing required directive: ${directive}`,
+    );
   }
-  fail(!/script-src[^;]*unsafe-inline/i.test(csp), 'CSP script-src must not allow unsafe-inline');
-  fail(!/style-src[^;]*unsafe-inline/i.test(csp), 'CSP style-src must not allow unsafe-inline');
+  fail(
+    !/script-src[^;]*unsafe-inline/i.test(csp),
+    `${relativePath} CSP script-src must not allow unsafe-inline`,
+  );
+  fail(
+    !/style-src[^;]*unsafe-inline/i.test(csp),
+    `${relativePath} CSP style-src must not allow unsafe-inline`,
+  );
+  fail(
+    !/(?:^|;)\s*frame-ancestors\b/i.test(csp),
+    `${relativePath} CSP meta must not include frame-ancestors; browsers only honor it as an HTTP response header`,
+  );
 }
 
 function validateExternalScripts(source) {
@@ -135,7 +157,8 @@ for (const relativePath of CHECKED_FILES) {
   validateNoWorkInProgressMarkers(relativePath, source);
 }
 
-validateCsp(read('index.html'));
+validateCsp('index.html', read('index.html'));
+validateCsp('404.html', read('404.html'));
 validateExternalScripts(read('index.html'));
 validatePackageScripts();
 

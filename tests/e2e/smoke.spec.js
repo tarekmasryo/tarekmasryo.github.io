@@ -42,7 +42,21 @@ test('portfolio core interactions work', async ({ page }) => {
 
   await expect(page).toHaveTitle(/Tarek Masryo/);
   await expect(page.locator('h1')).toContainText('Tarek Masryo');
+  await expect(page.locator('.hero-cv-link')).toHaveAttribute('href', /drive\.google\.com/);
+  await expect(page.locator('.about-recognition')).toContainText('Datasets Grandmaster');
+  await expect(page.locator('.about-recognition')).toContainText('Notebooks Master');
+  await expect(page.locator('.about-points + .about-recognition')).toHaveCount(1);
+  await expect(page.locator('.skip-link')).toHaveAttribute('href', '#main-content');
+  await expect(page.locator('main#main-content')).toHaveCount(1);
+  await expect(page.locator('main#main-content')).toHaveAttribute('tabindex', '-1');
   await expect(page.locator('#projectsGrid .p-card')).toHaveCount(6);
+
+  await page.locator('.cta a[href="#projects"]').click();
+  await expect(page.locator('#navLinks a[href="#projects"]')).toHaveClass(/active/);
+  await expect(page.locator('#navLinks a[href="#projects"]')).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
 
   await page.locator('#projectSearch').fill('fraud');
   await expect(page.locator('#clearSearch')).toBeVisible();
@@ -67,6 +81,10 @@ test('portfolio core interactions work', async ({ page }) => {
   await page.locator('#themeToggle').click();
   await expect(page.locator('html')).not.toHaveAttribute('data-theme', initialTheme || '');
 
+  await page.locator('#techToggle').click();
+  await expect(page.locator('#techToggle')).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('#fullTech')).toBeVisible();
+
   await expect(page.locator('footer a', { hasText: 'CV' })).toHaveAttribute(
     'href',
     /drive\.google\.com/,
@@ -77,6 +95,17 @@ test('portfolio core interactions work', async ({ page }) => {
   );
   await page.waitForTimeout(500);
   expect(failedLocalAssets).toEqual([]);
+});
+
+test('project deep links open and close cleanly', async ({ page }) => {
+  await blockExternalIconRequests(page);
+  await page.goto('/#projects?project=fraud-risk-ops-platform');
+
+  await expect(page.locator('#projectModal')).toHaveClass(/show/);
+  await expect(page.locator('#mTitle')).toHaveText('Fraud Risk Ops Platform');
+  await page.locator('#mClose').click();
+  await expect(page.locator('#projectModal')).not.toHaveClass(/show/);
+  await expect(page).toHaveURL(/#projects$/);
 });
 
 test('mobile navigation opens and closes', async ({ page }) => {
