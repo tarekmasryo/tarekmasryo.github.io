@@ -19,12 +19,13 @@ export default [
       'playwright-report/**',
       'blob-report/**',
       'dist/**',
+      'app.bundle.js',
       '.cache/**',
     ],
   },
   js.configs.recommended,
   {
-    files: ['app.js', 'projects.js'],
+    files: ['app.js', 'projects.js', 'src/**/*.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
